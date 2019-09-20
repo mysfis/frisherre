@@ -42,7 +42,7 @@ const url_server = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:80
 const UserProfile = (props) => {
   const classes = useStyles();
 
-  const newUser = {"url":"","email":"","first_name":"","last_name":"","profile":{"title":"","birth_date":"","address_line1":"","address_line2":"","country":"","city":" laurent de la ","zip":"","photo":null}}
+  const newUser = {"url":"","email":"","first_name":"","last_name":"","profile":{"title":"","birth_date":"","address_line1":"","address_line2":"","country":"","city":"","zip":"","photo":null}}
   const [user, setUser] = React.useState(newUser)
   const [profile, setProfile] = React.useState(newUser.profile)
   const [refresh, setRefresh] = React.useState(false)
@@ -97,7 +97,7 @@ const UserProfile = (props) => {
               required
               id="address1"
               name="address1"
-              label="Address line 1"
+              label="Addresse"
               fullWidth
               autoComplete="billing address-line1"
               onChange={handleChange('address_line1')}
@@ -108,7 +108,7 @@ const UserProfile = (props) => {
             <TextField
               id="address2"
               name="address2"
-              label="Address line 2"
+              label="Complément d'adresse"
               fullWidth
               autoComplete="billing address-line2"
               onChange={handleChange('address_line2')}
@@ -132,7 +132,7 @@ const UserProfile = (props) => {
               required
               id="city"
               name="city"
-              label="City"
+              label="Ville"
               fullWidth
               autoComplete="billing address-level2"
               onChange={handleChange('city')}
@@ -147,7 +147,7 @@ const UserProfile = (props) => {
             className={classes.submit}
             onClick={saveMyProfile}
           >
-            Sign In
+            Mettre à jour
           </Button>
       </Grid>
     </Paper>
