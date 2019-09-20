@@ -37,8 +37,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const url_server = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8000' : '';
-
 const UserProfile = (props) => {
   const classes = useStyles();
 
@@ -56,7 +54,7 @@ const UserProfile = (props) => {
         Authorization: "Token " + props.token,
       }
       axios
-          .get(url_server+"/api/currentuser/")
+          .get("/api/currentuser/")
           .then(res => setUser(res.data[0]))
           .catch(err => console.log(err));
       setRefresh(false)
@@ -77,8 +75,7 @@ const UserProfile = (props) => {
       axios
           .put(profile.url, profile)
           .then(res => {
-            props.setRefresh(true);
-            console.log(res.data);
+            setRefresh(true);
           })
           .catch(err => console.log(err));
       setRefresh(false)

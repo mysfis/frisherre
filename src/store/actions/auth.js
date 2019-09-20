@@ -1,9 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-
-const url_server = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8000' : '';
-
 export const authStart = () => {
   return {
     type: actionTypes.AUTH_START,
@@ -46,7 +43,7 @@ export const authLogin = (username, password) => {
   return dispatch => {
     console.log('login');
     dispatch (authStart());
-    axios.post(url_server+'/api/auth/login/', {
+    axios.post('/api/auth/login/', {
       username: username,
       password: password,
     })
@@ -66,7 +63,7 @@ export const authSignup = (username, email, password1, password2) => {
   return dispatch => {
     console.log('signup');
     dispatch (authStart());
-    axios.post(url_server+'/api/auth/registration/', {
+    axios.post('/api/auth/registration/', {
       username: username,
       email: email,
       password1: password1,
