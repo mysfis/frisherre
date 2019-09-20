@@ -44,8 +44,12 @@ const UserProfile = (props) => {
   const [user, setUser] = React.useState(newUser)
   const [profile, setProfile] = React.useState(newUser.profile)
   const [refresh, setRefresh] = React.useState(false)
-  React.useEffect(() => getMyProfile(), [refresh, props]);
-  React.useEffect(() => setProfile(user.profile), [user.profile]);
+  React.useEffect(() => {getMyProfile()}, [refresh]);
+  React.useEffect(() => {
+    setProfile(user.profile)
+    console.log(user.profile)
+  },
+    [user.profile]);
 
   const getMyProfile = () => {
     if (props.token !== null) {
@@ -72,6 +76,7 @@ const UserProfile = (props) => {
         "Content-Type": "application/json",
         Authorization: "Token " + props.token,
       }
+      console.log(profile.url, profile)
       axios
           .put(profile.url, profile)
           .then(res => {
@@ -92,13 +97,14 @@ const UserProfile = (props) => {
         <Grid item xs={12} sm={6}>
             <TextField
               required
-              id="address1"
-              name="address1"
+              id="address1" name="address1"
               label="Addresse"
               fullWidth
               autoComplete="billing address-line1"
               onChange={handleChange('address_line1')}
               value={profile.address_line1 || ''}
+              helperText={profile.address_line1 === "" ? 'Champ obligatoire!' : ' '}
+              error = {profile.address_line1 === "" ? true : false}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -112,7 +118,7 @@ const UserProfile = (props) => {
               value={profile.address_line2 || ''}
             />
           </Grid>
-          <Grid item xs={4} sm={3}>
+          <Grid item xs={4} sm={2}>
             <TextField
               required
               id="zip"
@@ -122,9 +128,11 @@ const UserProfile = (props) => {
               autoComplete="billing postal-code"
               onChange={handleChange('zip')}
               value={profile.zip || ''}
+              helperText={profile.zip === "" ? 'Champ obligatoire!' : ' '}
+              error = {profile.zip === "" ? true : false}
             />
           </Grid>
-          <Grid item xs={8} sm={9}>
+          <Grid item xs={8} sm={6}>
             <TextField
               required
               id="city"
@@ -134,6 +142,20 @@ const UserProfile = (props) => {
               autoComplete="billing address-level2"
               onChange={handleChange('city')}
               value={profile.city || ''}
+              helperText={profile.city === "" ? 'Champ obligatoire!' : ' '}
+              error = {profile.city === "" ? true : false}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              required
+              id="country"
+              name="country"
+              label="Pays"
+              fullWidth
+              autoComplete="billing address-level2"
+              onChange={handleChange('country')}
+              value={profile.country || ''}
             />
           </Grid>
           <Button
