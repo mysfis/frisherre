@@ -156,6 +156,8 @@ const UserProfile = (props) => {
               autoComplete="billing address-level2"
               onChange={handleChange('country')}
               value={profile.country || ''}
+              helperText={profile.city === "" ? 'Champ obligatoire!' : ' '}
+              error = {profile.city === "" ? true : false}
             />
           </Grid>
           <Button
