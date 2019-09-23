@@ -44,12 +44,9 @@ const UserProfile = (props) => {
   const [user, setUser] = React.useState(newUser)
   const [profile, setProfile] = React.useState(newUser.profile)
   const [refresh, setRefresh] = React.useState(false)
-  React.useEffect(() => {getMyProfile()}, [refresh]);
-  React.useEffect(() => {
-    setProfile(user.profile)
-    console.log(user.profile)
-  },
-    [user.profile]);
+
+  React.useEffect( () => { getMyProfile()}, [] );
+  React.useEffect( () => { setProfile(user.profile) }, [user.profile] );
 
   const getMyProfile = () => {
     if (props.token !== null) {
@@ -76,7 +73,6 @@ const UserProfile = (props) => {
         "Content-Type": "application/json",
         Authorization: "Token " + props.token,
       }
-      console.log(profile.url, profile)
       axios
           .put(profile.url, profile)
           .then(res => {
