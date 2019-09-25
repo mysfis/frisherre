@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 
-from api.models import User, UserProfile
-from api.serializers.user import UserSerializer, UserProfileSerializer
+from api.models import User, UserAccount
+from api.serializers.user import UserSerializer, UserAccountSerializer
 
 from api.permissions import IsLoggedInUserOrAdmin, IsAdminUser, IsLoggedInProfileOrAdmin
 
@@ -28,9 +28,9 @@ class CurrentUserView(viewsets.ModelViewSet):
     def get_queryset(self):
         return User.objects.filter(email=self.request.user.email)
 
-class UserProfileViewSet(viewsets.ModelViewSet):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+class UserAccountViewSet(viewsets.ModelViewSet):
+    queryset = UserAccount.objects.all()
+    serializer_class = UserAccountSerializer
 
     def get_permissions(self):
         permission_classes = []

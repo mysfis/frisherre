@@ -37,16 +37,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const UserProfile = (props) => {
+const UserAccount = (props) => {
   const classes = useStyles();
 
-  const newUser = {"url":"","email":"","first_name":"","last_name":"","profile":{"title":"","birth_date":"","address_line1":"","address_line2":"","country":"","city":"","zip":"","photo":null}}
+  const newUser = {"url":"","email":"","first_name":"","last_name":"","user_account":{"title":"","birth_date":"","address_line1":"","address_line2":"","country":"","city":"","zip":"","photo":null}}
   const [user, setUser] = React.useState(newUser)
-  const [profile, setProfile] = React.useState(newUser.profile)
+  const [userAccount, setUserAccount] = React.useState(newUser.user_account)
   const [refresh, setRefresh] = React.useState(false)
 
   React.useEffect( () => { getMyProfile()}, [] );
-  React.useEffect( () => { setProfile(user.profile) }, [user.profile] );
+  React.useEffect( () => { setUserAccount(user.user_account) }, [user.user_account] );
 
   const getMyProfile = () => {
     if (props.token !== null) {
@@ -63,18 +63,18 @@ const UserProfile = (props) => {
   };
 
   const handleChange = name => event => {
-    setProfile({ ...profile, [name]: event.target.value })
+    setUserAccount({ ...userAccount, [name]: event.target.value })
   };
 
-  const saveMyProfile = () => {
+  const saveUserAccount = () => {
     if (props.token !== null) {
-      setUser({ ...user, "profile": profile });
+      setUser({ ...user, "user_account": userAccount });
       axios.defaults.headers= {
         "Content-Type": "application/json",
         Authorization: "Token " + props.token,
       }
       axios
-          .put(profile.url, profile)
+          .put(userAccount.url, userAccount)
           .then(res => {
             setRefresh(true);
           })
@@ -98,9 +98,9 @@ const UserProfile = (props) => {
               fullWidth
               autoComplete="billing address-line1"
               onChange={handleChange('address_line1')}
-              value={profile.address_line1 || ''}
-              helperText={profile.address_line1 === "" ? 'Champ obligatoire!' : ' '}
-              error = {profile.address_line1 === "" ? true : false}
+              value={userAccount.address_line1 || ''}
+              helperText={userAccount.address_line1 === "" ? 'Champ obligatoire!' : ' '}
+              error = {userAccount.address_line1 === "" ? true : false}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -111,7 +111,7 @@ const UserProfile = (props) => {
               fullWidth
               autoComplete="billing address-line2"
               onChange={handleChange('address_line2')}
-              value={profile.address_line2 || ''}
+              value={userAccount.address_line2 || ''}
             />
           </Grid>
           <Grid item xs={4} sm={2}>
@@ -123,9 +123,9 @@ const UserProfile = (props) => {
               fullWidth
               autoComplete="billing postal-code"
               onChange={handleChange('zip')}
-              value={profile.zip || ''}
-              helperText={profile.zip === "" ? 'Champ obligatoire!' : ' '}
-              error = {profile.zip === "" ? true : false}
+              value={userAccount.zip || ''}
+              helperText={userAccount.zip === "" ? 'Champ obligatoire!' : ' '}
+              error = {userAccount.zip === "" ? true : false}
             />
           </Grid>
           <Grid item xs={8} sm={6}>
@@ -137,9 +137,9 @@ const UserProfile = (props) => {
               fullWidth
               autoComplete="billing address-level2"
               onChange={handleChange('city')}
-              value={profile.city || ''}
-              helperText={profile.city === "" ? 'Champ obligatoire!' : ' '}
-              error = {profile.city === "" ? true : false}
+              value={userAccount.city || ''}
+              helperText={userAccount.city === "" ? 'Champ obligatoire!' : ' '}
+              error = {userAccount.city === "" ? true : false}
             />
           </Grid>
           <Grid item xs={12} sm={4}>
@@ -151,9 +151,9 @@ const UserProfile = (props) => {
               fullWidth
               autoComplete="billing address-level2"
               onChange={handleChange('country')}
-              value={profile.country || ''}
-              helperText={profile.city === "" ? 'Champ obligatoire!' : ' '}
-              error = {profile.city === "" ? true : false}
+              value={userAccount.country || ''}
+              helperText={userAccount.city === "" ? 'Champ obligatoire!' : ' '}
+              error = {userAccount.city === "" ? true : false}
             />
           </Grid>
           <Button
@@ -162,7 +162,7 @@ const UserProfile = (props) => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={saveMyProfile}
+            onClick={saveUserAccount}
           >
             Mettre à jour
           </Button>
@@ -177,4 +177,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(UserProfile);
+export default connect(mapStateToProps)(UserAccount);

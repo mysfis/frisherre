@@ -4,7 +4,7 @@ import { Router } from "@reach/router"
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import UserProfile from '../components/UserProfile'
+import UserAccount from '../components/UserAccount'
 import HomeScreen from '../components/HomeScreen'
 import Schedule from '../components/Schedule'
 
@@ -27,7 +27,7 @@ const CustomContent = ({ props, classes }) => (
     <Router>
       <HomeScreen path="/" classes={classes} />
       <Schedule path="schedule"  classes={classes} />
-      <UserProfile path="myprofile" />
+      <UserAccount path="myprofile" />
     </Router>
 );
 

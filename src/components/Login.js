@@ -42,11 +42,12 @@ function SignIn(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
+  React.useEffect(()=>console.log('logging failed'), [props.error])
+
   const signin = (e) => {
     e.preventDefault()
-    console.log("your are logged with ", email, password)
+    console.log("your are logging with ", email)
     props.onAuth(email, password)
-    navigate('/')
   }
 
   return (
@@ -114,7 +115,8 @@ function SignIn(props) {
 const mapStateToProps = (state) => {
   return {
     loading: state.loading,
-    error: state.error
+    error: state.error,
+    isAuthenticated: state.token !== null,
   }
 }
 

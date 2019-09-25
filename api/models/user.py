@@ -15,20 +15,20 @@ class User(AbstractUser):
     def __str__(self):
         return "{}".format(self.email)
 
-class UserProfile(models.Model):
+class UserAccount(models.Model):
     user = models.OneToOneField(
             settings.AUTH_USER_MODEL,
             on_delete=models.CASCADE,
-            related_name='profile',)
+            related_name='user_account',)
     address_line1 = models.CharField(max_length=255)
     address_line2 = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     zip = models.CharField(max_length=5)
     # photo = models.ImageField(upload_to='uploads', blank=True)
-    
+
 @receiver(post_save, sender=User)
-def create_or_update_user_profile(sender, instance, created, **kwargs):
+def create_or_update_user_account(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
-    instance.profile.save()
+        UserAccount.objects.create(user=instance)
+    instance.user_account.save()
