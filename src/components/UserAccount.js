@@ -45,10 +45,10 @@ const UserAccount = (props) => {
   const [userAccount, setUserAccount] = React.useState(newUser.user_account)
   const [refresh, setRefresh] = React.useState(false)
 
-  React.useEffect( () => { getMyProfile()}, [] );
+  React.useEffect( () => { getMyAccount()}, [] );
   React.useEffect( () => { setUserAccount(user.user_account) }, [user.user_account] );
 
-  const getMyProfile = () => {
+  const getMyAccount = () => {
     if (props.token !== null) {
       axios.defaults.headers= {
         "Content-Type": "application/json",

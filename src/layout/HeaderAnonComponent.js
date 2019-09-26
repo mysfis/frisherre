@@ -19,7 +19,7 @@ const styles = () => ({
   },
 });
 
-const HeaderAnon = ({ props, classes }) => (
+const HeaderAnonComponent = ({ props, classes }) => (
   <>
     <Typography noWrap className={classes.header}>
       Keluno
@@ -31,10 +31,10 @@ const HeaderAnon = ({ props, classes }) => (
   </>
 );
 
-HeaderAnon.propTypes = {
+HeaderAnonComponent.propTypes = {
   classes: PropTypes.shape({}).isRequired,
 };
-HeaderAnon.defaultProps = {
+HeaderAnonComponent.defaultProps = {
 };
 
-export default withStyles(styles)(HeaderAnon);
+export default withStyles(styles)(HeaderAnonComponent);

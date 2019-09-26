@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Copyright from '../components/copyright'
 
-const FooterEx = () => (
+const FooterComponent = () => (
   <div style={{ maxWidth: 700, margin: "auto", textAlign: "center" }}>
       <Copyright />
     <Divider style={{ margin: "24px auto", width: 60 }} />
@@ -33,7 +33,7 @@ const FooterEx = () => (
   </div>
 );
 
-FooterEx.propTypes = {};
-FooterEx.defaultProps = {};
+FooterComponent.propTypes = {};
+FooterComponent.defaultProps = {};
 
-export default FooterEx;
+export default FooterComponent;

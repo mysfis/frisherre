@@ -1,51 +1,47 @@
 import React from "react";
+import { Link } from "@reach/router"
+
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Icon from "@material-ui/core/Icon";
 import Divider from "@material-ui/core/Divider";
+import { navigate } from "@reach/router"
+
 
 const list = [
-  // {
-  //   primaryText: "My Files",
-  //   icon: "folder"
-  // },
   {
     primaryText: "A propos",
-    icon: "star"
+    icon: "star",
+    to: "/"
   },
   {
-    primaryText: "Mon Planning",
-    icon: "schedule"
+    primaryText: "Mon planning",
+    icon: "schedule",
+    to: "/schedule"
   },
   {
     primaryText: "Ma Maisonnée",
-    icon: "people"
+    icon: "people",
+    to: "/login"
   },
-
-
-  // {
-  //   primaryText: "Offline",
-  //   icon: "offline_pin"
-  // },
-  // {
-  //   primaryText: "Uploads",
-  //   icon: "publish"
-  // },
-  // {
-  //   primaryText: "Backups",
-  //   icon: "backup"
-  // },
   {
     primaryText: "Terminé",
     icon: "delete"
   }
 ];
-const NavContentEx = () => (
+const NavRouter = ({ setOpened }) => (
   <List>
-    {list.map(({ primaryText, icon }, i) => (
-      <ListItem key={primaryText} selected={i === 0} button>
+    {list.map(({ primaryText, icon, to }, i) => (
+      <ListItem
+        key={primaryText}
+        // selected={i === 0}
+        button={!!to}
+        component={to ? Link : "div"}
+        {...!!to && { to }}
+        onClick={() => setOpened(false)}
+      >
         <ListItemIcon>
           <Icon>{icon}</Icon>
         </ListItemIcon>
@@ -56,19 +52,21 @@ const NavContentEx = () => (
       </ListItem>
     ))}
     <Divider style={{ margin: "12px 0" }} />
-    <ListItem button>
+    <ListItem
+      button
+      onClick={() => {navigate('/myaccount');setOpened(false);}}>
       <ListItemIcon>
         <Icon>settings</Icon>
       </ListItemIcon>
       <ListItemText
-        primary={"Compte"}
+        primary={"Mon compte"}
         primaryTypographyProps={{ noWrap: true }}
       />
     </ListItem>
   </List>
 );
 
-NavContentEx.propTypes = {};
-NavContentEx.defaultProps = {};
+NavRouter.propTypes = {};
+NavRouter.defaultProps = {};
 
-export default NavContentEx;
+export default NavRouter;

@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 from api.models import User, UserAccount
 from api.serializers.user import UserSerializer, UserAccountSerializer
 
-from api.permissions import IsLoggedInUserOrAdmin, IsAdminUser, IsLoggedInProfileOrAdmin
+from api.permissions import IsLoggedInUserOrAdmin, IsAdminUser, IsLoggedInAccountOrAdmin
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -37,7 +37,7 @@ class UserAccountViewSet(viewsets.ModelViewSet):
         if self.action == 'retrieve' or self.action == 'create':
             permission_classes = [AllowAny]
         elif self.action == 'update' or self.action == 'partial_update':
-            permission_classes = [IsLoggedInProfileOrAdmin]
+            permission_classes = [IsLoggedInAccountOrAdmin]
         elif self.action == 'list' or self.action == 'destroy':
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]

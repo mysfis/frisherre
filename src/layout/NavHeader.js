@@ -8,12 +8,12 @@ import { connect } from 'react-redux';
 
 const url_server = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8000' : '';
 
-function NavHeaderEx ({ collapsed, token }) {
+function NavHeader ({ collapsed, token }) {
 
   const [user, setUser] = React.useState({})
   const [refresh, setRefresh] = React.useState(false)
-  React.useEffect(() => getMyProfile(), [refresh]);
-  const getMyProfile = () => {
+  React.useEffect(() => getMyAccount(), [refresh]);
+  const getMyAccount = () => {
     if (token !== null) {
       axios.defaults.headers= {
         "Content-Type": "application/json",
@@ -48,10 +48,10 @@ function NavHeaderEx ({ collapsed, token }) {
   </>
 );}
 
-NavHeaderEx.propTypes = {
+NavHeader.propTypes = {
   collapsed: PropTypes.bool.isRequired,
 };
-NavHeaderEx.defaultProps = {};
+NavHeader.defaultProps = {};
 
 const mapStateToProps = state => {
   return {
@@ -59,4 +59,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(NavHeaderEx);
+export default connect(mapStateToProps)(NavHeader);

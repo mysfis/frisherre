@@ -2,12 +2,12 @@ import React from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
-import CustomRoot from './layout/CustomRoot';
-import CustomHeader from './layout/CustomHeader';
-import CustomHeaderAnon from './layout/CustomHeaderAnon';
-import CustomNav from './layout/CustomNav';
-import CustomContent from './layout/CustomContent';
-import CustomFooter from './layout/CustomFooter';
+import RootLayout from './layout/RootLayout';
+import HeaderUserContainer from './layout/HeaderUserContainer';
+import HeaderAnonContainer from './layout/HeaderAnonContainer';
+import NavContainer from './layout/NavContainer';
+import ContentContainer from './layout/ContentContainer';
+import FooterContainer from './layout/FooterContainer';
 import theme from './layout/theme'
 import Login from './components/Login'
 
@@ -23,23 +23,23 @@ class App extends React.Component {
       return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-          <CustomRoot >
-            <CustomHeader />
-            <CustomNav />
-            <CustomContent />
-            <CustomFooter />
-          </CustomRoot>
+          <RootLayout >
+            <HeaderUserContainer />
+            <NavContainer />
+            <ContentContainer />
+            <FooterContainer />
+          </RootLayout>
         </MuiThemeProvider>
       );
     } else {
       return (
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
-            <CustomRoot >
-              <CustomHeaderAnon />
+            <RootLayout >
+              <HeaderAnonContainer />
               <Login />
-              <CustomFooter />
-            </CustomRoot>
+              <FooterContainer />
+            </RootLayout>
         </MuiThemeProvider>
   );}
 }

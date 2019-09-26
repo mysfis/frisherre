@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { isWidthUp } from '@material-ui/core/withWidth';
 import InputBase from '@material-ui/core/InputBase';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
@@ -9,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/auth';
 
+import LockIcon from '@material-ui/icons/Lock';
 
 const styles = ({ spacing, transitions, breakpoints, palette, shape }) => ({
   header: {
@@ -65,60 +65,39 @@ const styles = ({ spacing, transitions, breakpoints, palette, shape }) => ({
   },
 });
 
-const HeaderEx = ({ props, classes, screen }) => (
+function HeaderUserComponent({ logout, classes, screen }) {
+  return (
   <>
     <Typography noWrap className={classes.header}>
       Keluno
     </Typography>
     <div className={classes.grow} />
-    <div className={classes.search}>
-      <div className={classes.searchIcon}>
-        <Icon>search</Icon>
+    {screen !== 'xs' && (
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <Icon>search</Icon>
+        </div>
+        <InputBase
+          placeholder="Chercher sortie…"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+        />
       </div>
-      <InputBase
-        placeholder="Chercher sortie…"
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-      />
-    </div>
-    {screen === 'xs' && (
-      <IconButton>
-        <Icon>more_vert</Icon>
-      </IconButton>
     )}
-    {screen === 'sm' && (
-      <>
-        <IconButton>
-          <Icon>favorite</Icon>
-        </IconButton>
-        <IconButton>
-          <Icon>more_vert</Icon>
-        </IconButton>
-      </>
-    )}
-    {isWidthUp('md', screen) && (
-      <>
-        <IconButton>
-          <Icon>favorite</Icon>
-        </IconButton>
-        <IconButton>
-          <Icon>phone</Icon>
-        </IconButton>
-        <IconButton>
-          <Icon>camera</Icon>
-        </IconButton>
-      </>
-    )}
-  </>
-);
 
-HeaderEx.propTypes = {
+    <IconButton onClick={() => {logout()}}>
+      <LockIcon />
+    </IconButton>
+  </>
+);}
+
+HeaderUserComponent.propTypes = {
   screen: PropTypes.string,
   classes: PropTypes.shape({}).isRequired,
 };
-HeaderEx.defaultProps = {
+HeaderUserComponent.defaultProps = {
   screen: null,
 };
 
@@ -128,4 +107,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(HeaderEx));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(HeaderUserComponent));

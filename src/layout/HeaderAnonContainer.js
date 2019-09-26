@@ -2,10 +2,8 @@ import React from 'react'
 import { makeStyles } from '@material-ui/styles';
 
 import { Header,} from 'mui-layout';
-
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import MenuRounded from '@material-ui/icons/MenuRounded';
-import HeaderUser from '../containers/HeaderUser';
+import HeaderAnonComponent from './HeaderAnonComponent';
 
 const useHeaderStyles = makeStyles(({ palette, spacing }) => ({
   header: {
@@ -24,20 +22,18 @@ const useHeaderStyles = makeStyles(({ palette, spacing }) => ({
   },
 }));
 
-export default function CustomHeader(props) {
+export default function HeaderAnonContainer() {
   const {
     icon: iconCss,
-    toolbar: toolbarCss,
     header: headerCss,
-    menuBtn: menuBtnCss,
   } = useHeaderStyles();
   return (
     <Header
       classes={{ root: headerCss }}
-      renderMenuIcon={open => (open ? <ChevronLeft /> : <MenuRounded />)}
+      renderMenuIcon={() => <MenuRounded />}
     >
       {({ screen, collapsed }) => (
-        <HeaderUser screen={screen} collapsed={collapsed} classIcon={{ root: iconCss }} />
+        <HeaderAnonComponent screen={screen} collapsed={collapsed} classIcon={{ root: iconCss }}/>
       )}
     </Header>
   )

@@ -23,15 +23,15 @@ const styles = ({ breakpoints, transitions }) => ({
   },
 })
 
-const CustomContent = ({ props, classes }) => (
+const ContentRooter = ({ props, classes }) => (
     <Router>
       <HomeScreen path="/" classes={classes} />
       <Schedule path="schedule"  classes={classes} />
-      <UserAccount path="myprofile" />
+      <UserAccount path="myaccount" />
     </Router>
 );
 
-CustomContent.propTypes = {};
-CustomContent.defaultProps = {};
+ContentRooter.propTypes = {};
+ContentRooter.defaultProps = {};
 
-export default withStyles(styles)(CustomContent)
+export default withStyles(styles)(ContentRooter)

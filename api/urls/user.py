@@ -5,5 +5,5 @@ from api.views.user import UserViewSet, CurrentUserView, UserAccountViewSet
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'currentuser', CurrentUserView, 'currentuser')
-router.register(r'userprofiles', UserAccountViewSet)
+router.register(r'accounts', UserAccountViewSet)
 urlpatterns = router.urls

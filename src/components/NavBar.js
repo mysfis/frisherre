@@ -80,7 +80,7 @@ export default function NavBar() {
                 open={open}
                 onclose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My Account</MenuItem>
               </Menu>
             </div>
