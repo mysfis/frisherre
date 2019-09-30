@@ -6,26 +6,23 @@ import Divider from '@material-ui/core/Divider';
 import axios from 'axios'
 import { connect } from 'react-redux';
 
-const url_server = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8000' : '';
-
 function NavHeader ({ collapsed, token }) {
 
   const [user, setUser] = React.useState({})
-  const [refresh, setRefresh] = React.useState(false)
-  React.useEffect(() => getMyAccount(), [refresh]);
-  const getMyAccount = () => {
+  const getMyAccount = React.useCallback(() => {
     if (token !== null) {
       axios.defaults.headers= {
         "Content-Type": "application/json",
         Authorization: "Token " + token,
       }
       axios
-          .get(url_server+"/api/currentuser/")
+          .get("/api/currentuser/")
           .then(res => setUser(res.data[0]))
           .catch(err => console.log(err));
-      setRefresh(false)
     }
-  };
+  }, [token])
+  React.useEffect( () => { getMyAccount()}, [getMyAccount] );
+
   return (
   <>
     <div style={{ padding: collapsed ? 8 : 16, transition: '0.3s' }}>

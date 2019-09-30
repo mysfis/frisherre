@@ -7,6 +7,7 @@ import Link from '@material-ui/core/Link';
 import UserAccount from '../components/UserAccount'
 import HomeScreen from '../components/HomeScreen'
 import Schedule from '../components/Schedule'
+import Household from '../components/Household'
 
 const styles = ({ breakpoints, transitions }) => ({
   root: {
@@ -26,8 +27,10 @@ const styles = ({ breakpoints, transitions }) => ({
 const ContentRooter = ({ props, classes }) => (
     <Router>
       <HomeScreen path="/" classes={classes} />
-      <Schedule path="schedule"  classes={classes} />
+      <Schedule path="schedule" classes={classes} />
+      <Household path="household" classes={classes} />
       <UserAccount path="myaccount" />
+
     </Router>
 );
 

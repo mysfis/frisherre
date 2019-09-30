@@ -24,7 +24,7 @@ const list = [
   {
     primaryText: "Ma Maisonnée",
     icon: "people",
-    to: "/login"
+    to: "/household"
   },
   {
     primaryText: "Terminé",

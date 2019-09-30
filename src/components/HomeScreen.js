@@ -15,8 +15,7 @@ const HomeScreen = ({ classes }) => (
       <b>Version Beta</b>
     </Typography>
     <Typography indent={'small'}>
-      Keluno est une plateforme de bon voisinage pour partager les déplacements
-      du quotidien, les outils d'entretien, et les apéros.
+      Keluno est une plateforme de bon voisinage pour réduire ensemble l'empreinte ecolo de ses communautés.
     </Typography>
     <br />
     <br />
@@ -33,10 +32,13 @@ const HomeScreen = ({ classes }) => (
           Mon fils va au sport dans la ville d'à côté avec des enfants de mon voisinage, mais 9 fois sur 10 nous ne pensons pas a nous arranger pour le tranport
         </li>
         <li>
-          Mes parents sont dans une association sportive et doivent arranger les transports vers le lieu des competitions car les membres du club ne le font pas.
+          Je mene une association et doit arranger les transports vers le lieu des rencontres car les membres du club ne le font pas.
         </li>
         <li>
-          Les voisins ne se connaissent plus comme avant, et les plateformes classiques ne permettent pas de les rencontrer.
+          Je vais seul au marché de la ville d'a cote alors que tous mes voisins y vont aussi seuls
+        </li>
+        <li>
+          Je veux acheter des produits de fermiers locaux mais il ne peut livrer si j'achete seul
         </li>
       </ol>
     </Typography>

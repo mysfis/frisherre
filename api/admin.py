@@ -2,11 +2,13 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import User, UserAccount, Outing
+from .models import User, Account, Outing, Profile
 
 class UserAccountInline(admin.StackedInline):
-    model = UserAccount
+    model = Account
     can_delete = False
+    verbose_name_plural = 'Account'
+    fk_name = 'user'
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
@@ -29,3 +31,4 @@ class UserAdmin(BaseUserAdmin):
     inlines = (UserAccountInline, )
 
 admin.site.register(Outing)
+admin.site.register(Profile)

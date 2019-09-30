@@ -43,12 +43,10 @@ const UserAccount = (props) => {
   const newUser = {"url":"","email":"","first_name":"","last_name":"","user_account":{"title":"","birth_date":"","address_line1":"","address_line2":"","country":"","city":"","zip":"","photo":null}}
   const [user, setUser] = React.useState(newUser)
   const [userAccount, setUserAccount] = React.useState(newUser.user_account)
-  const [refresh, setRefresh] = React.useState(false)
 
-  React.useEffect( () => { getMyAccount()}, [] );
   React.useEffect( () => { setUserAccount(user.user_account) }, [user.user_account] );
 
-  const getMyAccount = () => {
+  const getMyAccount = React.useCallback(() => {
     if (props.token !== null) {
       axios.defaults.headers= {
         "Content-Type": "application/json",
@@ -58,9 +56,9 @@ const UserAccount = (props) => {
           .get("/api/currentuser/")
           .then(res => setUser(res.data[0]))
           .catch(err => console.log(err));
-      setRefresh(false)
     }
-  };
+  }, [props.token])
+  React.useEffect( () => { getMyAccount()}, [getMyAccount] );
 
   const handleChange = name => event => {
     setUserAccount({ ...userAccount, [name]: event.target.value })
@@ -75,11 +73,7 @@ const UserAccount = (props) => {
       }
       axios
           .put(userAccount.url, userAccount)
-          .then(res => {
-            setRefresh(true);
-          })
           .catch(err => console.log(err));
-      setRefresh(false)
     }
   };
 

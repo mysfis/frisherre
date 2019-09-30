@@ -27,9 +27,7 @@ const useHeaderStyles = makeStyles(({ palette, spacing }) => ({
 export default function HeaderUserContainer(props) {
   const {
     icon: iconCss,
-    toolbar: toolbarCss,
     header: headerCss,
-    menuBtn: menuBtnCss,
   } = useHeaderStyles();
   return (
     <Header
