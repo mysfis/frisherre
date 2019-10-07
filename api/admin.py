@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import User, Account, Outing, Profile
+from .models import User, Account, Outing, Profile, Attendance
 
 class UserAccountInline(admin.StackedInline):
     model = Account
@@ -32,3 +32,4 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(Outing)
 admin.site.register(Profile)
+admin.site.register(Attendance)

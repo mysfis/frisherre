@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import reducer, { initialState } from './store/reducers/auth'
+import reducer, { initialState } from 'store/reducers/auth'
 
 const Store = React.createcontext();
 

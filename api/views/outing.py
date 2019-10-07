@@ -1,11 +1,20 @@
 from rest_framework import viewsets
 
-from api.models import Outing
-from api.serializers.outing import OutingSerializer
+from api.models import Outing, Attendance
+from api.serializers.base.outing import OutingSerializer
+from api.serializers.nested.outing import DetailedOutingSerializer, AttendanceSerializer
 
 class OutingViewSet(viewsets.ModelViewSet):
-    serializer_class = OutingSerializer
     queryset = Outing.objects.all()
+    serializer_class = OutingSerializer
+
+class DetailedOutingViewSet(viewsets.ModelViewSet):
+    queryset = Outing.objects.all()
+    serializer_class = DetailedOutingSerializer
+
+class AttendanceViewSet(viewsets.ModelViewSet):
+    queryset = Attendance.objects.all()
+    serializer_class = AttendanceSerializer
 
 # from rest_framework.generics import (
 #     ListAPIView, RetrieveAPIView,

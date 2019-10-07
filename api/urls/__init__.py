@@ -15,5 +15,6 @@ urlpatterns = [
     path('echo/', EchoView.as_view()),
     path('', include('api.urls.auth')),
     path('', include('api.urls.user')),
+    path('', include('api.urls.profile')),
     path('', include('api.urls.outing')),
 ]

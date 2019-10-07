@@ -20,7 +20,7 @@ class Account(models.Model):
             settings.AUTH_USER_MODEL,
             on_delete=models.CASCADE,
             related_name='user_account')
-    houselhold_name = models.CharField(max_length=255)
+    household_name = models.CharField(max_length=255)
     address_line1 = models.CharField(max_length=255)
     address_line2 = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=50)
@@ -28,7 +28,7 @@ class Account(models.Model):
     zip = models.CharField(max_length=5)
 
     def __str__(self):
-        return "{}".format(self.user.email)
+        return "{}".format(self.household_name)
     # photo = models.ImageField(upload_to='uploads', blank=True)
 
 # @receiver(post_save, sender=User)
@@ -36,12 +36,3 @@ class Account(models.Model):
 #     if created:
 #         UserAccount.objects.create(user=instance)
 #     instance.user_account.save()
-
-class Profile(models.Model):
-    account = models.ForeignKey(Account, related_name='profiles', on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255, blank=True)
-    birth_date = models.DateField()
-
-    def __str__(self):
-        return "{} {}".format(self.first_name, self.last_name)

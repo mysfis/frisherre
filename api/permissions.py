@@ -8,8 +8,12 @@ class IsLoggedInUserOrAdmin(permissions.BasePermission):
 class IsLoggedInAccountOrAdmin(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        print(obj.user)
         return obj.user == request.user or request.user.is_staff
+
+class IsLoggedInProfileOrAdmin(permissions.BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+        return obj.account.user == request.user or request.user.is_staff
 
 class IsAdminUser(permissions.BasePermission):
 

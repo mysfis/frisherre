@@ -55,3 +55,4 @@ add TemplateView in django URLs.py
 $ git add .
 $ git commit -am "initial commit"
 $ git push heroku master
+$ heroku run bash

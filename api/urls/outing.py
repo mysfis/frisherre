@@ -1,9 +1,12 @@
-from api.views.outing import OutingViewSet
+from api.views.outing import OutingViewSet, DetailedOutingViewSet, AttendanceViewSet
 from rest_framework.routers import DefaultRouter
 
 outingRouter = DefaultRouter()
-outingRouter.register(r'outings', OutingViewSet, basename='outings')
+outingRouter.register(r'detailedouting', DetailedOutingViewSet, basename='outing')
+outingRouter.register(r'attendance', AttendanceViewSet, basename='attendance')
+outingRouter.register(r'outing', OutingViewSet, basename='outing')
 urlpatterns = outingRouter.urls
+
 
 # Alternatively you can use Django's include function, like so...
 # urlpatterns = [

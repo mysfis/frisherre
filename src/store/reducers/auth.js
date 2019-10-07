@@ -1,5 +1,5 @@
-import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../utility'
+import * as actionTypes from 'store/actions/actionTypes';
+import { updateObject } from 'store/utility'
 
 export const initialState = {
   token: null,

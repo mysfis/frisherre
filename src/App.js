@@ -1,18 +1,18 @@
 import React from 'react'
+import { connect } from 'react-redux';
+
+import * as actions from 'store/actions/auth';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
-import RootLayout from './layout/RootLayout';
-import HeaderUserContainer from './layout/HeaderUserContainer';
-import HeaderAnonContainer from './layout/HeaderAnonContainer';
-import NavContainer from './layout/NavContainer';
-import ContentContainer from './layout/ContentContainer';
-import FooterContainer from './layout/FooterContainer';
-import theme from './layout/theme'
-import Login from './components/Login'
-
-import { connect } from 'react-redux';
-import * as actions from './store/actions/auth';
+import RootLayout from 'layout/RootLayout';
+import HeaderUserContainer from 'layout/header/HeaderUserContainer';
+import HeaderAnonContainer from 'layout/header/HeaderAnonContainer';
+import NavContainer from 'layout/nav/NavContainer';
+import ContentContainer from 'layout/content/ContentContainer';
+import FooterContainer from 'layout/footer/FooterContainer';
+import theme from 'layout/theme'
+import Login from 'containers/auth/Login'
 
 class App extends React.Component {
   componentDidMount() {

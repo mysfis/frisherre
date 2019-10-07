@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import dj_database_url
 import dotenv
+import logging
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -127,8 +129,40 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'build/static'),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+LOGGING_ROOT = os.path.join(STATIC_ROOT, 'loggingfiles')
+if not os.path.exists(LOGGING_ROOT):
+    os.makedirs(LOGGING_ROOT)
+
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'fileInfo': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOGGING_ROOT, "info.log"),
+        },
+        'fileDebug': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOGGING_ROOT, "debug.log")
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'fileInfo', 'fileDebug'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 SITE_ID = 1
 
