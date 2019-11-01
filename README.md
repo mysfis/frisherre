@@ -2,7 +2,7 @@
 ### git commit -am "smth here"
 ### git push heroku master
 ### pipenv shell
-### $ python manage.py makemigrations outing
+### $ python manage.py makemigrations api
 ### python manage.py migrate
 ### python manage.py runserver
 ### yarn run storybook

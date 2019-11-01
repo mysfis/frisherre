@@ -6,7 +6,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Checkbox from '@material-ui/core/Checkbox';
-import Avatar from 'components/Avatar'
+import Avatar from 'components/user/Avatar'
 
 import { IconButton } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';

@@ -4,7 +4,7 @@ import { Router } from "@reach/router"
 
 import UserAccount from 'containers/account/View'
 import HomeScreen from 'containers/home/View'
-import Schedule from 'containers/schedule/View'
+import Schedule from 'containers/schedule/MyView2'
 import Household from 'containers/household/View'
 
 import { withStyles } from '@material-ui/core/styles';
