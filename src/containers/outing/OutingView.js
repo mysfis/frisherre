@@ -81,7 +81,12 @@ const OutingView = ({token, scheduleData})  => {
     setOutingsByDay(changedOutingList)
   }
 
-  const handleDrive = outing => {}
+  const handleDrive = (acceptedOuting, day, index) => {
+    const changedOutingList = {...outingsByDay}
+    const changedOuting = changedOutingList[day]
+    changedOuting[index].participation.is_driver = !changedOuting[index].participation.is_driver
+    setOutingsByDay(changedOutingList)
+  }
 
   return (
     <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.timeline}>
@@ -101,6 +106,7 @@ const OutingView = ({token, scheduleData})  => {
                   key={outing.url}
                   handleAccept={handleAccept}
                   handleReject={handleReject}
+                  handleDrive={handleDrive}
                   day={day}
                   index={index}/>
               ))}

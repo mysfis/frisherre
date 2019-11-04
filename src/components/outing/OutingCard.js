@@ -222,7 +222,9 @@ const OutingCard = (props) => {
                     style={{backgroundColor: red[800],color: theme.palette.primary.contrastText}}/>
                 )}
                 </IconButton>
-              <IconButton className={classes.action}>
+              <IconButton 
+                  onClick={() => props.handleDrive(outing, props.day, props.index)}
+                  className={classes.action}>
               {outing.participation.is_driver ? (
                   <DriveEtaIcon 
                     className={classes.actionIcons} 
