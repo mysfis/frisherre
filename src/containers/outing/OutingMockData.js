@@ -36,9 +36,9 @@ const outing1 = {
     is_participant: false,email:'myAttendance3@gmail.com'}
   
   export const outingMockData = [
-    {...outing1, attendances: [myAttendance1, myAttendance2]}, 
-    {...outing2, attendances: [myAttendance2]},
-    {...outing3, attendances: [myAttendance3, myAttendance1]},
-    {...outing4, attendances: [myAttendance2, myAttendance1]},
-    {...outing5, attendances: [myAttendance3, myAttendance1]}
+    {...outing1, participation: myAttendance1, attendees: [myAttendance1, myAttendance2, myAttendance3]}, 
+    {...outing2, participation: myAttendance2, attendees: [myAttendance2]},
+    {...outing3, participation: myAttendance3, attendees: [myAttendance3, myAttendance1]},
+    {...outing4, participation: myAttendance2, attendees: [myAttendance2, myAttendance1]},
+    {...outing5, participation: myAttendance3, attendees: [myAttendance3, myAttendance1]}
   ]

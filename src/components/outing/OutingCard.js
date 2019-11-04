@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
@@ -135,13 +135,13 @@ const useStyles = makeStyles(theme => ({
   }))
 
 
-const OutingCard = ({outing}) => {
+const OutingCard = (props) => {
     const theme = useTheme();
     const classes = useStyles(theme);
 
+    const [outing, setOuting] = useState(props.outing)
     const [expanded, setExpanded] = React.useState(false);
-
-    const handleExpandClick = () => {setExpanded(!expanded);};
+    console.log(outing)
 
     return (
       <Card className={classes.outingItem}
@@ -153,7 +153,7 @@ const OutingCard = ({outing}) => {
         }}>
           <Box className={classes.outingCard}>
             <Box className={classes.cardAvatar}>
-              <Avatar user={outing.attendances[0]} size={outing.mine? 'big':'medium'} />
+              <Avatar user={outing.participation} size={outing.mine? 'big':'medium'} />
             </Box>
             <Box className={classes.cardContent}>
               <Box className={classes.cardHeader}>
@@ -173,7 +173,7 @@ const OutingCard = ({outing}) => {
                     className={clsx(classes.expand, {
                       [classes.expandOpen]: expanded,
                     })}
-                    onClick={handleExpandClick}
+                    onClick={() => setExpanded(!expanded)}
                     aria-expanded={expanded}
                     aria-label="show more">
                     <ExpandMoreIcon />
@@ -195,8 +195,10 @@ const OutingCard = ({outing}) => {
           <Box className={classes.cardFooter}>
             
             <Box className={classes.footerActions}>
-                <IconButton className={classes.action}>
-                {outing.attendances[0].is_participant == null || !outing.attendances[0].is_participant ? (
+                <IconButton 
+                    onClick={() => props.handleAccept(outing, props.day, props.index)}
+                    className={classes.action}>
+                {outing.participation.is_participant == null || !outing.participation.is_participant ? (
                   <DoneIcon 
                   className={classes.actionIcons} 
                   style={{color: green[200],}}/>
@@ -206,8 +208,10 @@ const OutingCard = ({outing}) => {
                     style={{backgroundColor: green[800],color: theme.palette.primary.contrastText}} />
                 )}
                 </IconButton>
-                <IconButton className={classes.action}> 
-                {outing.attendances[0].is_participant == null ||  outing.attendances[0].is_participant ? (
+                <IconButton 
+                    onClick={() => props.handleReject(outing, props.day, props.index)}
+                    className={classes.action}> 
+                {outing.participation.is_participant == null ||  outing.participation.is_participant ? (
                   <ClearIcon 
                     className={classes.actionIcons} 
                     style={{color: red[200],}}/>
@@ -219,7 +223,7 @@ const OutingCard = ({outing}) => {
                 )}
                 </IconButton>
               <IconButton className={classes.action}>
-              {outing.attendances[0].is_driver ? (
+              {outing.participation.is_driver ? (
                   <DriveEtaIcon 
                     className={classes.actionIcons} 
                     style={{backgroundColor: blue[800],color: theme.palette.primary.contrastText}}/>
@@ -231,9 +235,11 @@ const OutingCard = ({outing}) => {
             </Box>
             <Divider orientation="vertical" />
             <Box className={classes.footerAttendees}>
-              <Avatar user={outing.attendances[0]} size='small' />
-              <Avatar user={outing.attendances[0]} size='small' />
-              <Avatar user={outing.attendances[0]} size='small' />
+              {outing.attendees.map(attendee => (
+                <Avatar 
+                    user={attendee} 
+                    size='small' />
+                ))}
             </Box>
           </Box>
           </div>

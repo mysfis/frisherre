@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import axios from 'axios'
 import moment from 'moment'
 
-import groupByDay from 'utilities/groupByDay'
+import groupByDay, {getDayForEvent } from 'utilities/groupByDay'
 import OutingCard from 'components/outing/OutingCard'
 import {outingMockData} from './OutingMockData'
 
@@ -55,16 +55,33 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const OutingView = ({token, scheduleData})  => {
-  console.log('scheduleData: ', scheduleData)
   if(!scheduleData) {
-    console.log('scheduleMockData: ', outingMockData)
     scheduleData = outingMockData
   }
-  const { days, outingsByDay } = groupByDay(scheduleData);
   
+  const [outings, setOutings] = useState(scheduleData)
+  const sortedOutings = groupByDay(scheduleData);
+  const [ days, setDays] = useState(sortedOutings.days)
+  const [ outingsByDay, setOutingsByDay] = useState(sortedOutings.outingsByDay)
+
   const theme = useTheme();
   const classes = useStyles(theme);
 
+  const handleAccept = (acceptedOuting, day, index) => {
+    const changedOutingList = {...outingsByDay}
+    const changedOuting = changedOutingList[day]
+    changedOuting[index].participation.is_participant = true
+    setOutingsByDay(changedOutingList)
+  }
+
+  const handleReject = (acceptedOuting, day, index) => {
+    const changedOutingList = {...outingsByDay}
+    const changedOuting = changedOutingList[day]
+    changedOuting[index].participation.is_participant = false
+    setOutingsByDay(changedOutingList)
+  }
+
+  const handleDrive = outing => {}
 
   return (
     <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.timeline}>
@@ -78,8 +95,14 @@ const OutingView = ({token, scheduleData})  => {
           {days.map(day => (
             <Box className={classes.outingDay} key={'day'+day}>
               <Typography weight={'bold'} variant={'body1'} >{moment(day).format("dd DD MMM")}</Typography>
-              {outingsByDay[day].map(outing => (
-                <OutingCard outing={outing} key={outing.url}/>
+              {outingsByDay[day].map((outing, index) => (
+                <OutingCard 
+                  outing={outing} 
+                  key={outing.url}
+                  handleAccept={handleAccept}
+                  handleReject={handleReject}
+                  day={day}
+                  index={index}/>
               ))}
             </Box>
           ))}
