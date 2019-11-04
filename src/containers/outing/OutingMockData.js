@@ -35,10 +35,10 @@ const outing1 = {
     ...myAttendance1, 
     is_participant: false,email:'myAttendance3@gmail.com'}
   
-  export const scheduleMockData = [
+  export const outingMockData = [
     {...outing1, attendances: [myAttendance1, myAttendance2]}, 
-    {...outing2, attendances: [myAttendance3]},
-    {...outing3, attendances: [myAttendance2, myAttendance1]},
+    {...outing2, attendances: [myAttendance2]},
+    {...outing3, attendances: [myAttendance3, myAttendance1]},
     {...outing4, attendances: [myAttendance2, myAttendance1]},
     {...outing5, attendances: [myAttendance3, myAttendance1]}
   ]

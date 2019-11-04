@@ -4,7 +4,7 @@ import { Router } from "@reach/router"
 
 import UserAccount from 'containers/account/View'
 import HomeScreen from 'containers/home/View'
-import Schedule from 'containers/schedule/MyView2'
+import Outing from 'containers/outing/OutingView'
 import Household from 'containers/household/View'
 
 import { withStyles } from '@material-ui/core/styles';
@@ -30,7 +30,7 @@ const ContentRooter = ({ props, classes }) => (
   <div className={classes.content}>
     <Router>
       <HomeScreen path="/" />
-      <Schedule path="schedule" />
+      <Outing path="schedule" />
       <Household path="household" />
       <UserAccount path="myaccount" />
     </Router>
