@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import EventIcon from '@material-ui/icons/Event';
 
 import MuiAvatar from '@material-ui/core/Avatar';
 import { switchCase } from '@babel/types';
@@ -36,7 +37,6 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-
   avatar: {
     width: 64,
     height: 64,
@@ -46,6 +46,9 @@ const useStyles = makeStyles(theme => ({
     borderColor: '#DBDBDB',
     fontSize: '0.8em',
     // backgroundColor: blue[200],
+  },
+  icon: {
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -152,13 +155,14 @@ const ProfileForm = (props) => {
                 format="DD/MM/YYYY"
                 value={profile.birth_date || null }
                 onChange={date => handleDateChange(date)}
-                KeyboardButtonProps={{  'aria-label': 'change date',  }}
+                KeyboardButtonProps={{  'aria-label': 'change date' }}
                 helperText={profile.birth_date === "" ? 'Champ obligatoire!' : ' '}
                 error = {profile.birth_date === "" ? true : false}
-
+                keyboardIcon={<EventIcon className={classes.icon}/>}
               />
             </MuiPickersUtilsProvider>
           </Grid>
+          {/*
           <Grid item xs={12} sm={3}>
             <input
               accept="image/*"
@@ -178,6 +182,7 @@ const ProfileForm = (props) => {
               </Button>
             </label> 
           </Grid>
+        */}
           <Button
             type="submit"
             fullWidth
