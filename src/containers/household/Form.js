@@ -10,6 +10,9 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/picker
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
+import MuiAvatar from '@material-ui/core/Avatar';
+import { switchCase } from '@babel/types';
+
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
@@ -33,6 +36,17 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+
+  avatar: {
+    width: 64,
+    height: 64,
+    borderRadius: 16,
+    border: '2px solid',
+    boxSizing: 'border-box',
+    borderColor: '#DBDBDB',
+    fontSize: '0.8em',
+    // backgroundColor: blue[200],
+  },
 }));
 
 const ProfileForm = (props) => {
@@ -50,15 +64,41 @@ const ProfileForm = (props) => {
       birth_date: moment(value).format('YYYY-MM-DD') })
   };
 
+  const handlePictureChange = (e) => {
+    setProfile({
+      ...profile,
+      picture: e.target.files[0] })
+  };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
     axios.defaults.headers= {
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
+      'content-type': 'multipart/form-data',
       Authorization: "Token " + props.token,
     }
+    let form_data = new FormData();
+    Object.keys(profile).forEach(key => {
+      if (profile[key]) {
+        switch(key) {
+          case 'account': 
+            const account = profile[key]
+            Object.keys(account).forEach(accountKey => form_data.append('account.'.concat(accountKey), account[accountKey]))
+            break;
+          case 'picture':
+            if(typeof(profile[key]) !== 'string') {
+              form_data.append(key, profile[key]);
+            }
+            break;
+          default: 
+            form_data.append(key, profile[key])
+        }
+      }
+    });
+    
     if (profile.url) {
       return axios
-          .put(profile.url, profile)
+          .put(profile.url, form_data)
           .then(res => {
             props.handleRefresh();
           })
@@ -66,7 +106,7 @@ const ProfileForm = (props) => {
           .catch(err => console.log(err));
     } else {
       return axios
-          .post("/api/detailedprofile/", profile)
+          .post("/api/detailedprofile/", form_data)
           .then(res => {
             props.handleRefresh();
           })
@@ -77,7 +117,7 @@ const ProfileForm = (props) => {
 
   return (
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={3}>
             <TextField
               required
               id="first_name" name="first_name"
@@ -90,7 +130,7 @@ const ProfileForm = (props) => {
               error = {profile.first_name === "" ? true : false}
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={3}>
             <TextField
               required
               id="last_name"
@@ -104,7 +144,7 @@ const ProfileForm = (props) => {
               error = {profile.last_name === "" ? true : false}
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={3}>
             <MuiPickersUtilsProvider  utils={MomentUtils}>
               <KeyboardDatePicker
                 id="date-picker-dialog"
@@ -118,6 +158,25 @@ const ProfileForm = (props) => {
 
               />
             </MuiPickersUtilsProvider>
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <input
+              accept="image/*"
+              className={classes.input}
+              style={{ display: 'none' }}
+              id="new-profile-picture"
+              type="file"
+              onChange={handlePictureChange}
+            />
+            <label htmlFor="new-profile-picture">
+              <Button variant="contained" 
+                  color="secondary"
+                  fullWidth
+                  component="span" 
+                  className={classes.submit}>
+                Change Picture
+              </Button>
+            </label> 
           </Grid>
           <Button
             type="submit"

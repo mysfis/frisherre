@@ -7,7 +7,7 @@ class DetailedProfileSerializer(serializers.HyperlinkedModelSerializer):
     account = AccountSerializer(required=True)
     class Meta:
         model = Profile
-        fields = ('url','first_name', 'last_name', 'birth_date', 'account')
+        fields = ('url','first_name', 'last_name', 'birth_date', 'picture', 'account')
 
     def create(self, validated_data):
         account_data = validated_data.pop('account')

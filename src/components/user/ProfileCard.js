@@ -43,14 +43,15 @@ const useStyles = makeStyles(theme => ({
 export default function ProfileCard(props) {
   const [profile] = React.useState(props.profile)
   const classes = useStyles();
-  const avatarUrl = `https://robohash.org/${profile.first_name}?set=set3`
+  let avatarUrl = `https://robohash.org/${profile.first_name}?set=set3`
+  if (profile.picture) { avatarUrl = profile.picture}
   return (
     <Card className={classes.card}>
       {profile.url
         ? <CardMedia
           className={classes.cover}
           image={avatarUrl}
-          title="Live from space album cover"
+          title="My avatar"
         />
       :
         <IconButton aria-label="New profile" onClick={props.handleAdd}>

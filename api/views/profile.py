@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from api.models import Profile
 from api.serializers.base.profile import ProfileSerializer
@@ -10,6 +11,7 @@ from api.permissions import IsAdminUser, IsLoggedInProfileOrAdmin
 
 class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
     def get_queryset(self):
         user_account = self.request.user.user_account
@@ -28,6 +30,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
 class DetailedProfileViewSet(viewsets.ModelViewSet):
     serializer_class = DetailedProfileSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
     def get_queryset(self):
         user_account = self.request.user.user_account
