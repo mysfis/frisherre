@@ -6,7 +6,7 @@ import Avatar from 'components/user/Avatar'
 import { Card, Box, Typography, Collapse, Divider } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {FootballIcon} from 'components/icons/outingIcons'
+// import {FootballIcon} from 'components/icons/outingIcons'
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
 import { blue, red, green } from '@material-ui/core/colors';
@@ -139,9 +139,8 @@ const OutingCard = (props) => {
     const theme = useTheme();
     const classes = useStyles(theme);
 
-    const [outing, setOuting] = useState(props.outing)
+    const [outing] = useState(props.outing)
     const [expanded, setExpanded] = React.useState(false);
-    console.log(outing)
 
     return (
       <Card className={classes.outingItem}
@@ -196,7 +195,7 @@ const OutingCard = (props) => {
             
             <Box className={classes.footerActions}>
                 <IconButton 
-                    onClick={() => props.handleAccept(outing, props.day, props.index)}
+                    onClick={() => props.handleAccept(props.day, props.index)}
                     className={classes.action}>
                 {outing.participation.is_participant == null || !outing.participation.is_participant ? (
                   <DoneIcon 
@@ -209,7 +208,7 @@ const OutingCard = (props) => {
                 )}
                 </IconButton>
                 <IconButton 
-                    onClick={() => props.handleReject(outing, props.day, props.index)}
+                    onClick={() => props.handleReject(props.day, props.index)}
                     className={classes.action}> 
                 {outing.participation.is_participant == null ||  outing.participation.is_participant ? (
                   <ClearIcon 
@@ -223,7 +222,7 @@ const OutingCard = (props) => {
                 )}
                 </IconButton>
               <IconButton 
-                  onClick={() => props.handleDrive(outing, props.day, props.index)}
+                  onClick={() => props.handleDrive(props.day, props.index)}
                   className={classes.action}>
               {outing.participation.is_driver ? (
                   <DriveEtaIcon 
@@ -237,8 +236,9 @@ const OutingCard = (props) => {
             </Box>
             <Divider orientation="vertical" />
             <Box className={classes.footerAttendees}>
-              {outing.attendees.map(attendee => (
+              {outing.attendees.map((attendee, index) => (
                 <Avatar 
+                    key={props.day+'='+props.index+'='+index}
                     user={attendee} 
                     size='small' />
                 ))}

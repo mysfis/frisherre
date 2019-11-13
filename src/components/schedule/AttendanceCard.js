@@ -3,15 +3,13 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
 import Divider from '@material-ui/core/Divider';
 
-import { deepOrange, deepPurple, blue, red, green } from '@material-ui/core/colors';
+import { blue, red, green } from '@material-ui/core/colors';
 
 
 const useStyles = makeStyles(theme => ({
@@ -52,7 +50,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function MediaControlCard({ outing }) {
   const classes = useStyles();
-  const theme = useTheme();
   // const avatarUrl = `https://robohash.org/${profile.first_name}?set=set3`
   const avatarUrl = `https://robohash.org/test?set=set3`
 

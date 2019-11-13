@@ -5,7 +5,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from 'components/user/Avatar'
 
 import { IconButton } from '@material-ui/core';
@@ -13,8 +12,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
 import NotListedLocationIcon from '@material-ui/icons/NotListedLocation';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import { deepOrange, deepPurple, blue, red, green } from '@material-ui/core/colors';
+import { blue, red, green } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,8 +46,8 @@ const outingItemsInitial=[
 
 export default function CheckboxListSecondary() {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState([1]);
-  const [secondary, setSecondary] = React.useState([1])
+  // const [checked, setChecked] = React.useState([1]);
+  // const [secondary, setSecondary] = React.useState([1])
   const [outingItems, setOutingItems] = React.useState(outingItemsInitial)
 
   const showDescription = item => () => {
@@ -57,20 +55,20 @@ export default function CheckboxListSecondary() {
     setOutingItems([...outingItems])
   };
 
-  const handleToggle = value => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-    console.log('currentIndex:', currentIndex)
-    console.log('newChecked:', newChecked)
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+  // const handleToggle = value => () => {
+  //   const currentIndex = checked.indexOf(value);
+  //   const newChecked = [...checked];
+  //   console.log('currentIndex:', currentIndex)
+  //   console.log('newChecked:', newChecked)
+  //   if (currentIndex === -1) {
+  //     newChecked.push(value);
+  //   } else {
+  //     newChecked.splice(currentIndex, 1);
+  //   }
 
-    setChecked(newChecked);
-    setSecondary(newChecked)
-  };
+  //   setChecked(newChecked);
+  //   // setSecondary(newChecked)
+  // };
 
   return (
     <List dense className={classes.root}>

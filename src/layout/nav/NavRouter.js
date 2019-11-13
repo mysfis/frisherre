@@ -27,7 +27,8 @@ const list = [
   },
   {
     primaryText: "Terminé",
-    icon: "delete"
+    icon: "delete",
+    to: "/profile"
   }
 ];
 const NavRouter = ({ setOpened }) => (

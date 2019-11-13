@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
-import axios from 'axios'
+// import { connect } from 'react-redux';
+// import axios from 'axios'
 import moment from 'moment'
 
-import groupByDay, {getDayForEvent } from 'utilities/groupByDay'
+import groupByDay from 'utilities/groupByDay'
 import OutingCard from 'components/outing/OutingCard'
 import {outingMockData} from './OutingMockData'
 
@@ -59,7 +59,6 @@ const OutingView = ({token, scheduleData})  => {
     scheduleData = outingMockData
   }
   
-  const [outings, setOutings] = useState(scheduleData)
   const sortedOutings = groupByDay(scheduleData);
   const [ days, setDays] = useState(sortedOutings.days)
   const [ outingsByDay, setOutingsByDay] = useState(sortedOutings.outingsByDay)
@@ -67,21 +66,21 @@ const OutingView = ({token, scheduleData})  => {
   const theme = useTheme();
   const classes = useStyles(theme);
 
-  const handleAccept = (acceptedOuting, day, index) => {
+  const handleAccept = (day, index) => {
     const changedOutingList = {...outingsByDay}
     const changedOuting = changedOutingList[day]
     changedOuting[index].participation.is_participant = true
     setOutingsByDay(changedOutingList)
   }
 
-  const handleReject = (acceptedOuting, day, index) => {
+  const handleReject = (day, index) => {
     const changedOutingList = {...outingsByDay}
     const changedOuting = changedOutingList[day]
     changedOuting[index].participation.is_participant = false
     setOutingsByDay(changedOutingList)
   }
 
-  const handleDrive = (acceptedOuting, day, index) => {
+  const handleDrive = (day, index) => {
     const changedOutingList = {...outingsByDay}
     const changedOuting = changedOutingList[day]
     changedOuting[index].participation.is_driver = !changedOuting[index].participation.is_driver

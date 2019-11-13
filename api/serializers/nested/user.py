@@ -1,7 +1,10 @@
 from rest_framework import serializers
+from django.utils import timezone
+
 from api.models import User, Account, Profile
 from api.serializers.base.profile import ProfileSerializer
 from api.serializers.base.user import AccountSerializer
+
 
 class DetailedAccountSerializer(serializers.HyperlinkedModelSerializer):
     profiles = ProfileSerializer(required=True, many=True)
@@ -24,10 +27,13 @@ class DetailedUserSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
         account_data = validated_data.pop('user_account')
         password = validated_data.pop('password')
+        
         user = User(**validated_data)
         user.set_password(password)
         user.save()
+        
         Account.objects.create(user=user, **account_data)
+        
         return user
 
     def update(self, instance, validated_data):

@@ -11,9 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import EventIcon from '@material-ui/icons/Event';
 
-import MuiAvatar from '@material-ui/core/Avatar';
-import { switchCase } from '@babel/types';
-
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
@@ -37,16 +34,6 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  avatar: {
-    width: 64,
-    height: 64,
-    borderRadius: 16,
-    border: '2px solid',
-    boxSizing: 'border-box',
-    borderColor: '#DBDBDB',
-    fontSize: '0.8em',
-    // backgroundColor: blue[200],
-  },
   icon: {
     color: theme.palette.primary.main,
   },
@@ -67,11 +54,9 @@ const ProfileForm = (props) => {
       birth_date: moment(value).format('YYYY-MM-DD') })
   };
 
-  const handlePictureChange = (e) => {
-    setProfile({
-      ...profile,
-      picture: e.target.files[0] })
-  };
+  // const handlePictureChange = (e) => {
+  //   setProfile({...profile, picture: e.target.files[0] })
+  // };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();

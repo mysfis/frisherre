@@ -1,11 +1,17 @@
+"""MODEL module for  OUTING object
+
+This module does stuff.
+"""
+
 from django.db import models
 from django.utils import timezone
 from api.models import Profile
 
 class Outing(models.Model):
     title = models.CharField(max_length=120)
-    date = models.DateTimeField(default=timezone.now)
     description = models.TextField()
+    date = models.DateTimeField(default=timezone.now)
+    location = models.CharField(max_length=120)
     organizer = models.ForeignKey(
             Profile,
             related_name='organized_outings',

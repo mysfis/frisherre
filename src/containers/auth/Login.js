@@ -43,6 +43,8 @@ function SignIn(props) {
 
   React.useEffect(()=>console.log('logging failed'), [props.error])
 
+  React.useEffect(()=>console.log('already logged'), [props.isAuthenticated])
+
   const signin = (e) => {
     e.preventDefault()
     console.log("your are logging with ", email)

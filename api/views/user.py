@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny
 
 from api.models import User, Account
 from api.serializers.nested.user import DetailedUserSerializer, DetailedAccountSerializer
-from api.serializers.base.user import AccountSerializer as baseAccountSerializer
+from api.serializers.base.user import AccountSerializer as baseAccountSerializer, MyUserInfoSerializer
 
 from api.permissions import IsLoggedInUserOrAdmin, IsAdminUser, IsLoggedInAccountOrAdmin
 
@@ -23,8 +23,15 @@ class UserViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
 class CurrentUserView(viewsets.ModelViewSet):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsLoggedInUserOrAdmin,)
     serializer_class = DetailedUserSerializer
+
+    def get_queryset(self):
+        return User.objects.filter(email=self.request.user.email)
+
+class MyUserInfoView(viewsets.ModelViewSet):
+    permission_classes = (IsLoggedInUserOrAdmin,)
+    serializer_class = MyUserInfoSerializer
 
     def get_queryset(self):
         return User.objects.filter(email=self.request.user.email)

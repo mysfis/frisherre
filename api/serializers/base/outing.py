@@ -6,5 +6,6 @@ class OutingSerializer(serializers.HyperlinkedModelSerializer):
         model = Outing
         fields = (
                 'url',
-                'title', 'date', 'description',
+                'title', 'location',
+                'date', 'description',
                 'created_at', 'updated_at')

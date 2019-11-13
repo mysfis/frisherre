@@ -18,7 +18,7 @@ function NavHeader ({ collapsed, token }) {
         Authorization: "Token " + token,
       }
       axios
-          .get("/api/currentuser/")
+          .get("/api/myuserinfo/")
           .then(res => setUser(res.data[0]))
           .catch(err => console.log(err));
     }

@@ -1,9 +1,13 @@
+"""This is a view module for the Outing object
+
+This module does stuff.
+"""
+
 from rest_framework import viewsets
 
 from api.models import Outing, Attendance
 from api.serializers.base.outing import OutingSerializer
 from api.serializers.nested.outing import DetailedOutingSerializer, AttendanceSerializer
-
 class OutingViewSet(viewsets.ModelViewSet):
     queryset = Outing.objects.all()
     serializer_class = OutingSerializer
@@ -15,6 +19,11 @@ class DetailedOutingViewSet(viewsets.ModelViewSet):
 class AttendanceViewSet(viewsets.ModelViewSet):
     queryset = Attendance.objects.all()
     serializer_class = AttendanceSerializer
+
+    # def get_queryset(self):
+    #     # profile = self.request.user.user_account
+    #     user_account = self.request.user.user_account
+    #     return Attendance.objects.filter(profile=user_profile)
 
 # from rest_framework.generics import (
 #     ListAPIView, RetrieveAPIView,

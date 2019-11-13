@@ -1,7 +1,6 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
 import MuiAvatar from '@material-ui/core/Avatar';
-import DriveEtaIcon from '@material-ui/icons/DriveEta';
+// import DriveEtaIcon from '@material-ui/icons/DriveEta';
 import { makeStyles } from '@material-ui/core/styles';
 import { blue, red } from '@material-ui/core/colors';
 

@@ -2,10 +2,11 @@ import React from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
+import Container from '@material-ui/core/Container';
 
 
 const HomeScreen = () => (
-  <div >
+  <Container component="main" p={{ xs: 2, sm: 3, md: 4 }} >
     <Typography variant={'overline'}>Bruno Cochard vous présente</Typography>
     <Typography weight={'bold'} variant={'h4'} gutterBottom>
       <Link underline={'none'}>Keluno</Link> - le Copinage de Voisinage
@@ -66,7 +67,7 @@ const HomeScreen = () => (
       </ol>
     </Typography>
     <br />
-  </div>
+  </Container>
 )
 
 HomeScreen.propTypes = {

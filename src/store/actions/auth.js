@@ -1,5 +1,6 @@
 import * as actionTypes from 'store/actions/actionTypes';
 import axios from 'axios';
+import { navigate } from "@reach/router"
 
 export const authStart = () => {
   return {
@@ -54,6 +55,7 @@ export const authLogin = (username, password) => {
       localStorage.setItem('expirationDate', expirationDate);
       dispatch(authSuccess(token));
       dispatch(checkAuthTimeOut(3600));
+      dispatch(navigate('/household'));
     })
     .catch(err => {dispatch(authFail(err))})
   }
