@@ -24,26 +24,13 @@ src/stories/
 .env.test.local
 .env.production.local
 env/
-db.sqlite3
 .vscode/settings.json
 
 #logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-staticfiles/loggingfiles/debug.log
+staticfiles/loggingfiles/*.*
 
-db.sqlite3
-staticfiles/uploaded_media/9d12b2b3-941c-4404-8260-a08cd9702580.png
-staticfiles/uploaded_media/92c3a35b-639f-4da2-8301-e2181a76e1ab.jpg
-staticfiles/uploaded_media/95d47a6e-a7fa-40fd-ab0b-0f5b78c98def.jpg
-staticfiles/uploaded_media/601c9eb9-9148-4796-a951-66c853dcc7e1.jpg
-staticfiles/uploaded_media/948b81b1-f230-4e81-a28c-8b626115157b.jpg
-staticfiles/uploaded_media/5733f82c-cc35-4fa8-b1e2-45f982ba72b9.jpg
-staticfiles/uploaded_media/45769edf-fd60-48b1-a571-5c1d501b22ca.jpg
-staticfiles/uploaded_media/500489b5-37e8-417e-afe2-a97fc5a60009.jpg
-staticfiles/uploaded_media/ac4fff1e-74cf-4f4d-bf65-216cf08f9119.jpg
-staticfiles/uploaded_media/e0fa5bb1-b5ef-45ff-a6b5-a6795fbe9294.jpg
-staticfiles/uploaded_media/line_1537792136787_1.jpg
-db.sqlite3
-staticfiles/uploaded_media/18338247-496d-49d2-be1e-2e1e0e6d6875.jpg
+
+exec
