@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import axios from 'axios'
 
-import ProfileForm from 'containers/household/Form'
+import ProfileForm from 'components/household/Form'
 import ProfileGrid from 'components/user/ProfileGrid';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';

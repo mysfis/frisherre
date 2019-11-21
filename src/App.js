@@ -12,7 +12,7 @@ import NavContainer from 'layout/nav/NavContainer';
 import ContentContainer from 'layout/content/ContentContainer';
 import FooterContainer from 'layout/footer/FooterContainer';
 import theme from 'layout/theme'
-import Login from 'containers/auth/Login'
+import Login from 'components/auth/Login'
 
 class App extends React.Component {
   componentDidMount() {

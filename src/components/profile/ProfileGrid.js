@@ -123,20 +123,23 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ProfileGrid = ({token, inputData}) => {
+const ProfileGrid = (props) => {
   const classes = useStyles();
-  const [account, setAccount] = useState(emptyHousehold.account)
-  const [profiles, setProfiles] = useState(emptyHousehold.profiles)
+  const [account, setAccount] = useState(props.profiles ? props.profiles.account : emptyHousehold.account)
+  const [loading, setLoading] = useState(props.loading ? true : false)
+  const [profiles, setProfiles] = useState(props.profiles ? props.profiles.profiles : emptyHousehold.profiles)
 
-  const [profile, setProfile] = useState(emptyHousehold.profiles[0])
+  const actions = props.actions ? props.actions : {}
+
+  const [profile, setProfile] = useState(profiles[0])
   const [refresh, setRefresh] = useState(false)
   const [open, setOpen] = useState(false);
 
   const getHousehold = React.useCallback(() => {
-    if (token !== null) {
+    if (props.token !== null) {
         axios.defaults.headers= {
             "Content-Type": "application/json",
-            Authorization: "Token " + token,
+            Authorization: "Token " + props.token,
         }
         axios
             .get("/api/currentuser/")
@@ -147,7 +150,7 @@ const ProfileGrid = ({token, inputData}) => {
                 setAccount(user_acount)})
             .catch(err => console.log(err));
         }
-  }, [token])
+  }, [props.token])
 
   const handleClose = () => {setOpen(false);};
   const handleRefresh = () => {setRefresh(!refresh);}
@@ -165,10 +168,10 @@ const ProfileGrid = ({token, inputData}) => {
   }
 
   const handleDelete = (profile) => {
-    if (token !== null) {
+    if (props.token !== null) {
       axios.defaults.headers= {
         "Content-Type": "application/json",
-        Authorization: "Token " + token,
+        Authorization: "Token " + props.token,
       }
       axios
           .delete(profile.url)
@@ -213,7 +216,7 @@ const ProfileGrid = ({token, inputData}) => {
                         {profile.first_name} {profile.last_name}
                     </Box>
                     <Box className={classes.content}>
-                        birth date, joined groups and more
+                        birth date, joined groups
                     </Box>
                     <Divider className={classes.divider} />
                     <Box className={classes.actions}>

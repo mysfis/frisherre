@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
+import axios from 'axios'
 
-import { makeStyles } from '@material-ui/core/styles';
 
 import CommunityCard from 'components/community/CommunityCard'
+
+import { makeStyles } from '@material-ui/core/styles';
 
 import { Container, Box, Typography, Grid, Divider, IconButton, Button } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
@@ -27,15 +30,27 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const CommunityGrid = ({ communities, actions }) => {
+const CommunityGrid = (props) => {
 
     const classes = useStyles();
-    const [loading, setLoading] = React.useState(true)
-    const [data, setData] = React.useState(communities)
+    const [loading, setLoading] = React.useState(props.loading ? true : false)
+    const [communities, setCommunities] = React.useState(props.communities ? props.communities : [])
+    const actions = props.actions ? props.actions : {}
 
-    const communityData = {
-        url: 'http://localhost:8000/api/community/1/', name: 'Omnisport La Pom', location: 'La Pommeraye', description: 'Ecole omnisport pour les enfants et les adultes',}
-    const communitiesData = [communityData, communityData, communityData]
+    const getCommunities = React.useCallback(() => {
+        if (props.token !== null) {
+            axios.defaults.headers= {
+                "Content-Type": "application/json",
+                Authorization: "Token " + props.token,
+        }
+        axios
+            .get("/api/community")
+            .then(res => {
+                setCommunities(res.data)
+                setLoading(false)})
+            .catch(err => console.log(err));
+        }
+      }, [props.token])
 
     if (loading) {
         return (
@@ -46,10 +61,9 @@ const CommunityGrid = ({ communities, actions }) => {
                 <Typography  variant={'h6'} gutterBottom className={classes.title}>
                 Loading Data...
                 </Typography>
-                <Button variant="outlined" color="primary" onClick={()=>setLoading(false)}>loaded</Button>
             </Container>)}
 
-    if (data.length === 0) {
+    if (communities.length === 0) {
     return (
             <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root}>
                 <Typography weight={'bold'} variant={'h4'} gutterBottom className={classes.title}>
@@ -58,7 +72,6 @@ const CommunityGrid = ({ communities, actions }) => {
                 <Typography  variant={'h6'} gutterBottom className={classes.title}>
                     no communities currently...
                 </Typography>
-                <Button variant="outlined" color="primary" onClick={()=>setData(communitiesData)}>loaded</Button>
             </Container>)}
 
     return (
@@ -67,7 +80,7 @@ const CommunityGrid = ({ communities, actions }) => {
         <Link underline={'none'}>My Communities</Link>
         </Typography>
         <Grid container className={classes.gridList}>
-            {data.map(community => (
+            {communities.map(community => (
                 <CommunityCard 
                     community={community} 
                     actions={actions}
@@ -98,5 +111,11 @@ CommunityGrid.propTypes = {
 CommunityGrid.defaultProps = {
 };
 
+const mapStateToProps = (state) => {
+  return {
+    token: state.token,
+  }
+}
 
-export default CommunityGrid;
+export default connect(mapStateToProps)(CommunityGrid);
+// export default CommunityGrid;

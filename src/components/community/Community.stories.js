@@ -27,15 +27,15 @@ export const actions = {
 }
 
 storiesOf('Community', module)
-    .add('grid default', () => 
+    .add('Grid default', () => 
         <CommunityGrid 
             communities={[community, invitedCommunity, joinedCommunity]}
             actions={actions} />)
-    .add('loading data', () => 
+    .add('Grid loading', () => 
         <CommunityGrid loading
             communities={[]}
             actions={actions} />)
-    .add('empty data', () => 
+    .add('Grid empty', () => 
         <CommunityGrid 
             communities={[]}
             actions={actions}

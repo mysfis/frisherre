@@ -2,15 +2,13 @@
 import React from 'react';
 import { Router } from "@reach/router"
 
-import UserAccount from 'containers/account/View'
-import HomeScreen from 'containers/home/View'
-import Outing from 'containers/outing/OutingView'
-import Household from 'containers/household/View'
-import ProfileGrid from 'containers/profile/ProfileGrid'
+import UserAccount from 'components/user/Account'
+import HomeScreen from 'components/Home'
+import Outing from 'components/outing/OutingView'
+import Household from 'components/household/View'
+import ProfileGrid from 'components/profile/ProfileGrid'
 
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 
 const styles = ({ breakpoints, transitions }) => ({
   content: {
