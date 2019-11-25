@@ -30,7 +30,7 @@ if os.path.isfile(dotenv_file): dotenv.load_dotenv(dotenv_file)
 SECRET_KEY = 'fo9#b_($h4^jhu8b&7!k$%v!y8xf$zjxk3kop^cd$l3r(mwx5w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['keluno.herokuapp.com', '127.0.0.1', 'localhost']
 

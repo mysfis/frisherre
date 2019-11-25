@@ -134,7 +134,7 @@ const ProfileCard = ({profile, actions}) => {
                     <Box className={classes.picture}>
                         {profile.url ?
                         <Avatar 
-                            alt={profile.first_name+profile.last_name} 
+                            alt={profile.first_name} 
                             src={`https://robohash.org/${profile.first_name}$\{profile.last_name}?set=set4`}
                             className={classes.avatar} />
                         :

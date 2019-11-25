@@ -15,7 +15,6 @@ build/
 
 # UI Storybook
 src/stories/
-.storybook/
 
 # dev
 .DS_Store
@@ -31,6 +30,4 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 staticfiles/loggingfiles/*.*
-
-
 exec

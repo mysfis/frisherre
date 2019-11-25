@@ -9,12 +9,15 @@ export const community = {
     url: 'http://localhost:8000/api/community/1/',
     name: 'Omnisport La Pom',
     location: 'La Pommeraye',
-    description: 'Ecole omnisport pour les enfants et les adultes',
+    description: "Ecole omnisport pour les enfants et les adultes qui veulent jouer avec",
+    category:"sport",
+    icon:"swimming",
 }
 
-export const invitedCommunity = {...community, state: "INVITED"}
-export const joinedCommunity = {...community, state: "JOINED"}
-delete joinedCommunity.location
+export const invitedCommunity = {...community, state: "INVITED", icon:"party",}
+export const joinedCommunity = {...community, state: "JOINED", icon:"pingpong",}
+export const otherCommunity = {...community, icon:"football2",}
+// delete joinedCommunity.location
 
 export const actions = {
     // handleEdit: action('handleEdit'),
@@ -29,7 +32,7 @@ export const actions = {
 storiesOf('Community', module)
     .add('Grid default', () => 
         <CommunityGrid 
-            communities={[community, invitedCommunity, joinedCommunity]}
+            communities={[community, invitedCommunity, joinedCommunity, otherCommunity]}
             actions={actions} />)
     .add('Grid loading', () => 
         <CommunityGrid loading

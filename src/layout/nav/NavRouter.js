@@ -26,6 +26,11 @@ const list = [
     to: "/profile"
   },
   {
+    primaryText: "Communautés",
+    icon: "work",
+    to: "/community"
+  },
+  {
     primaryText: "Terminé",
     icon: "delete",
     to: "/household"
