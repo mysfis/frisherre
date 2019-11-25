@@ -42,7 +42,7 @@ const CommunityGrid = (props) => {
                 Authorization: "Token " + props.token,
         }
         axios
-            .get("/api/community")
+            .get("/api/community/")
             .then(res => {
                 console.log(res)
                 setCommunities(res.data)
