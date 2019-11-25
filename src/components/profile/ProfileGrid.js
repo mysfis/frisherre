@@ -3,13 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import { Container, Box, Typography, Grid, Divider, IconButton, Avatar } from '@material-ui/core'
+import ProfileCard from 'components/profile/ProfileCard'
+import ProfileForm from 'components/profile/ProfileForm'
+import { Container, Typography, Grid, } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
-import { blue } from '@material-ui/core/colors';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import WhatsAppIcon from '@material-ui/icons/WhatsApp';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade'
 
 const emptyHousehold = {
     account: {
@@ -126,10 +126,8 @@ const useStyles = makeStyles(theme => ({
 const ProfileGrid = (props) => {
   const classes = useStyles();
   const [account, setAccount] = useState(props.profiles ? props.profiles.account : emptyHousehold.account)
-  const [loading, setLoading] = useState(props.loading ? true : false)
-  const [profiles, setProfiles] = useState(props.profiles ? props.profiles.profiles : emptyHousehold.profiles)
-
-  const actions = props.actions ? props.actions : {}
+  const [loading, setLoading] = useState(props.loading == null ? true : props.loading)
+  const [profiles, setProfiles] = useState(props.profiles ? props.profiles.profiles : [])
 
   const [profile, setProfile] = useState(profiles[0])
   const [refresh, setRefresh] = useState(false)
@@ -147,7 +145,9 @@ const ProfileGrid = (props) => {
                 const user_acount = res.data[0].user_account
                 setProfiles(user_acount.profiles)
                 delete user_acount.profiles
-                setAccount(user_acount)})
+                setAccount(user_acount)
+                setLoading(false)
+            })
             .catch(err => console.log(err));
         }
   }, [props.token])
@@ -182,6 +182,50 @@ const ProfileGrid = (props) => {
 
   useEffect(() => getHousehold(), [getHousehold, refresh]);
 
+  const actions = props.actions ? props.actions : {handleAdd, handleDelete, handleEdit}
+
+  if (loading) {
+      return (
+        <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.timeline}>
+            <Typography weight={'bold'} variant={'h4'} gutterBottom>
+                <Link underline={'none'}>Chargement</Link>
+            </Typography>
+            <Typography variant={'overline'}>
+                <b>Veuillez patienter</b>
+            </Typography>
+            <Grid container className={classes.gridList}>
+                <ProfileCard  
+                    key={JSON.stringify("new profile")} 
+                    actions={actions}/>
+            </Grid>
+            <br />
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                timeout: 500,
+                }}
+            >
+                <Fade in={open}>
+                <div className={classes.paper}>
+                    <ProfileForm
+                    profile={profile}
+                    handleRefresh={handleRefresh}
+                    handleClose={handleClose} />
+                </div>
+                </Fade>
+            </Modal>
+            <br />
+            <br />
+        </Container>
+      )
+  }
+
   return (
     <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.timeline}>
         <Typography weight={'bold'} variant={'h4'} gutterBottom>
@@ -192,71 +236,17 @@ const ProfileGrid = (props) => {
         </Typography>
         <Grid container className={classes.gridList}>
             {profiles.map(profile => (
-            <Grid item  key={JSON.stringify(profile)} 
-                    xs={6} sm={4} md={3}  className={classes.gridItem}>
-                <Box className={classes.card}>
-                <Box 
-                    boxShadow={3} 
-                    className={classes.cardHolder}
-                    style={{backgroundColor: blue[profile.is_main? 50:0]}}>
-                    <Box className={classes.picture}>
-                        {profile.url ?
-                        <Avatar 
-                            alt={profile.first_name+profile.last_name} 
-                            src={`https://robohash.org/${profile.first_name}$\{profile.last_name}?set=set4`}
-                            className={classes.avatar} />
-                        :
-                        <IconButton aria-label="New profile" onClick={handleAdd}>
-                            <AddCircleOutlineIcon className={classes.cover} />
-                        </IconButton>
-                        }
-                    </Box>
-                    <Box className={classes.pictureHolder}></Box>
-                    <Box className={classes.header}>
-                        {profile.first_name} {profile.last_name}
-                    </Box>
-                    <Box className={classes.content}>
-                        birth date, joined groups
-                    </Box>
-                    <Divider className={classes.divider} />
-                    <Box className={classes.actions}>
-                        <IconButton aria-label="previous">
-                            <WhatsAppIcon  className={classes.icon}/>
-                        </IconButton>
-                        <IconButton aria-label="play/pause" 
-                            onClick={()=> handleEdit(profile)}>
-                            <EditIcon className={classes.icon}/>
-                        </IconButton>
-                        <IconButton aria-label="next" 
-                            onClick={()=> handleDelete(profile)}>
-                            <DeleteIcon className={classes.icon}/>
-                        </IconButton>
-                    </Box>
-                </Box>
-                </Box>
-            </Grid>
+            <ProfileCard  
+                key={JSON.stringify(profile)} 
+                profile={profile}
+                actions={actions}/>
             ))}
-            <Grid item key="new-profil"  xs={6} sm={4} md={3} className={classes.gridItem}>
-                <Box className={classes.card}>
-                    <Box 
-                        boxShadow={3} 
-                        className={classes.cardHolder}>
-                    <Box className={classes.picture}>
-                    <IconButton aria-label="New profile" onClick={handleAdd}>
-                        <AddCircleOutlineIcon className={classes.newIcon} />
-                        </IconButton>
-                    </Box>
-                    <Box className={classes.pictureHolder}></Box>
-                    <Box className={classes.header}>
-                        Create new profile
-                    </Box>
-
-                    </Box>
-                </Box>
-            </Grid>
+            <ProfileCard  
+                key={JSON.stringify("new profile")} 
+                actions={actions}/>
         </Grid>
         <br />
-        {/* <Modal
+        <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
             className={classes.modal}
@@ -276,7 +266,7 @@ const ProfileGrid = (props) => {
                 handleClose={handleClose} />
             </div>
             </Fade>
-        </Modal> */}
+        </Modal>
         <br />
         <br />
     </Container>

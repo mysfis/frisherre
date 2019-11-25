@@ -23,12 +23,12 @@ const list = [
   {
     primaryText: "Ma Maisonnée",
     icon: "people",
-    to: "/household"
+    to: "/profile"
   },
   {
     primaryText: "Terminé",
     icon: "delete",
-    to: "/profile"
+    to: "/household"
   }
 ];
 const NavRouter = ({ setOpened }) => (

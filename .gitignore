@@ -23,11 +23,11 @@ src/stories/
 .env.test.local
 .env.production.local
 env/
-db.sqlite3
 .vscode/settings.json
 
 #logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-staticfiles/loggingfiles/debug.log
+staticfiles/loggingfiles/*.*
+exec
