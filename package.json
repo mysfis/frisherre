@@ -31,8 +31,8 @@
     "build-storybook": "build-storybook -s public"
   },
   "engines": {
-    "node": "10.15.3",
-    "npm": "6.11.3"
+    "node": ">=10.15.3",
+    "npm": ">=6.11.3"
   },
   "proxy": "http://localhost:8000",
   "eslintConfig": {
@@ -55,7 +55,7 @@
     "@storybook/addon-links": "^5.2.5",
     "@storybook/addon-viewport": "^5.2.5",
     "@storybook/addons": "^5.2.5",
-    "@storybook/react": "^5.2.5",
+    "@storybook/react": "^5.2.6",
     "storybook-addon-material-ui": "^0.9.0-alpha.20"
   }
 }
