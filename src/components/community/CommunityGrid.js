@@ -8,12 +8,8 @@ import CommunityCard from 'components/community/CommunityCard'
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Container, Box, Typography, Grid, Divider, IconButton, Button } from '@material-ui/core'
+import { Container, Typography, Grid } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
-import { blue } from '@material-ui/core/colors';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const border = '1px solid'
 const borderColor = '#DBDBDB' //'#ffffff'
@@ -34,6 +30,8 @@ const CommunityGrid = (props) => {
 
     const classes = useStyles();
     const [loading, setLoading] = React.useState(props.loading ? true : false)
+    const [refresh, setRefresh] = useState(false)
+
     const [communities, setCommunities] = React.useState(props.communities ? props.communities : [])
     const actions = props.actions ? props.actions : {}
 
@@ -44,13 +42,18 @@ const CommunityGrid = (props) => {
                 Authorization: "Token " + props.token,
         }
         axios
-            .get("/api/community")
+            .get("/api/community/")
             .then(res => {
+                console.log(res)
                 setCommunities(res.data)
                 setLoading(false)})
             .catch(err => console.log(err));
         }
       }, [props.token])
+
+    useEffect(() => getCommunities(), [getCommunities, refresh]);
+    const handleRefresh = () => {setRefresh(!refresh);}
+
 
     if (loading) {
         return (

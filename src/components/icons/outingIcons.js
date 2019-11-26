@@ -1,7 +1,7 @@
 import React from 'react';
 import SvgIcon from '@material-ui/core/SvgIcon';
 
-export function PingPongIcon(props) {
+const PingPongIcon = props => {
   return (
     <SvgIcon {...props} viewBox='0 0 32 32'>
       <path d="M31.993,12.462c0,6.882-5.578,12.462-12.461,12.462S7.07,19.344,7.07,12.462S12.649,0,19.532,0
@@ -12,7 +12,7 @@ export function PingPongIcon(props) {
   );
 }
 
-export function FootballIcon(props) {
+const FootballIcon = props => {
   return (
     <SvgIcon {...props} viewBox='0 0 40 40'>
       <path d="M20.49,0C9.171,0,0.002,9.171,0.002,20.487s9.169,20.49,20.488,20.49
@@ -56,10 +56,10 @@ export function FootballIcon(props) {
   );
 }
 
-export function FootballIcon2(props) {
+const FootballIcon2 = props => {
 	return (
 	  <SvgIcon {...props} viewBox='0 0 24 24'>
-		path d="M1.75,21C0.785,21,0,20.215,0,19.25V4.75C0,3.785,0.785,3,1.75,3h20.5C23.215,3,24,3.785,24,4.75v14.5
+			<path d="M1.75,21C0.785,21,0,20.215,0,19.25V4.75C0,3.785,0.785,3,1.75,3h20.5C23.215,3,24,3.785,24,4.75v14.5
 		c0,0.965-0.785,1.75-1.75,1.75H1.75z M22.25,19.5c0.138,0,0.25-0.112,0.25-0.25V16.5h-2.25c-1.241,0-2.25-1.009-2.25-2.25v-4.5
 		c0-1.241,1.009-2.25,2.25-2.25h2.25V4.75c0-0.138-0.112-0.25-0.25-0.25h-9.5v3.827c1.732,0.351,3,1.874,3,3.673
 		s-1.268,3.323-3,3.673V19.5H22.25z M1.5,19.25c0,0.138,0.112,0.25,0.25,0.25h9.5v-3.827c-1.732-0.35-3-1.874-3-3.673
@@ -71,10 +71,10 @@ export function FootballIcon2(props) {
 	);
   }
 
-export function SwimmingIcon(props) {
+const SwimmingIcon = props => {
   return (
     <SvgIcon {...props} viewBox='0 0 38 38'>
-      <path  d="M17.386,23.907c2.664,0.329,5.148,1.178,7.451,2.242c1.117,0.522,2.313,1.206,3.25,1.74
+      <path d="M17.386,23.907c2.664,0.329,5.148,1.178,7.451,2.242c1.117,0.522,2.313,1.206,3.25,1.74
 				c0.938,0.553,1.891,1.052,2.854,1.538l-5.838-11.558l-1.233-2.168l-4.357-7.633c-0.615-1.077-1.984-1.452-3.062-0.839
 				c-1.081,0.618-1.453,1.987-0.837,3.064l4.818,8.448l-1.233,1.094l-7.365,4.2l-0.17,0.095
 				C13.561,23.731,15.52,23.672,17.386,23.907z"/>
@@ -89,3 +89,24 @@ export function SwimmingIcon(props) {
     </SvgIcon>
   );
 }
+
+const PartyIcon = props => {
+  return (
+		<SvgIcon {...props} 
+				width="24" height="24" viewBox="0 0 24 24">
+			<path d="M14.53 1.45L13.45 2.53L15.05 4.13C15.27 4.38 15.38 4.67 15.38 5S15.27 5.64 15.05 5.86L11.5 9.47L12.5 10.55L16.13 6.94C16.66 6.35 16.92 5.7 16.92 5C16.92 4.3 16.66 3.64 16.13 3.05L14.53 1.45M10.55 3.47L9.47 4.55L10.08 5.11C10.3 5.33 10.41 5.63 10.41 6S10.3 6.67 10.08 6.89L9.47 7.45L10.55 8.53L11.11 7.92C11.64 7.33 11.91 6.69 11.91 6C11.91 5.28 11.64 4.63 11.11 4.03L10.55 3.47M21 5.06C20.31 5.06 19.67 5.33 19.08 5.86L13.45 11.5L14.53 12.5L20.11 6.94C20.36 6.69 20.66 6.56 21 6.56S21.64 6.69 21.89 6.94L22.5 7.55L23.53 6.47L22.97 5.86C22.38 5.33 21.72 5.06 21 5.06M7 8L2 22L16 17L7 8M19 11.06C18.3 11.06 17.66 11.33 17.06 11.86L15.47 13.45L16.55 14.53L18.14 12.94C18.39 12.69 18.67 12.56 19 12.56C19.33 12.56 19.63 12.69 19.88 12.94L21.5 14.53L22.55 13.5L20.95 11.86C20.36 11.33 19.7 11.06 19 11.06Z" />
+    </SvgIcon>
+  );
+}
+
+const Icon = props => {
+	switch (props.name) {
+		case "pingpong": return <PingPongIcon {...props} />
+		case "swimming": return <SwimmingIcon {...props} />
+		case "football": return <FootballIcon {...props} />
+		case "football2": return <FootballIcon2 {...props} />
+		default: return <PartyIcon {...props} />
+	}
+}
+
+export default Icon

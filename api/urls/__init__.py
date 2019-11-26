@@ -17,4 +17,5 @@ urlpatterns = [
     path('', include('api.urls.user')),
     path('', include('api.urls.profile')),
     path('', include('api.urls.outing')),
+    path('', include('api.urls.community')),
 ]

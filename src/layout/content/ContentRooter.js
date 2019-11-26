@@ -7,6 +7,7 @@ import HomeScreen from 'components/Home'
 import Outing from 'components/outing/OutingView'
 import Household from 'components/household/View'
 import ProfileGrid from 'components/profile/ProfileGrid'
+import CommunityGrid from 'components/community/CommunityGrid';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -36,6 +37,7 @@ const ContentRooter = ({ props, classes }) => (
       <Household path="household" />
       <UserAccount path="myaccount" />
       <ProfileGrid path="profile" />
+      <CommunityGrid path="community" />
     </Router>
   </div>
 );
