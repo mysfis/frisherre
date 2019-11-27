@@ -31,6 +31,20 @@ export const logout = () => {
   }
 }
 
+export const setProfile = profile => {
+  return {
+    type: actionTypes.PROFILE_IDENTIFY,
+    profile: profile,
+  }
+}
+
+export const setProfiles = (profiles) => {
+  return {
+    type: actionTypes.PROFILE_FETCH,
+    profiles: profiles,
+  }
+}
+
 export const checkAuthTimeOut = expirationTime => {
   return dispatch => {
     console.log('check timeout');
@@ -55,9 +69,14 @@ export const authLogin = (username, password) => {
       localStorage.setItem('expirationDate', expirationDate);
       dispatch(authSuccess(token));
       dispatch(checkAuthTimeOut(3600));
-      dispatch(navigate('/household'));
+      dispatch(getProfiles(token))
+      navigate('/');
     })
-    .catch(err => {dispatch(authFail(err))})
+    .catch(error => {
+      console.log(error.response.data)
+      console.log(error.response.status)
+      console.log(error.response.headers)
+      dispatch(authFail(error))})
   }
 }
 
@@ -96,7 +115,29 @@ export const authCheckState = () => {
       } else {
         dispatch(authSuccess(token));
         dispatch(checkAuthTimeOut((expirationDate.getTime() - new Date().getTime())/1000));
+        dispatch(getProfiles(token))
       }
+    }
+  }
+}
+
+export const getProfiles = (token) => {
+  return dispatch => {
+    if ( token === undefined ) {
+      dispatch(logout());
+    } else {
+      axios.defaults.headers= {
+          "Content-Type": "application/json",
+          Authorization: "Token " + token,
+      }
+      axios
+          .get("/api/currentuser/")
+          .then(res => {
+              const user_acount = res.data[0].user_account
+              dispatch(setProfiles(user_acount.profiles))
+          })
+          .catch(err => console.log(err));
+
     }
   }
 }

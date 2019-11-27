@@ -8,7 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
-function NavHeader ({ collapsed, token }) {
+function NavHeader ({ collapsed, token, profile }) {
 
   const [user, setUser] = React.useState({})
   const getMyAccount = React.useCallback(() => {
@@ -55,6 +55,7 @@ NavHeader.defaultProps = {};
 const mapStateToProps = state => {
   return {
     token: state.token,
+    profile: state.profile,
   }
 }
 

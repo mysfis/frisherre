@@ -10,6 +10,8 @@ import Link from '@material-ui/core/Link';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade'
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 const emptyHousehold = {
     account: {
@@ -23,6 +25,10 @@ const border = '1px solid'
 const borderColor = '#DBDBDB' //'#ffffff'
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+        marginLeft: -theme.spacing(1),
+    },
     modal: {
         display: 'flex', alignItems: 'center',
         justifyContent: 'center',
@@ -37,7 +43,8 @@ const useStyles = makeStyles(theme => ({
     gridList: {
         // border: border,
         // borderColor: borderColor,
-        marginTop: 10
+        marginTop: 10,
+        // position:'relative',
     },
     gridItem: {
     },
@@ -120,6 +127,11 @@ const useStyles = makeStyles(theme => ({
         margin: 10,
         width: 50,
         height: 50,
+    },
+    fab: {
+        position: 'fixed',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
     }
 }));
 
@@ -152,6 +164,8 @@ const ProfileGrid = (props) => {
         }
   }, [props.token])
 
+  useEffect(() => getHousehold(), [getHousehold, refresh]);
+
   const handleClose = () => {setOpen(false);};
   const handleRefresh = () => {setRefresh(!refresh);}
 
@@ -180,13 +194,13 @@ const ProfileGrid = (props) => {
     }
   }
 
-  useEffect(() => getHousehold(), [getHousehold, refresh]);
+  
 
   const actions = props.actions ? props.actions : {handleAdd, handleDelete, handleEdit}
 
   if (loading) {
       return (
-        <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.timeline}>
+        <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root}>
             <Typography weight={'bold'} variant={'h4'} gutterBottom>
                 <Link underline={'none'}>Chargement</Link>
             </Typography>
@@ -227,7 +241,7 @@ const ProfileGrid = (props) => {
   }
 
   return (
-    <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.timeline}>
+    <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root}>
         <Typography weight={'bold'} variant={'h4'} gutterBottom>
             <Link underline={'none'}>{account.household_name}</Link>
         </Typography>
@@ -269,6 +283,9 @@ const ProfileGrid = (props) => {
         </Modal>
         <br />
         <br />
+        <Fab color="primary" aria-label="add" className={classes.fab}>
+            <AddIcon />
+        </Fab>
     </Container>
   )
 }

@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import axios from 'axios'
 
-
 import CommunityCard from 'components/community/CommunityCard'
 
 import { makeStyles } from '@material-ui/core/styles';
-
 import { Container, Typography, Grid } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
-
-const border = '1px solid'
-const borderColor = '#DBDBDB' //'#ffffff'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,7 +25,6 @@ const CommunityGrid = (props) => {
 
     const classes = useStyles();
     const [loading, setLoading] = React.useState(props.loading ? true : false)
-    const [refresh, setRefresh] = useState(false)
 
     const [communities, setCommunities] = React.useState(props.communities ? props.communities : [])
     const actions = props.actions ? props.actions : {}
@@ -51,9 +45,7 @@ const CommunityGrid = (props) => {
         }
       }, [props.token])
 
-    useEffect(() => getCommunities(), [getCommunities, refresh]);
-    const handleRefresh = () => {setRefresh(!refresh);}
-
+      React.useEffect(() => getCommunities(), [getCommunities]);
 
     if (loading) {
         return (
