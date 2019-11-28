@@ -1,13 +1,17 @@
-    import React from 'react'
-    import { connect } from 'react-redux'
+import React from 'react'
 
-    import Typography from '@material-ui/core/Typography'
-    import Link from '@material-ui/core/Link'
-    import Container from '@material-ui/core/Container'
-    import ProfileDialog from './profile/ProfileDialog'
-    
-    function HomeScreen (props) {
+import { useAuth } from 'context/auth'
+
+import Typography from '@material-ui/core/Typography'
+import Link from '@material-ui/core/Link'
+import Container from '@material-ui/core/Container'
+import ProfileDialog from './profile/ProfileDialog'
+
+
+function HomeScreen (props) {
     const [open, setOpen] = React.useState(!props.profile)
+
+    const { authData } = useAuth()
     const [selectedValue, setSelectedValue] = React.useState(null)
 
     const handleClose = value => {
@@ -24,8 +28,8 @@
         </Typography>
         <Typography gutterBottom>
         <b>Version Beta for </b>
-        {props.profile?
-            props.profile.first_name
+        {authData.profile?
+            authData.profile.first_name
             :
             ""}
         </Typography>
@@ -90,13 +94,13 @@
     };
     HomeScreen.defaultProps = {
     };
-    const mapStateToProps = (state) => {
-    return {
-        token: state.token,
-        profile: state.profile
-    }
-    }
+    // const mapStateToProps = (state) => {
+    // return {
+    //     token: state.token,
+    //     profile: state.profile
+    // }
+    // }
 
-    export default connect(mapStateToProps)(HomeScreen);
-    // export default HomeScreen;
+    // export default connect(mapStateToProps)(HomeScreen);
+    export default HomeScreen;
 

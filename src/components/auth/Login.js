@@ -7,124 +7,135 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { navigate } from "@reach/router"
 
-import { connect } from 'react-redux';
-import * as actions from 'store/actions/auth';
+
+import { useAuth } from 'context/auth';
 
 const useStyles = makeStyles(theme => ({
-  '@global': {
+'@global': {
     body: {
-      backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
     },
-  },
-  paper: {
+},
+paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  avatar: {
+},
+avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
+},
+form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
-  },
-  submit: {
+},
+submit: {
     margin: theme.spacing(3, 0, 2),
-  },
+},
 }));
 
 function SignIn(props) {
-  const classes = useStyles();
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+    const classes = useStyles();
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const {login, fetchProfiles} = useAuth()
 
-  React.useEffect(()=>console.log('logging failed'), [props.error])
+    React.useEffect(()=>{
+        if (props.error) 
+        {console.log('logging failed')}
+    }, [props.error])
 
-  React.useEffect(()=>console.log('already logged'), [props.isAuthenticated])
+    React.useEffect(()=>{
+        if (props.isAuthenticated) {
+        console.log('already logged')
+        fetchProfiles()}},
+        [props.isAuthenticated, fetchProfiles])
 
-  const signin = (e) => {
-    e.preventDefault()
-    console.log("your are logging with ", email)
-    props.onAuth(email, password)
-  }
+    const signin = (e) => {
+        e.preventDefault()
+        console.log("your are logging with ", email)
+        // props.onAuth(email, password)
+        login(email, password).then(navigate('/'))
+    }
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <div className={classes.paper}>
-        <form className={classes.form} noValidate
-               onSubmit={signin}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            value={password}
-            autoComplete="current-password"
-            onChange={(event) => setPassword(event.target.value)}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+    return (
+        <Container component="main" maxWidth="xs">
+        <div className={classes.paper}>
+            <form className={classes.form} noValidate
+                onSubmit={signin}>
+            <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+            />
+            <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                value={password}
+                autoComplete="current-password"
+                onChange={(event) => setPassword(event.target.value)}
+            />
+            <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+            />
+            <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+            >
+                Sign In
+            </Button>
+            <Grid container>
+                <Grid item xs>
+                <Link href="#" variant="body2">
+                    Forgot password?
+                </Link>
+                </Grid>
+                <Grid item>
+                <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                </Link>
+                </Grid>
             </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
-  );
+            </form>
+        </div>
+        </Container>
+    );
 }
+export default SignIn
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.loading,
-    error: state.error,
-    isAuthenticated: state.token !== null,
-  }
-}
+// const mapStateToProps = (state) => {
+//   return {
+//     loading: state.loading,
+//     error: state.error,
+//     isAuthenticated: state.token !== null,
+//   }
+// }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onAuth: (username, password) => dispatch(actions.authLogin(username, password)),
-  }
-}
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     onAuth: (username, password) => dispatch(actions.authLogin(username, password)),
+//   }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+// export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

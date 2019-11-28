@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const OutingView = ({token, scheduleData})  => {
+const OutingView = ({scheduleData})  => {
   if(!scheduleData) {
     scheduleData = outingMockData
   }
@@ -126,11 +126,4 @@ OutingView.propTypes = {
 OutingView.defaultProps = {
 };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     token: state.token,
-//   }
-// }
-
-// export default connect(mapStateToProps)(ScheduleView);
 export default OutingView;

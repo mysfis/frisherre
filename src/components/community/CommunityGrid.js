@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux';
 import axios from 'axios'
 
 import CommunityCard from 'components/community/CommunityCard'
@@ -8,6 +7,7 @@ import CommunityCard from 'components/community/CommunityCard'
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Typography, Grid } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
+import { useAuth } from 'context/auth';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,16 +24,17 @@ const useStyles = makeStyles(theme => ({
 const CommunityGrid = (props) => {
 
     const classes = useStyles();
+    const { authData } = useAuth()
     const [loading, setLoading] = React.useState(props.loading ? true : false)
 
     const [communities, setCommunities] = React.useState(props.communities ? props.communities : [])
     const actions = props.actions ? props.actions : {}
 
     const getCommunities = React.useCallback(() => {
-        if (props.token !== null) {
+        if (authData.token !== null) {
             axios.defaults.headers= {
                 "Content-Type": "application/json",
-                Authorization: "Token " + props.token,
+                Authorization: "Token " + authData.token,
         }
         axios
             .get("/api/community/")
@@ -43,7 +44,7 @@ const CommunityGrid = (props) => {
                 setLoading(false)})
             .catch(err => console.log(err));
         }
-      }, [props.token])
+      }, [authData.token])
 
       React.useEffect(() => getCommunities(), [getCommunities]);
 
@@ -106,11 +107,4 @@ CommunityGrid.propTypes = {
 CommunityGrid.defaultProps = {
 };
 
-const mapStateToProps = (state) => {
-  return {
-    token: state.token,
-  }
-}
-
-export default connect(mapStateToProps)(CommunityGrid);
-// export default CommunityGrid;
+export default CommunityGrid;

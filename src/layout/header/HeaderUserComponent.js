@@ -1,24 +1,22 @@
-    import React from 'react';
-    import PropTypes from 'prop-types';
-    import { withStyles } from '@material-ui/core/styles';
-    import InputBase from '@material-ui/core/InputBase';
-    import Icon from '@material-ui/core/Icon';
-    import IconButton from '@material-ui/core/IconButton';
-    import Typography from '@material-ui/core/Typography';
-    import { connect } from 'react-redux';
-    import * as actions from 'store/actions/auth';
-    import axios from 'axios';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import InputBase from '@material-ui/core/InputBase';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 
-    import LockIcon from '@material-ui/icons/Lock';
-    import Menu from '@material-ui/core/Menu';
-    import ListItem from '@material-ui/core/ListItem';
-    import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-    import ListItemText from '@material-ui/core/ListItemText';
-    import Avatar from '@material-ui/core/Avatar';
-    import PersonIcon from '@material-ui/icons/Person';
+import LockIcon from '@material-ui/icons/Lock';
+import Menu from '@material-ui/core/Menu';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
+import PersonIcon from '@material-ui/icons/Person';
+import { useAuth } from 'context/auth';
 
 
-    const styles = ({ spacing, transitions, breakpoints, palette, shape }) => ({
+const styles = ({ spacing, transitions, breakpoints, palette, shape }) => ({
     header: {
         fontWeight: 900,
         minWidth: 0,
@@ -71,114 +69,98 @@
         },
         },
     },
-    });
+});
 
-    function HeaderUserComponent({ logout, classes, screen, setProfile, token }) {
-        const [anchorEl, setAnchorEl] = React.useState(null)
-        const [profiles, setProfiles] = React.useState([])
+function HeaderUserComponent({ classes, screen }) {
+    const [anchorEl, setAnchorEl] = React.useState(null)
+    const { authData, fetchProfiles, logout, selectProfile } = useAuth()
+    const [profiles, setProfiles] = React.useState(authData.profiles)
 
-        const handleClick = event => { setAnchorEl(event.currentTarget)}
-        const handleClose = () => {setAnchorEl(null)}
 
-        const handleListItemClick = value => { 
-            console.log(value)
-            setProfile(value)
-            handleClose(); };
-        
-        const getProfiles = React.useCallback(() => {
-            if (token !== null) {
-                axios.defaults.headers= {
-                    "Content-Type": "application/json",
-                    Authorization: "Token " + token,
-                }
-                axios
-                    .get("/api/currentuser/")
-                    .then(res => {
-                        const user_acount = res.data[0].user_account
-                        setProfiles(user_acount.profiles)
+    const handleClick = event => { setAnchorEl(event.currentTarget)}
+    const handleClose = () => {setAnchorEl(null)}
+
+    const handleListItemClick = value => { 
+        console.log(value)
+        selectProfile(value)
+        handleClose(); };
     
-                    })
-                    .catch(err => console.log(err));
-                }
-            }, [token])
-        
-            React.useEffect(() => getProfiles(), [getProfiles]);
-        
-        return (
-            <React.Fragment>
-                <Typography noWrap className={classes.header}>
-                Keluno
-                </Typography>
-                <div className={classes.grow} />
-                {screen !== 'xs' && (
-                <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                    <Icon>search</Icon>
-                    </div>
-                    <InputBase
-                    placeholder="Chercher sortie…"
-                    classes={{
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                    }}
-                    />
+    const getProfiles = React.useCallback(()=> {
+        if (!authData.profiles) {fetchProfiles()}
+    }, [authData.profiles, fetchProfiles])
+    
+    React.useEffect(() => {
+        getProfiles()
+        setProfiles(authData.profiles)
+    }, [getProfiles, authData.profiles]);
+
+    // React.useEffect(() => {
+    //     async function fetchData() { await fetchProfiles() }
+    //     if (!authData.profiles) { fetchData() }
+    //   }, []); 
+
+    // React.useEffect(() => setProfiles(authData.profiles), [authData.profiles]);
+
+    return (
+        <React.Fragment>
+            <Typography noWrap className={classes.header}>
+            Keluno
+            </Typography>
+            <div className={classes.grow} />
+            {screen !== 'xs' && (
+            <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                <Icon>search</Icon>
                 </div>
-                )}
+                <InputBase
+                placeholder="Chercher sortie…"
+                classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                }}
+                />
+            </div>
+            )}
 
-                {/* <IconButton onClick={() => {logout()}}> */}
-                <IconButton onClick={handleClick}>
-                    <LockIcon />
-                </IconButton>
-                <Menu id='profile-menu' 
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                {profiles.map(selectProfile => (
-                    <ListItem button onClick={() => handleListItemClick(selectProfile)} key={selectProfile.first_name}>
-                    <ListItemAvatar>
-                        <Avatar className={classes.avatar}>
-                        <PersonIcon />
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={selectProfile.first_name} />
-                    </ListItem>
-                ))}
-                <ListItem autoFocus button onClick={() => logout()}>
-                    <ListItemAvatar>
-                    <Avatar>
-                        <LockIcon />
+            {/* <IconButton onClick={() => {logout()}}> */}
+            <IconButton onClick={handleClick}>
+                <LockIcon />
+            </IconButton>
+            <Menu id='profile-menu' 
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+            {profiles && profiles.map(selectProfile => (
+                <ListItem button onClick={() => handleListItemClick(selectProfile)} key={selectProfile.first_name}>
+                <ListItemAvatar>
+                    <Avatar className={classes.avatar}>
+                    <PersonIcon />
                     </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Quitter" />
+                </ListItemAvatar>
+                <ListItemText primary={selectProfile.first_name} />
                 </ListItem>
-                </Menu>
-            </React.Fragment>
-        );
-    }
+            ))}
+            <ListItem autoFocus button onClick={() => logout()}>
+                <ListItemAvatar>
+                <Avatar>
+                    <LockIcon />
+                </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Quitter" />
+            </ListItem>
+            </Menu>
+        </React.Fragment>
+    );
+}
 
-    HeaderUserComponent.propTypes = {
+HeaderUserComponent.propTypes = {
     screen: PropTypes.string,
     classes: PropTypes.shape({}).isRequired,
-    };
-    HeaderUserComponent.defaultProps = {
+};
+HeaderUserComponent.defaultProps = {
     screen: null,
-    };
+};
 
-    const mapStateToProps = (state) => {
-        return {
-            token: state.token,
-            profile: state.profile,
-            profiles: state.profiles
-        }
-    }
-
-    const mapDispatchToProps = dispatch => {
-    return {
-        logout: () => dispatch(actions.logout()),
-        setProfile: (profile) => dispatch(actions.setProfile(profile)),
-        }
-    }
-
-    export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(HeaderUserComponent));
+export default withStyles(styles)(HeaderUserComponent)
