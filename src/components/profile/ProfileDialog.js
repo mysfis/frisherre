@@ -27,15 +27,14 @@ function ProfileDialog(props) {
     const classes = useStyles();
 
     const { authData, selectProfile } = useAuth()
-    const { onClose, selectedValue, open } = props;
+    const { open, onClose } = props;
 
     const [profiles, setProfiles] = React.useState(authData.profiles)
 
-    const handleClose = () => { onClose(selectedValue); };
+    const handleClose = () => { onClose(); };
     const handleListItemClick = value => { 
-        console.log(value)
         selectProfile(value)
-        onClose(value); };
+        onClose(); };
 
     React.useEffect(() => { 
         setProfiles(authData.profiles) 

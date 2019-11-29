@@ -13,8 +13,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import PersonIcon from '@material-ui/icons/Person';
-import { useAuth } from 'context/auth';
 
+import { useAuth } from 'context/auth';
+import ProfileDialog from 'components/profile/ProfileDialog'
 
 const styles = ({ spacing, transitions, breakpoints, palette, shape }) => ({
     header: {
@@ -72,10 +73,13 @@ const styles = ({ spacing, transitions, breakpoints, palette, shape }) => ({
 });
 
 function HeaderUserComponent({ classes, screen }) {
-    const [anchorEl, setAnchorEl] = React.useState(null)
-    const { authData, fetchProfiles, logout, selectProfile } = useAuth()
-    const [profiles, setProfiles] = React.useState(authData.profiles)
 
+    const { authData, fetchProfiles, logout, selectProfile } = useAuth()
+    
+    const [anchorEl, setAnchorEl] = React.useState(null)
+    const [open, setOpen] = React.useState(!authData.profile)
+
+    const [profiles, setProfiles] = React.useState(authData.profiles)
 
     const handleClick = event => { setAnchorEl(event.currentTarget)}
     const handleClose = () => {setAnchorEl(null)}
@@ -103,6 +107,7 @@ function HeaderUserComponent({ classes, screen }) {
 
     return (
         <React.Fragment>
+            <ProfileDialog open={open} onClose={()=> setOpen(false)} /> 
             <Typography noWrap className={classes.header}>
             Keluno
             </Typography>

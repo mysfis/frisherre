@@ -1,15 +1,37 @@
 import React from 'react'
 import axios from 'axios';
+import Cookies from 'js-cookie'
+
 import { FullPageSpinner } from 'layout/FullPageSpinner';
+
+const setSessionCookie = (session) => {
+    Cookies.remove("session")
+    Cookies.set("session", session, { expires: 8 })
+}
+
+const clearSessionCookie = () => {
+    Cookies.remove("session")
+
+}
+const getSessionCookies = () => {
+    const sessionCookie = Cookies.get("session")
+
+    if (sessionCookie === undefined) {
+        return {}
+    } else {
+        return JSON.parse(sessionCookie)
+    }
+}
 
 const AuthContext = React.createContext()
 
 const initialAuthState = {
     loading: false,
-    isAuthenticated: localStorage.getItem('token')? true : false,
-    user: null,
-    token: localStorage.getItem('token'),
-    profiles:null
+    isAuthenticated: getSessionCookies().token ? true : false,
+    user: getSessionCookies().user || null,
+    token: getSessionCookies().token || null,
+    profiles: getSessionCookies().profiles || null,
+    profile: getSessionCookies().profile || null
 }
 
 const authReducer = (state, action) => {
@@ -34,17 +56,18 @@ const authReducer = (state, action) => {
             }
         case 'LOGOUT':
             return {
-                ...state,
                 loading: false,
                 isAuthenticated: false,
                 user: null,
+                token: null,
+                profiles: null,
+                profile: null
             }
         case 'PROFILES_FETCH':
             return {
                 ...state,
                 user:  action.payload.user,
                 profiles: action.payload.profiles,
-                profile: action.payload.profiles.length ? action.payload.profiles[0] : null
             }
         case 'PROFILES_SELECT':
             return {
@@ -78,20 +101,22 @@ function AuthProvider (props) {
                 password: password,})
             .then(res => {
                 const token = res.data.key;
-                const expirationDate = new Date(new Date().getTime() + 3600*1000);
-                localStorage.setItem('token', token);
-                localStorage.setItem('expirationDate', expirationDate);
+                setSessionCookie({token})
+                // const expirationDate = new Date(new Date().getTime() + 3600*1000);
+                // localStorage.setItem('token', token);
+                // localStorage.setItem('expirationDate', expirationDate);
                 updateAuthData({
                     type: "LOGIN_SUCCESS",
                     payload: {token: token}
                 })
+                setSessionCookie({token})
                 return Promise.resolve})
             .catch(error => {
                 return Promise.reject(error)})
     }
     const register = () => {}
     const logout = () => {
-        localStorage.clear()
+        clearSessionCookie()
         updateAuthData({
             type: "LOGOUT"
         })
@@ -105,6 +130,11 @@ function AuthProvider (props) {
             .get("/api/currentuser/")
             .then(res => {
                 const user_acount = res.data[0].user_account
+                setSessionCookie({
+                    ...getSessionCookies(), 
+                    user:res.data[0],
+                    profiles: user_acount.profiles
+                })
                 updateAuthData({
                     type: "PROFILES_FETCH",
                     payload: {
@@ -117,6 +147,10 @@ function AuthProvider (props) {
     }
 
     const selectProfile = (profile) => {
+        setSessionCookie({
+            ...getSessionCookies(), 
+            profile: profile
+        })
         updateAuthData({
             type: "PROFILES_SELECT",
             payload: {

@@ -168,7 +168,8 @@ const ProfileGrid = (props) => {
 
     useEffect(() => getHousehold(), [getHousehold, refresh]);
 
-    const handleClose = () => {setOpen(false);};
+    const handleClose = () => { setOpen(false);}
+
     const handleRefresh = () => {setRefresh(!refresh);}
 
     const handleAdd = () => {

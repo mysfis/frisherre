@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 
 const ProfileForm = (props) => {
     const classes = useStyles();
-    const { authData } = useAuth()
+    const { authData, fetchProfiles, selectProfile } = useAuth()
     
     const [profile, setProfile] = React.useState(props.profile)
     React.useEffect(()=>setProfile(props.profile), [props.profile])
@@ -90,21 +90,25 @@ const ProfileForm = (props) => {
         });
         
         if (profile.url) {
-        return axios
-            .put(profile.url, form_data)
-            .then(res => {
-                props.handleRefresh();
-                props.handleClose()
-            })
-            .catch(err => console.log(err));
-        } else {
-        return axios
-            .post("/api/detailedprofile/", form_data)
-            .then(res => {
-                props.handleRefresh();
-                props.handleClose()
-            })
-            .catch(err => console.log(err));
+            return axios
+                .put(profile.url, form_data)
+                .then(res => {
+                    fetchProfiles()
+                    if (profile.url === authData.profile.url) {selectProfile(profile)}
+                    props.handleRefresh();
+                    props.handleClose()
+                    
+                })
+                .catch(err => console.log(err));
+            } else {
+            return axios
+                .post("/api/detailedprofile/", form_data)
+                .then(res => {
+                    props.handleRefresh();
+                    props.handleClose()
+                    fetchProfiles()
+                })
+                .catch(err => console.log(err));
         }
     }
 

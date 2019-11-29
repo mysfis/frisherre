@@ -44,20 +44,18 @@ function SignIn(props) {
     const {login, fetchProfiles} = useAuth()
 
     React.useEffect(()=>{
-        if (props.error) 
-        {console.log('logging failed')}
+        if (props.error) {console.log('logging failed')}
     }, [props.error])
 
     React.useEffect(()=>{
         if (props.isAuthenticated) {
-        console.log('already logged')
-        fetchProfiles()}},
+            console.log('already logged')
+            fetchProfiles()}},
         [props.isAuthenticated, fetchProfiles])
 
     const signin = (e) => {
         e.preventDefault()
         console.log("your are logging with ", email)
-        // props.onAuth(email, password)
         login(email, password).then(navigate('/'))
     }
 
@@ -123,19 +121,3 @@ function SignIn(props) {
     );
 }
 export default SignIn
-
-// const mapStateToProps = (state) => {
-//   return {
-//     loading: state.loading,
-//     error: state.error,
-//     isAuthenticated: state.token !== null,
-//   }
-// }
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onAuth: (username, password) => dispatch(actions.authLogin(username, password)),
-//   }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

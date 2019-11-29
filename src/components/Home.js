@@ -5,23 +5,13 @@ import { useAuth } from 'context/auth'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
 import Container from '@material-ui/core/Container'
-import ProfileDialog from './profile/ProfileDialog'
-
 
 function HomeScreen (props) {
-    const [open, setOpen] = React.useState(!props.profile)
-
+    
     const { authData } = useAuth()
-    const [selectedValue, setSelectedValue] = React.useState(null)
-
-    const handleClose = value => {
-        setOpen(false)
-        setSelectedValue(value)
-    }
 
     return (
     <Container component="main" p={{ xs: 2, sm: 3, md: 4 }} >
-        <ProfileDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
         <Typography variant={'overline'}>Bruno Cochard vous présente</Typography>
         <Typography weight={'bold'} variant={'h4'} gutterBottom>
         <Link underline={'none'}>Keluno</Link> - le Copinage de Voisinage
