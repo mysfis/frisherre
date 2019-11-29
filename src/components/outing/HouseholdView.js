@@ -16,7 +16,7 @@
     import Divider from '@material-ui/core/Divider'
     import IconButton from '@material-ui/core/IconButton';
     import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-    import {FootballIcon} from 'components/icons/outingIcons'
+    import {FootballIcon} from 'components/icons/Activitycons'
     import DoneIcon from '@material-ui/icons/Done';
     import ClearIcon from '@material-ui/icons/Clear';
     import { blue, red, green } from '@material-ui/core/colors';

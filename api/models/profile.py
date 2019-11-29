@@ -18,6 +18,8 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=255, blank=True)
     birth_date = models.DateField()
     is_main = models.BooleanField(default=False)
+    icon_name = models.CharField(max_length=20)
+    icon_color = models.CharField(max_length=20)
 
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)

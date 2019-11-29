@@ -9,21 +9,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
+import ProfileAvatar from 'components/profile/ProfileAvatar'
+
 const border = '1px solid'
 const borderColor = '#DBDBDB' //'#ffffff'
 
 const useStyles = makeStyles(theme => ({
 
-    gridItem: {
-    },
-    card:{
-        flexGrow: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems:'center',
-        margin:theme.spacing(4)
-    },
     picture: {
         position:'absolute',
         height:100,
@@ -39,10 +31,16 @@ const useStyles = makeStyles(theme => ({
         justifyContent:'center',
         alignItems:'center'
     },
-    avatar:{
-        padding: 10,
-        width: 90,
-        height: 90,
+
+    gridItem: {
+    },
+    card:{
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems:'center',
+        margin:theme.spacing(4)
     },
     cardHolder: {
         borderTop: border,
@@ -131,18 +129,9 @@ const ProfileCard = ({profile, actions}) => {
                     boxShadow={3} 
                     className={classes.cardHolder}
                     style={{backgroundColor: blue[profile.is_main? 50:0]}}>
-                    <Box className={classes.picture}>
-                        {profile.url ?
-                        <Avatar 
-                            alt={profile.first_name} 
-                            src={`https://robohash.org/${profile.first_name}$\{profile.last_name}?set=set4`}
-                            className={classes.avatar} />
-                        :
-                        <IconButton aria-label="New profile" onClick={actions.handleAdd}>
-                            <AddCircleOutlineIcon className={classes.newIcon} />
-                        </IconButton>
-                        }
-                    </Box>
+                    <ProfileAvatar 
+                        type='card'
+                        profile={profile}/>
                     <Box className={classes.pictureHolder}></Box>
                     <Box className={classes.header}>
                         {profile.first_name} {profile.last_name}

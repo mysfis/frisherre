@@ -24,7 +24,7 @@ function HomeScreen (props) {
             ""}
         </Typography>
         <Typography indent={'small'}>
-        Keluno est une plateforme de bon voisinage pour réduire ensemble l'empreinte ecolo de ses communautés.
+        Keluno est une plateforme de bon voisinage pour réduire ensemble l'empreinte carbone de nos communautés.
         </Typography>
         <br />
         <Typography weight={'bold'} variant={'h5'} gutterBottom>
@@ -36,16 +36,25 @@ function HomeScreen (props) {
         <Typography component={'div'}>
         <ol>
             <li>
-            Mon fils va au sport dans la ville d'à côté avec des enfants de mon voisinage, mais 9 fois sur 10 nous ne pensons pas a nous arranger pour le tranport
+            Mon fils est dans un club sportif dans la ville d'à côté avec des 
+            enfants de mon voisinage, mais 9 fois sur 10 je ne pense pas a
+            m'arranger avec leurs parents pour le tranport
             </li>
             <li>
-            Je mene une association et doit arranger les transports vers le lieu des rencontres car les membres du club ne le font pas.
+            Je mene une association et doit arranger les transports vers le 
+            lieu des rencontres, sinon chaque parent ne conduit que son enfant
             </li>
             <li>
-            Je vais seul au marché de la ville d'a cote alors que tous mes voisins y vont aussi seuls
+            Je vais seul au supermarché de la ville d'à coté alors que 
+            plusieurs de mes voisins y vont aussi seuls
             </li>
             <li>
-            Je veux acheter des produits de fermiers locaux mais il ne peut livrer si j'achete seul
+            Je veux acheter des produits de fermiers locaux mais ils ne peuvent
+             pas me livrer si j'achete seul
+            </li>
+            <li>
+            J'ai besoin d'une tondeuse mais je ne tond ma pelouse qu'une fois 
+            par mois et cela me prend 30 min
             </li>
         </ol>
         </Typography>
@@ -56,13 +65,7 @@ function HomeScreen (props) {
         <Typography component={'div'}>
         <ol>
             <li>
-            Parce que les enfants de mon voisinage ont les meme activités que mon enfant, pour lesquelles il faut les emmener en voiture.
-            </li>
-            <li>
-            Parce que les activités sont beaucoup plus diverses et éloignées et nécessite la voiture
-            </li>
-            <li>
-            Parce qu’on ne demande pas a ses voisins si ils y vont aussi
+            Parce que les voisins ne s'arrangent pas entre eux d'eux meme
             </li>
             <li>
             Parce que les voisins ne se parlent plus comme avant
@@ -71,7 +74,7 @@ function HomeScreen (props) {
             Parce que l’on ne connait plus forcement ses voisins ou allons leur parler
             </li>
             <li>
-            Parce que nos capacités sociales se sont atrophiées comme Tinder pour les rencontres
+            Parce que nos capacités sociales se sont atrophiées avec les reseaux sociaux
             </li>
         </ol>
         </Typography>

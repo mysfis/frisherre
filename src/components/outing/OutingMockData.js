@@ -15,7 +15,7 @@ const outing1 = {
   
   const outing3 = {
     ...outing1,
-    title: "Entrainement Natation", url: "http://localhost:8000/api/outing/3/", date: "2019-11-13", mine:true,}
+    title: "Cmopet Natation", url: "http://localhost:8000/api/outing/3/", date: "2019-11-13", mine:true,}
   
   const outing4 = {
     ...outing1,
@@ -27,15 +27,17 @@ const outing1 = {
   
   const myAttendance1= {
     url: "http://localhost:8000/api/attendance/1/", email:'myAttendance1@gmail.com',
-    accepted_at: "2019-11-07T12:16:28.399487Z", attendance_notes: "draft"}
+    accepted_at: "2019-11-07T12:16:28.399487Z", attendance_notes: "draft",
+    icon: 'man21', iconColor: 'red',
+  }
   
   const myAttendance2 = {
     ...myAttendance1, 
-    is_participant: true, is_driver: true, email:'myAttendance2@gmail.com'}
+    is_participant: true, is_driver: true, email:'myAttendance2@gmail.com', icon: 'woman05', iconColor: 'blue',}
   
   const myAttendance3 = {
     ...myAttendance1, 
-    is_participant: false,email:'myAttendance3@gmail.com'}
+    is_participant: false,email:'myAttendance3@gmail.com', icon: 'woman12', iconColor: 'green',}
   
   export const outingMockData = [
     {...outing1, participation: myAttendance1, attendees: [myAttendance1, myAttendance2, myAttendance3]}, 

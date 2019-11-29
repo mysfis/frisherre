@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Truncate from 'react-truncate';
 
-import Icon from 'components/icons/outingIcons'
+import Icon from 'components/icons/ActivityIcons'
 
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'

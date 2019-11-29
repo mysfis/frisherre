@@ -16,6 +16,8 @@ import PersonIcon from '@material-ui/icons/Person';
 
 import { useAuth } from 'context/auth';
 import ProfileDialog from 'components/profile/ProfileDialog'
+import ProfileAvatar from 'components/profile/ProfileAvatar'
+
 
 const styles = ({ spacing, transitions, breakpoints, palette, shape }) => ({
     header: {
@@ -129,7 +131,14 @@ function HeaderUserComponent({ classes, screen }) {
 
             {/* <IconButton onClick={() => {logout()}}> */}
             <IconButton onClick={handleClick}>
-                <LockIcon />
+                {authData.profile?
+                <ProfileAvatar 
+                    type='icon'
+                    profile={authData.profile}/>
+                :
+                    <LockIcon />
+                }
+                
             </IconButton>
             <Menu id='profile-menu' 
                 anchorEl={anchorEl}
@@ -140,9 +149,9 @@ function HeaderUserComponent({ classes, screen }) {
             {profiles && profiles.map(selectProfile => (
                 <ListItem button onClick={() => handleListItemClick(selectProfile)} key={selectProfile.first_name}>
                 <ListItemAvatar>
-                    <Avatar className={classes.avatar}>
-                    <PersonIcon />
-                    </Avatar>
+                    <ProfileAvatar 
+                        type='icon'
+                        profile={selectProfile}/>
                 </ListItemAvatar>
                 <ListItemText primary={selectProfile.first_name} />
                 </ListItem>

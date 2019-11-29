@@ -99,7 +99,7 @@ const PartyIcon = props => {
   );
 }
 
-const Icon = props => {
+const ActivityIcon = props => {
 	switch (props.name) {
 		case "pingpong": return <PingPongIcon {...props} />
 		case "swimming": return <SwimmingIcon {...props} />
@@ -109,4 +109,4 @@ const Icon = props => {
 	}
 }
 
-export default Icon
+export default ActivityIcon

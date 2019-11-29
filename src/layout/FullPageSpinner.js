@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container';
 const useStyles = makeStyles(theme => ({
     root: {
       display: 'flex',
-      width:"100%",
+      width:"30%",
       alignContent:'center',
       '& > * + *': {
         marginLeft: theme.spacing(2),
@@ -21,7 +21,7 @@ export function Spinner(props) {
     return (
       <CircularProgress
         aria-label="loading"
-        size='100'
+        size='40'
         {...props}
       />
     )

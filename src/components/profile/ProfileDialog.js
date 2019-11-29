@@ -10,22 +10,13 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import PersonIcon from '@material-ui/icons/Person';
 import AddIcon from '@material-ui/icons/Add';
 import { blue } from '@material-ui/core/colors';
 
 import { useAuth } from 'context/auth';
-
-const useStyles = makeStyles({
-        avatar: {
-        backgroundColor: blue[100],
-        color: blue[600],
-    },
-});
+import ProfileAvatar from 'components/profile/ProfileAvatar'
 
 function ProfileDialog(props) {
-    const classes = useStyles();
-
     const { authData, selectProfile } = useAuth()
     const { open, onClose } = props;
 
@@ -50,21 +41,21 @@ function ProfileDialog(props) {
                 button onClick={() => handleListItemClick(selectProfile)} 
                 key={selectProfile.first_name}>
                 <ListItemAvatar>
-                    <Avatar className={classes.avatar}>
-                    <PersonIcon />
-                    </Avatar>
+                <ProfileAvatar 
+                        type='icon'
+                        profile={selectProfile}/>
                 </ListItemAvatar>
                 <ListItemText primary={selectProfile.first_name} />
             </ListItem>
         )) : ''}
-        <ListItem button onClick={() => navigate('/profile')}>
+        {/* <ListItem button onClick={() => navigate('/profile')}>
             <ListItemAvatar>
             <Avatar>
                 <AddIcon />
             </Avatar>
             </ListItemAvatar>
             <ListItemText primary="add account" />
-        </ListItem>
+        </ListItem> */}
         </List>
     </Dialog>
     );

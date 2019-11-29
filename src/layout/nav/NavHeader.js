@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+
 import { useAuth } from 'context/auth';
+import ProfileAvatar from 'components/profile/ProfileAvatar'
+
 
 function NavHeader ({ collapsed }) {
     const { authData } = useAuth()
@@ -18,27 +21,28 @@ function NavHeader ({ collapsed }) {
     return (
     <React.Fragment>
         <div style={{ padding: collapsed ? 8 : 16, transition: '0.3s' }}>
-        <Avatar
-            style={{
-            width: collapsed ? 48 : 60,
-            height: collapsed ? 48 : 60,
-            transition: '0.3s',
-            }}
-        />
-        <div style={{ paddingBottom: 16 }} />
-        <Typography variant={'h6'} noWrap>
-            {profile? profile.first_name: 'pending'}
-        </Typography>
-        <Typography color={'textSecondary'} noWrap gutterBottom>
-            Maisonnée {user? user.last_name : 'pending'}
-        </Typography>
+            <ProfileAvatar 
+                profile={profile}
+                type='nav'
+                collapsed={collapsed}/>
+            <div style={{ paddingBottom: 16 }} />
+            {collapsed ?
+            <React.Fragment>
+                <Typography variant={'h6'} noWrap>
+                    {profile? profile.first_name: 'pending'}
+                </Typography>
+                <Typography color={'textSecondary'} noWrap gutterBottom>
+                    Maisonnée {user? user.last_name : 'pending'}
+                </Typography>
+                </React.Fragment>
+            :''}
         </div>
         <Divider />
     </React.Fragment>
 );}
 
 NavHeader.propTypes = {
-collapsed: PropTypes.bool.isRequired,
+    collapsed: PropTypes.bool.isRequired,
 };
 NavHeader.defaultProps = {};
 
