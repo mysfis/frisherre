@@ -14,7 +14,7 @@ import EventIcon from '@material-ui/icons/Event';
 
 import { useAuth } from 'context/auth';
 import ProfileIcons from 'components/icons/ProfileIcons'
-import { Typography, useTheme } from '@material-ui/core';
+import { Typography, useMediaQuery, useTheme, Dialog, DialogTitle, DialogActions, DialogContent } from '@material-ui/core';
 
 const iconNames = [
     'man01', 'man02', 'man03', 'man07', 'man08','man10', 
@@ -62,13 +62,16 @@ const useStyles = makeStyles(theme => ({
       },
 }));
 
-const ProfileForm = (props) => {
+const emptyProfile = { url: "", first_name: "", last_name: "", birth_date: "",icon_name:'', icon_color:''}
+
+const CreateProfileDialog = (props) => {
     const theme = useTheme()
     const classes = useStyles(theme);
+    const onMobile = useMediaQuery(theme.breakpoints.down('xs'))
 
     const { authData, fetchProfiles, selectProfile } = useAuth()
-    const [profile, setProfile] = React.useState(props.profile)
-    React.useEffect(()=>setProfile(props.profile), [props.profile])
+    const [profile, setProfile] = React.useState(props.profile? props.profile : emptyProfile)
+    React.useEffect(()=>setProfile(props.profile? props.profile : emptyProfile), [props.profile])
 
     const handleChange = name => event => {
         setProfile({ ...profile, [name]: event.target.value })
@@ -140,8 +143,14 @@ const ProfileForm = (props) => {
     }
 
     return (
-    <Container component="main" maxWidth="sm">
-        <Grid container spacing={2}>
+        <Dialog open={props.open} onClose={props.handleClose} 
+                aria-labelledby="Nouveau Profile" 
+                fullScreen = {onMobile}>
+            <DialogTitle id="create-profile-dialog" style={{backgroundColor: theme.palette.primary.main, color: theme.palette.common.white}}>
+                Créer un nouveau profil
+            </DialogTitle>
+            <DialogContent>
+            <Grid container spacing={2}>
             <Grid item xs={12} sm={4}>
                 <TextField
                 id="first_name" required fullWidth
@@ -177,7 +186,9 @@ const ProfileForm = (props) => {
                 />
                 </MuiPickersUtilsProvider>
             </Grid>
-            <Typography>Choix de l'avatar</Typography>
+            <Typography>
+                Choix de l'avatar
+            </Typography>
             <Grid item xs={12} sm={12} container>
                 {iconNames.map(icon =>(
                 <Grid item xs={2} sm={1} key={icon} >
@@ -189,6 +200,9 @@ const ProfileForm = (props) => {
                 </Grid>
                 ))}
             </Grid>
+            <Typography>
+                Couleur de l'avatar
+            </Typography>
             <Grid item xs={12} sm={12} container>
                 {colorNames.map(color =>(
                 <Grid item xs={2} sm={2} key={color}>
@@ -201,29 +215,22 @@ const ProfileForm = (props) => {
                 </Grid>
                 ))}
             </Grid>
-            {/*
-            <Grid item xs={12} sm={3}>
-                <input accept="image/*" className={classes.input} style={{ display: 'none' }}
-                id="new-profile-picture" type="file" onChange={handlePictureChange} />
-                    <label htmlFor="new-profile-picture">
-                    <Button variant="contained"  color="secondary" fullWidth
-                        component="span"  className={classes.submit}>
-                        Change Picture
-                    </Button>
-                </label> 
             </Grid>
-            */}
-            <Button
-                type="submit" variant="contained" color="primary"
-                fullWidth className={classes.submit}
-                onClick={handleFormSubmit}
-            >
-                Mettre à jour
-            </Button>
-        </Grid>
-    </Container>
+            </DialogContent>
+            <DialogActions>
+                <Button
+                        color="primary"
+                        onClick={props.handleClose}
+                    >Annuler</Button>
+                <Button
+                    color="primary"
+                    onClick={handleFormSubmit}
+                >Sauver</Button>
+            </DialogActions>
+    {/* </Container> */}
+    </Dialog>
     );
 }
 
 
-export default ProfileForm
+export default CreateProfileDialog

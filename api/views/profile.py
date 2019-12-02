@@ -23,7 +23,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
         elif  self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
             permission_classes = [IsLoggedInProfileOrAdmin]
         elif self.action == 'destroy':
-            permission_classes = [IsAdminUser]
+            permission_classes = [IsLoggedInProfileOrAdmin]
         return [permission() for permission in permission_classes]
 
 

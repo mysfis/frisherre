@@ -14,7 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
 import { useAuth } from 'context/auth';
-import ProfileDialog from 'components/profile/ProfileDialog'
+import ProfileDialog from 'components/profile/SelectDialog'
 import ProfileAvatar from 'components/profile/ProfileAvatar'
 
 

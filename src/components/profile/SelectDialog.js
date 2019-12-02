@@ -11,7 +11,7 @@ import Dialog from '@material-ui/core/Dialog';
 import { useAuth } from 'context/auth';
 import ProfileAvatar from 'components/profile/ProfileAvatar'
 
-function ProfileDialog(props) {
+function SelectProfileDialog(props) {
     const { authData, selectProfile } = useAuth()
     const { open, onClose } = props;
 
@@ -57,9 +57,9 @@ function ProfileDialog(props) {
 }
 
 
-ProfileDialog.propTypes = {
+SelectProfileDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
 };
 
-export default ProfileDialog
+export default SelectProfileDialog

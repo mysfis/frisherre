@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import ProfileCard from 'components/profile/ProfileCard'
 import ProfileForm from 'components/profile/ProfileForm'
-import { Container, Typography, Grid, } from '@material-ui/core'
+import { Container, Typography, Grid } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -12,12 +12,14 @@ import Fade from '@material-ui/core/Fade'
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useAuth } from 'context/auth';
+import CreateProfileDialog from './CreateDialog';
 
 const emptyHousehold = {
     account: {
         url: "", household_name: "",
         address_line1: "", address_line2: "", country: "", city: "", zip: ""},
-    profiles: [{ url: "", first_name: "", last_name: "", birth_date: "",}]
+    profiles: [{ url: "", first_name: "", last_name: "", birth_date: "",
+    icon_name:'', icon_color:''}]
 }
 
 
@@ -213,7 +215,11 @@ const ProfileGrid = (props) => {
                         key={JSON.stringify("new profile")} 
                         actions={actions}/>
                 </Grid>
-                <br />
+                <CreateProfileDialog profile={profile} 
+                    open={open} 
+                    handleClose={handleClose}
+                    handleRefresh={handleRefresh}/>
+                {/* <br />
                 <Modal
                     aria-labelledby="transition-modal-title"
                     aria-describedby="transition-modal-description"
@@ -236,7 +242,7 @@ const ProfileGrid = (props) => {
                     </Fade>
                 </Modal>
                 <br />
-                <br />
+                <br /> */}
             </Container>
         )
     }
@@ -260,8 +266,12 @@ const ProfileGrid = (props) => {
                     key={JSON.stringify("new profile")} 
                     actions={actions}/>
             </Grid>
-            <br />
-            <Modal
+            <CreateProfileDialog profile={profile} 
+                    open={open} 
+                    handleClose={handleClose}
+                    handleRefresh={handleRefresh}/>
+            {/* <br />
+             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 className={classes.modal}
@@ -281,10 +291,10 @@ const ProfileGrid = (props) => {
                     handleClose={handleClose} />
                 </div>
                 </Fade>
-            </Modal>
+            </Modal> */}
             <br />
             <br />
-            <Fab color="primary" aria-label="add" className={classes.fab}>
+            <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleAdd}>
                 <AddIcon />
             </Fab>
         </Container>
