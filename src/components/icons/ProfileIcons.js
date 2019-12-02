@@ -1,7 +1,12 @@
 import React from 'react';
 import loadable from '@loadable/component'
 import { makeStyles } from '@material-ui/core/styles';
-import { blue, red, green } from '@material-ui/core/colors';
+import red from '@material-ui/core/colors/red'
+import blue from '@material-ui/core/colors/blue'
+import green from '@material-ui/core/colors/green'
+import purple from '@material-ui/core/colors/purple'
+import orange from '@material-ui/core/colors/orange'
+import brown from '@material-ui/core/colors/brown'
 
 const Man01 = loadable(() => import('./profile/man-01'))
 const Man02 = loadable(() => import('./profile/man-02'))
@@ -78,15 +83,39 @@ const useStyles = makeStyles(theme => ({
 		height: 36,
 		borderRadius: 16,
 	},
+	defaultColor: {
+		color: theme.palette.primary.main,
+	},
 	red: {
-		backgroundColor: red[100]
+		backgroundColor: red[100],
+		color: theme.palette.primary.main,
 	},
 	blue: {
-		backgroundColor: blue[100]
+		backgroundColor: blue[100],
+		color: theme.palette.primary.main,
 	},
 	green: {
-		backgroundColor: green[100]
+		backgroundColor: green[100],
+		color: theme.palette.primary.main,
 	},
+	purple: {
+		backgroundColor: purple[100],
+		color: theme.palette.primary.main,
+	},
+	orange: {
+		backgroundColor: orange[100],
+		color: theme.palette.primary.main,
+	},
+	brown: {
+		backgroundColor: brown[100],
+		color: theme.palette.primary.main,
+	},
+	highlight: {
+		border: '2px solid',
+		borderColor: theme.palette.secondary.main,
+		color: theme.palette.secondary.main,
+		// backgroundColor: theme.palette.primary.main,
+	}
   }));
 
 const ProfileIcon = props => {
@@ -105,7 +134,9 @@ const ProfileIcon = props => {
 		default:
 		 	break;
 	  }
-	console.log(avatarClass)
+	if(props.highlight) {
+		avatarClass = `${avatarClass} ${classes.highlight}`}
+
 	switch(props.color) {
 		case 'red':
 			avatarClass = `${avatarClass} ${classes.red}`
@@ -116,7 +147,17 @@ const ProfileIcon = props => {
 		case 'green':
 			avatarClass = `${avatarClass} ${classes.green}`
 			break;
+		case 'purple':
+			avatarClass = `${avatarClass} ${classes.purple}`
+			break;
+		case 'orange':
+			avatarClass = `${avatarClass} ${classes.orange}`
+			break;
+		case 'brown':
+			avatarClass = `${avatarClass} ${classes.brown}`
+			break;
 		default:
+			avatarClass = `${avatarClass} ${classes.defaultColor}`
 			break;
 	}
 

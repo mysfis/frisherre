@@ -1,9 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 
 import { blue } from '@material-ui/core/colors';
-
 
 import { Box, Avatar } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton';
@@ -67,7 +65,6 @@ function ProfileAvatar({profile, handleAdd, type, collapsed}) {
     //     case ' big': return (<CardMedia className={classes.bigAvatar} image={url} title="My avatar" />
     //     )
     // }
-    console.log(profile)
     switch (type) {
         case 'card': return (
             <Box className={classes.picture}>

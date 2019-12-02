@@ -5,12 +5,27 @@ import MomentUtils from '@date-io/moment';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Container from '@material-ui/core/Container';
+import IconButton from '@material-ui/core/IconButton'
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import EventIcon from '@material-ui/icons/Event';
 
 import { useAuth } from 'context/auth';
+import ProfileIcons from 'components/icons/ProfileIcons'
+import { setProfiles } from 'store/actions/auth';
+
+const iconNames = [
+    'man01', 'man02', 'man03', 'man07', 'man08','man10', 
+    'man14', 'man15', 'man20', 'man21', 'man25', 'man06',
+    'woman01', 'woman05', 'woman08', 'woman09', 'woman12', 'woman13',
+    'woman15', 'woman17', 'woman19', 'woman20','woman22', 'woman23',
+]
+
+const colorNames = [
+    'red', 'blue', 'green', 'purple', 'orange', 'brown'
+]
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -37,7 +52,14 @@ const useStyles = makeStyles(theme => ({
     },
     icon: {
         color: theme.palette.primary.main,
-    },
+    },	
+    avatarClass: {
+        width: 36,
+        height: 36,
+        // borderRadius: 10,
+        // fontSize: '0.8em',
+        // color: theme.palette.primary.main,
+      },
 }));
 
 const ProfileForm = (props) => {
@@ -52,10 +74,27 @@ const ProfileForm = (props) => {
     };
 
     const handleDateChange = value => {
+        console.log("date click")
         setProfile({
         ...profile,
         birth_date: moment(value).format('YYYY-MM-DD') })
     };
+
+    const iconChange = icon => {
+        console.log("icon click")
+        setProfile({
+            ...profile,
+            icon_name: icon,
+        })
+    }
+
+    const colorChange = color => {
+        console.log("color click")
+        setProfile({
+            ...profile,
+            icon_color: color,
+        })
+    }
 
     // const handlePictureChange = (e) => {
     //   setProfile({...profile, picture: e.target.files[0] })
@@ -113,35 +152,29 @@ const ProfileForm = (props) => {
     }
 
     return (
-        <Grid container spacing={3}>
-            <Grid item xs={12} sm={3}>
+    <Container component="main" maxWidth="sm">
+        <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
                 <TextField
-                required
-                id="first_name" name="first_name"
-                label="Prénom"
-                fullWidth
-                autoComplete="first_name"
+                id="first_name" required fullWidth
+                name="first_name" label="Prénom" autoComplete="first_name" 
                 onChange={handleChange('first_name')}
                 value={profile.first_name || ''}
                 helperText={profile.first_name === "" ? 'Champ obligatoire!' : ' '}
                 error = {profile.first_name === "" ? true : false}
                 />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={4}>
                 <TextField
-                required
-                id="last_name"
-                name="last_name"
-                label="Nom de famille"
-                fullWidth
-                autoComplete="last_name"
+                id="last_name" required fullWidth
+                name="last_name" label="Nom de famille" autoComplete="last_name"
                 onChange={handleChange('last_name')}
                 value={profile.last_name || ''}
                 helperText={profile.last_name === "" ? 'Champ obligatoire!' : ' '}
                 error = {profile.last_name === "" ? true : false}
                 />
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={4}>
                 <MuiPickersUtilsProvider  utils={MomentUtils}>
                 <KeyboardDatePicker
                     id="date-picker-dialog"
@@ -155,6 +188,29 @@ const ProfileForm = (props) => {
                     keyboardIcon={<EventIcon className={classes.icon}/>}
                 />
                 </MuiPickersUtilsProvider>
+            </Grid>
+            <Grid item xs={12} sm={12} container>
+                {iconNames.map(icon =>(
+                <Grid item xs={2} sm={1} key={icon} >
+                    <IconButton onClick={() => {iconChange(icon)}} className={classes.avatarClass} >
+                        <ProfileIcons name={icon} 
+                            className={classes.avatarClass}
+                            highlight={profile.icon_name===icon}/>
+                    </IconButton>
+                </Grid>
+                ))}
+            </Grid>
+            <Grid item xs={12} sm={12} container>
+                {colorNames.map(color =>(
+                <Grid item xs={2} sm={2} key={color}>
+                    <IconButton onClick={() => {colorChange(color)}} className={classes.avatarClass} >
+                    <ProfileIcons name={profile.icon_name}
+                        className={classes.avatarClass} 
+                        color={color}
+                        highlight={profile.icon_color===color}/>
+                    </IconButton>
+                </Grid>
+                ))}
             </Grid>
             {/*
             <Grid item xs={12} sm={3}>
@@ -188,6 +244,7 @@ const ProfileForm = (props) => {
                 Mettre à jour
             </Button>
         </Grid>
+    </Container>
     );
 }
 

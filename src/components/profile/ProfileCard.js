@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Box, Grid, Divider, IconButton, Avatar } from '@material-ui/core'
+import { Box, Grid, Divider, IconButton } from '@material-ui/core'
 
 import { blue } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';

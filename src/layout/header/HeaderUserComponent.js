@@ -12,7 +12,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
-import PersonIcon from '@material-ui/icons/Person';
 
 import { useAuth } from 'context/auth';
 import ProfileDialog from 'components/profile/ProfileDialog'
@@ -87,7 +86,6 @@ function HeaderUserComponent({ classes, screen }) {
     const handleClose = () => {setAnchorEl(null)}
 
     const handleListItemClick = value => { 
-        console.log(value)
         selectProfile(value)
         handleClose(); };
     
