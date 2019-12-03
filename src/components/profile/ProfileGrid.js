@@ -3,14 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 
 import ProfileCard from 'components/profile/ProfileCard'
-import ProfileForm from 'components/profile/ProfileForm'
 import { Container, Typography, Grid } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade'
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+
 import { useAuth } from 'context/auth';
 import CreateProfileDialog from './CreateDialog';
 
@@ -124,16 +119,19 @@ const useStyles = makeStyles(theme => ({
     icon: {
         color: theme.palette.primary.main,
     },
-    newIcon: {
-        color: theme.palette.primary.main,
-        margin: 10,
-        width: 50,
-        height: 50,
-    },
     fab: {
         position: 'fixed',
         bottom: theme.spacing(2),
         right: theme.spacing(2),
+        width: 56,
+        height: 56,
+        alignItems: 'center',
+        justifyContent: 'middle',
+    },
+    newIcon: {
+        color: theme.palette.background.paper,
+        width: 48,
+        height: 48
     }
 }));
 
@@ -219,30 +217,6 @@ const ProfileGrid = (props) => {
                     open={open} 
                     handleClose={handleClose}
                     handleRefresh={handleRefresh}/>
-                {/* <br />
-                <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    className={classes.modal}
-                    open={open}
-                    onClose={handleClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                    timeout: 500,
-                    }}
-                >
-                    <Fade in={open}>
-                    <div className={classes.paper}>
-                        <ProfileForm
-                        profile={profile}
-                        handleRefresh={handleRefresh}
-                        handleClose={handleClose} />
-                    </div>
-                    </Fade>
-                </Modal>
-                <br />
-                <br /> */}
             </Container>
         )
     }
@@ -270,33 +244,6 @@ const ProfileGrid = (props) => {
                     open={open} 
                     handleClose={handleClose}
                     handleRefresh={handleRefresh}/>
-            {/* <br />
-             <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                timeout: 500,
-                }}
-            >
-                <Fade in={open}>
-                <div className={classes.paper}>
-                    <ProfileForm
-                    profile={profile}
-                    handleRefresh={handleRefresh}
-                    handleClose={handleClose} />
-                </div>
-                </Fade>
-            </Modal> */}
-            <br />
-            <br />
-            <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleAdd}>
-                <AddIcon />
-            </Fab>
         </Container>
     )
 }

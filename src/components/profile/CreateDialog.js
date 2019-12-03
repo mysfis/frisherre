@@ -147,7 +147,7 @@ const CreateProfileDialog = (props) => {
                 aria-labelledby="Nouveau Profile" 
                 fullScreen = {onMobile}>
             <DialogTitle id="create-profile-dialog" style={{backgroundColor: theme.palette.primary.main, color: theme.palette.common.white}}>
-                Créer un nouveau profil
+                {profile.url? "Modifier le profil de "+profile.first_name : "Ajouter un nouveau profil"}
             </DialogTitle>
             <DialogContent>
             <Grid container spacing={2}>

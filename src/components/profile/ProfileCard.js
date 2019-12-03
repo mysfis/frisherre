@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
         borderTop: border,
         borderColor: borderColor,
         // display:'block',
-        height:186,
+        height:146,
         width:160,
         position:'relative',
         marginTop: 20,
@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
     },
     pictureHolder: {
         display: 'flex', 
-        height:50,
+        height:60,
     },
     header: {
         display: 'flex', 
@@ -113,9 +113,9 @@ const ProfileCard = ({profile, actions}) => {
                         </Box>
                         <Box className={classes.pictureHolder}></Box>
                         <Box className={classes.header}>
-                            Create new profile
+                            Ajouter un Profil
                         </Box>
-                        
+                    <Box className={classes.content}> </Box>
                     </Box>
                 </Box>
             </Grid>
@@ -137,7 +137,7 @@ const ProfileCard = ({profile, actions}) => {
                         {profile.first_name} {profile.last_name}
                     </Box>
                     <Box className={classes.content}>
-                        age, groups
+                        TODO: afficher groupes
                     </Box>
                     <Divider className={classes.divider} />
                     <Box className={classes.actions}>
