@@ -7,6 +7,7 @@ import { blue } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import InfoIcon from '@material-ui/icons/Info';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import ProfileAvatar from 'components/profile/ProfileAvatar'
@@ -66,10 +67,11 @@ const useStyles = makeStyles(theme => ({
         // alignItems:'flex-end'
     },
     content: {
-        display: 'flex', 
+        // display: 'flex', 
         height:70,
         // flexDirection: 'column',
         // alignItems:'flex-end'
+        textAlign:'center',
     },
     divider:{
         width:'100%'
@@ -113,9 +115,11 @@ const ProfileCard = ({profile, actions}) => {
                         </Box>
                         <Box className={classes.pictureHolder}></Box>
                         <Box className={classes.header}>
-                            Ajouter un Profil
+                            Nouveau Profil
                         </Box>
-                    <Box className={classes.content}> </Box>
+                        <Box className={classes.content}>
+                            Cliquez sur l'icone "plus" pour ajouter un Profil
+                        </Box>
                     </Box>
                 </Box>
             </Grid>
@@ -142,7 +146,7 @@ const ProfileCard = ({profile, actions}) => {
                     <Divider className={classes.divider} />
                     <Box className={classes.actions}>
                         <IconButton aria-label="previous">
-                            <WhatsAppIcon  className={classes.icon}/>
+                            <InfoIcon  className={classes.icon}/>
                         </IconButton>
                         <IconButton aria-label="play/pause" 
                             onClick={()=> actions.handleEdit(profile)}>
