@@ -19,7 +19,7 @@ function UserProvider (props) {
             "Content-Type": "application/json",
             Authorization: "Token " + data.token,
         }
-        return axios.get("/api/currentuser/")
+        return axios.get("/api/v1/currentuser/")
             .then(res => {
                 const user_acount = res.data[0].user_account
                 setUserData({

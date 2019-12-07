@@ -97,31 +97,33 @@ const CreateProfileDialog = (props) => {
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
-        axios.defaults.headers= { // "Content-Type": "application/json",
-            'content-type': 'multipart/form-data',
+        axios.defaults.headers= { 
+            "Content-Type": "application/json",
+            // 'content-type': 'multipart/form-data',
             Authorization: "Token " + authData.token, }
 
         let form_data = new FormData();
-        Object.keys(profile).forEach(key => {
-            if (profile[key]) {
-                switch(key) {
-                case 'account': 
-                    const account = profile[key]
-                    Object.keys(account).forEach(accountKey => form_data.append('account.'.concat(accountKey), account[accountKey]))
-                    break;
-                case 'picture':
-                    if(typeof(profile[key]) !== 'string') {
-                        form_data.append(key, profile[key]); }
-                    break;
-                default: 
-                    form_data.append(key, profile[key])
-                }
-            }
-        });
+        // Object.keys(profile).forEach(key => {
+        //     if (profile[key]) {
+        //         switch(key) {
+        //         case 'account': 
+        //             const account = profile[key]
+        //             Object.keys(account).forEach(accountKey => form_data.append('account.'.concat(accountKey), account[accountKey]))
+        //             break;
+        //         case 'picture':
+        //             if(typeof(profile[key]) !== 'string') {
+        //                 form_data.append(key, profile[key]); }
+        //             break;
+        //         default: 
+        //             form_data.append(key, profile[key])
+        //         }
+        //     }
+        // });
         
+        console.log('profile= '+JSON.stringify(profile))
         if (profile.url) {
             return axios
-                .put(profile.url, form_data)
+                .put(profile.url, profile)
                 .then(res => {
                     fetchProfiles()
                     if (profile.url === authData.profile.url) {selectProfile(profile)}
@@ -131,8 +133,9 @@ const CreateProfileDialog = (props) => {
                 })
                 .catch(err => console.log(err));
             } else {
+            const register = {account: authData.user.account, profile: profile}
             return axios
-                .post("/api/detailedprofile/", form_data)
+                .post("/api/v1/registers/", register)
                 .then(res => {
                     props.handleRefresh();
                     props.handleClose()

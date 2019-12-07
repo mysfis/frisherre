@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
         margin:theme.spacing(1),
         marginBottom:theme.spacing(2),
         // height:120,
-        minWidth:350,
+        minWidth:300,
     },
     picture: {
         border: border,
@@ -115,7 +115,7 @@ const useStyles = makeStyles(theme => ({
         marginLeft:theme.spacing(1),
         marginRight:theme.spacing(1),
         marginBottom: theme.spacing(1)/2,
-        minWidth:80,
+        // minWidth:80,
         flex: '1 1 auto',
     },
     }));

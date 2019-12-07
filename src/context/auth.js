@@ -3,6 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie'
 
 import { FullPageSpinner } from 'layout/FullPageSpinner';
+import groupByProfile from 'utils/groupByProfile'
 
 const setSessionCookie = (session) => {
     Cookies.remove("session")
@@ -96,7 +97,7 @@ function AuthProvider (props) {
             type: "LOGIN_START"
         })
         return axios
-            .post('/api/auth/login/', {
+            .post('/auth/login/', {
                 username: username,
                 password: password,})
             .then(res => {
@@ -126,24 +127,28 @@ function AuthProvider (props) {
             "Content-Type": "application/json",
             Authorization: "Token " + authData.token,
         }
-        return axios
-            .get("/api/currentuser/")
-            .then(res => {
-                const user_acount = res.data[0].user_account
+        return axios.all([
+                axios.get("/api/v1/users/me/"),
+                axios.get("/api/v1/registers/me/")])
+            .then(response => {
+                const user = response[0].data
+                const profiles = groupByProfile(response[1].data)
+                
                 setSessionCookie({
-                    ...getSessionCookies(), 
-                    user:res.data[0],
-                    profiles: user_acount.profiles
+                    ...getSessionCookies(),
+                    user:user,
+                    profiles: profiles
                 })
                 updateAuthData({
                     type: "PROFILES_FETCH",
                     payload: {
-                        user:res.data[0],
-                        profiles: user_acount.profiles
+                        user:user,
+                        profiles: profiles
                     }
                 })
                 return Promise.resolve
             })
+            .then()
     }
 
     const selectProfile = (profile) => {

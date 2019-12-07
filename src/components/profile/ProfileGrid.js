@@ -7,15 +7,11 @@ import { Container, Typography, Grid } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
 
 import { useAuth } from 'context/auth';
+import groupByProfile from 'utils/groupByProfile'
 import CreateProfileDialog from './CreateDialog';
 
-const emptyHousehold = {
-    account: {
-        url: "", household_name: "",
-        address_line1: "", address_line2: "", country: "", city: "", zip: ""},
-    profiles: [{ url: "", first_name: "", last_name: "", birth_date: "",
-    icon_name:'', icon_color:''}]
-}
+const newProfile = { url: "", first_name: "", last_name: "", birth_date: "",
+    icon_name:'', icon_color:''}
 
 
 const border = '1px solid'
@@ -138,15 +134,14 @@ const useStyles = makeStyles(theme => ({
 const ProfileGrid = (props) => {
     const classes = useStyles();
     const { authData } = useAuth()
-    const [account, setAccount] = useState(props.profiles ? props.profiles.account : emptyHousehold.account)
-    const [loading, setLoading] = useState(props.loading == null ? true : props.loading)
-    const [profiles, setProfiles] = useState(props.profiles ? props.profiles.profiles : [])
 
+    const [loading, setLoading] = useState(props.loading == null ? true : props.loading)
+    const [profiles, setProfiles] = useState(authData.profiles? authData.profiles : [])
     const [profile, setProfile] = useState(profiles[0])
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false);
 
-    const getHousehold = React.useCallback(() => {
+    const getProfiles = React.useCallback(() => {
         console.log('useCallback')
         if (authData.token !== null) {
             axios.defaults.headers= {
@@ -154,19 +149,16 @@ const ProfileGrid = (props) => {
                 Authorization: "Token " + authData.token,
             }
             axios
-                .get("/api/currentuser/")
+                .get("/api/v1/registers/me/")
                 .then(res => {
-                    const user_acount = res.data[0].user_account
-                    setProfiles(user_acount.profiles)
-                    delete user_acount.profiles
-                    setAccount(user_acount)
+                    setProfiles(groupByProfile(res.data))
                     setLoading(false)
                 })
                 .catch(err => console.log(err));
             }
-    }, [authData.token])
+    }, [authData.token, authData.user])
 
-    useEffect(() => getHousehold(), [getHousehold, refresh]);
+    useEffect(() => getProfiles(), [getProfiles, refresh]);
 
     const handleClose = () => { setOpen(false);}
 
@@ -175,8 +167,8 @@ const ProfileGrid = (props) => {
     const handleAdd = () => {
         setOpen(true);
         setProfile({
-        ...emptyHousehold.profiles[0],
-        account: account })
+            ...newProfile,
+            account: authData.user.account })
     }
 
     const handleEdit = (profile) => {
@@ -186,15 +178,15 @@ const ProfileGrid = (props) => {
 
     const handleDelete = (profile) => {
         if (authData.token !== null) {
-        axios.defaults.headers= {
-            "Content-Type": "application/json",
-            Authorization: "Token " + authData.token,
-        }
-        axios
-            .delete(profile.url)
-            .then(res => handleRefresh())
-            .catch(err => console.log(err));
-        }
+            axios.defaults.headers= {
+                "Content-Type": "application/json",
+                Authorization: "Token " + authData.token,
+            }
+            axios
+                .delete(profile.url)
+                .then(res => handleRefresh())
+                .catch(err => console.log(err));
+            }
     }
 
     const actions = props.actions ? props.actions : {handleAdd, handleDelete, handleEdit}
@@ -224,11 +216,11 @@ const ProfileGrid = (props) => {
     return (
         <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root}>
             <Typography weight={'bold'} variant={'h4'} gutterBottom>
-                <Link underline={'none'}>{account.household_name}</Link>
+                <Link underline={'none'}>Profils du compte {authData.user.account.name}</Link>
             </Typography>
-            <Typography variant={'overline'}>
+            {/* <Typography variant={'overline'}>
                 <b>{account.address_line1} {account.address_line2}</b>
-            </Typography>
+            </Typography> */}
             <Grid container className={classes.gridList}>
                 {profiles.map(profile => (
                 <ProfileCard  

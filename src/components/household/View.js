@@ -12,11 +12,7 @@
     import Fade from '@material-ui/core/Fade'
 import { useAuth } from 'context/auth';
 
-    const householdData = {
-    url: "", household_name: "",
-    address_line1: "", address_line2: "", country: "", city: "", zip: "",
-    profiles: [{ url: "", first_name: "", last_name: "", birth_date: "",}]
-    }
+    const profilesData= [{ url: "", first_name: "", last_name: "", birth_date: "",}]
 
     const useStyles = makeStyles(theme => ({
     modal: {
@@ -36,20 +32,20 @@ const Household = () => {
     const classes = useStyles();
     const { authData } = useAuth()
 
-    const [household, setHousehold] = useState(householdData)
-    const [profile, setProfile] = useState(householdData.profiles[0])
+    const [profiles, setProfiles] = useState(authData.profiles? authData.profiles : profilesData)
+    const [profile, setProfile] = useState(profiles[0])
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false);
 
-    const getHousehold = React.useCallback(() => {
+    const getProfiles = React.useCallback(() => {
         if (authData.token !== null) {
         axios.defaults.headers= {
             "Content-Type": "application/json",
             Authorization: "Token " + authData.token,
         }
         axios
-            .get("/api/currentuser/")
-            .then(res => setHousehold(res.data[0].user_account))
+            .get("/api/v1/profiles/me/")
+            .then(res => setProfiles(res.data))
             .catch(err => console.log(err));
         }
     }, [authData.token])
@@ -61,11 +57,10 @@ const Household = () => {
 
     const handleAdd = () => {
         setOpen(true);
-        const account = {...household}
-        delete account.profiles
+        const account = {...authData.user.user_account}
         setProfile({
-        ...householdData.profiles[0],
-        account: account })
+            ...profilesData[0],
+            account: account })
     }
 
     const handleEdit = (profile) => {
@@ -87,27 +82,29 @@ const Household = () => {
     }
 
     useEffect(() =>
-        getHousehold(), [getHousehold, refresh]);
+        getProfiles(), [getProfiles, refresh]);
     useEffect(() => {
-        setProfile(household.profiles[0])}, [household]);
+        setProfile(profiles[0])}, [profiles]);
 
     return (
         <div>
         <Typography weight={'bold'} variant={'h4'} gutterBottom>
-            <Link underline={'none'}>{household.household_name}</Link>
+            {/* <Link underline={'none'}>{household.household_name}</Link> */}
+            <Link underline={'none'}>Les profiles de mon compte</Link>
         </Typography>
         <Typography variant={'overline'}>
-            <b>{household.address_line1} {household.address_line2}</b>
+            {/* <b>{household.address_line1} {household.address_line2}</b> */}
+            <b>mon adresse</b>
         </Typography>
         <Typography indent={'small'}>
-            ({household.profiles.length} membres)
+            ({profiles.length} membres)
         </Typography>
         <br />
         <Typography weight={'bold'} variant={'h5'} gutterBottom>
             {"Composition"}
         </Typography>
         <ProfileGrid
-            profiles={household.profiles}
+            profiles={profiles}
             handleAdd={handleAdd}
             handleEdit={handleEdit}
             handleDelete={handleDelete}

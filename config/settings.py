@@ -54,7 +54,10 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
 
-    'api',
+    'apps.users',
+    'apps.profiles',
+    'apps.communities',
+    'apps.outings',
 ]
 
 MIDDLEWARE = [
@@ -172,15 +175,18 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 SITE_ID = 1
 
-AUTH_USER_MODEL = 'api.user'
+AUTH_USER_MODEL = 'users.user'
 REST_USER_JWT = True
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
     ),

@@ -1,5 +1,5 @@
 const profile1 = {
-  "url": "http://localhost:8000/api/profile/1/",
+  "url": "http://localhost:8000/api/v1/profile/1/",
   "first_name": "Bruno",
   "last_name": "Cochard",
   "birth_date": "1979-09-04",
@@ -8,7 +8,7 @@ const profile1 = {
 }
 
 const profile2 = {
-  "url": "http://localhost:8000/api/profile/3/",
+  "url": "http://localhost:8000/api/v1/profile/3/",
   "first_name": "Caelan",
   "last_name": "Cochard",
   "birth_date": "2013-01-04",
@@ -17,7 +17,7 @@ const profile2 = {
 }
 
 const profile3 = {
-  "url": "http://localhost:8000/api/profile/4/",
+  "url": "http://localhost:8000/api/v1/profile/4/",
   "first_name": "brigitte",
   "last_name": "cochard",
   "birth_date": "2019-10-01",
@@ -27,7 +27,7 @@ const profile3 = {
 
 const account =
   {
-  "url": "http://localhost:8000/api/account/1/",
+  "url": "http://localhost:8000/api/v1/account/1/",
   "household_name": "Keluno House",
   "address_line1": "4, Allée des acacias",
   "address_line2": "Saint Laurent de la Plaine",

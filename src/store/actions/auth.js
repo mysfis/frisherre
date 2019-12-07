@@ -58,7 +58,7 @@ export const authLogin = (username, password) => {
   return dispatch => {
     console.log('login');
     dispatch (authStart());
-    axios.post('/api/auth/login/', {
+    axios.post('/api/v1/auth/login/', {
       username: username,
       password: password,
     })
@@ -84,7 +84,7 @@ export const authSignup = (username, email, password1, password2) => {
   return dispatch => {
     console.log('signup');
     dispatch (authStart());
-    axios.post('/api/auth/registration/', {
+    axios.post('/api/v1/auth/registration/', {
       username: username,
       email: email,
       password1: password1,
@@ -131,7 +131,7 @@ export const getProfiles = (token) => {
           Authorization: "Token " + token,
       }
       axios
-          .get("/api/currentuser/")
+          .get("/api/v1/currentuser/")
           .then(res => {
               const user_acount = res.data[0].user_account
               dispatch(setProfiles(user_acount.profiles))

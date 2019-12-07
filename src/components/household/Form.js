@@ -97,7 +97,7 @@ const ProfileForm = (props) => {
                 .catch(err => console.log(err));
             } else {
             return axios
-                .post("/api/detailedprofile/", form_data)
+                .post("/api/v1/detailedprofile/", form_data)
                 .then(res => {
                     props.handleRefresh();
                 })

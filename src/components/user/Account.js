@@ -44,12 +44,12 @@ const UserAccount = (props) => {
     const newUser = {"url":"","email":"","first_name":"","last_name":"","user_account":{"title":"","birth_date":"","address_line1":"","address_line2":"","country":"","city":"","zip":"","photo":null}}
     
     const [user, setUser] = React.useState(authData.user? authData.user : newUser)
-    const [userAccount, setUserAccount] = React.useState(user.user_account)
+    const [account, setAccount] = React.useState(user.account)
 
     const getUser = React.useCallback(() => {
         if (authData.user) {
             setUser(authData.user)
-            setUserAccount(authData.user.user_account)
+            setAccount(authData.user.account)
         }
     }, [authData.user])
 
@@ -57,18 +57,18 @@ const UserAccount = (props) => {
 
 
     const handleChange = name => event => {
-        setUserAccount({ ...userAccount, [name]: event.target.value })
+        setAccount({ ...account, [name]: event.target.value })
     };
 
-    const saveUserAccount = () => {
+    const saveAccount = () => {
         if (authData.token !== null) {
-            setUser({ ...user, "user_account": userAccount });
+            setUser({ ...user, "account": account });
             axios.defaults.headers= {
                 "Content-Type": "application/json",
                 Authorization: "Token " + authData.token,
             }
             axios
-                .put(userAccount.url, userAccount)
+                .put(account.url, account)
                 .catch(err => console.log(err));
         }
     };
@@ -87,9 +87,9 @@ const UserAccount = (props) => {
                     fullWidth
                     autoComplete="billing address-line1"
                     onChange={handleChange('address_line1')}
-                    value={userAccount.address_line1 || ''}
-                    helperText={userAccount.address_line1 === "" ? 'Champ obligatoire!' : ' '}
-                    error = {userAccount.address_line1 === "" ? true : false}
+                    value={account.address_line1 || ''}
+                    helperText={account.address_line1 === "" ? 'Champ obligatoire!' : ' '}
+                    error = {account.address_line1 === "" ? true : false}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -100,7 +100,7 @@ const UserAccount = (props) => {
                     fullWidth
                     autoComplete="billing address-line2"
                     onChange={handleChange('address_line2')}
-                    value={userAccount.address_line2 || ''}
+                    value={account.address_line2 || ''}
                     />
                 </Grid>
                 <Grid item xs={4} sm={2}>
@@ -112,9 +112,9 @@ const UserAccount = (props) => {
                     fullWidth
                     autoComplete="billing postal-code"
                     onChange={handleChange('zip')}
-                    value={userAccount.zip || ''}
-                    helperText={userAccount.zip === "" ? 'Champ obligatoire!' : ' '}
-                    error = {userAccount.zip === "" ? true : false}
+                    value={account.zip || ''}
+                    helperText={account.zip === "" ? 'Champ obligatoire!' : ' '}
+                    error = {account.zip === "" ? true : false}
                     />
                 </Grid>
                 <Grid item xs={8} sm={6}>
@@ -126,9 +126,9 @@ const UserAccount = (props) => {
                     fullWidth
                     autoComplete="billing address-level2"
                     onChange={handleChange('city')}
-                    value={userAccount.city || ''}
-                    helperText={userAccount.city === "" ? 'Champ obligatoire!' : ' '}
-                    error = {userAccount.city === "" ? true : false}
+                    value={account.city || ''}
+                    helperText={account.city === "" ? 'Champ obligatoire!' : ' '}
+                    error = {account.city === "" ? true : false}
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -140,9 +140,9 @@ const UserAccount = (props) => {
                     fullWidth
                     autoComplete="billing address-level2"
                     onChange={handleChange('country')}
-                    value={userAccount.country || ''}
-                    helperText={userAccount.city === "" ? 'Champ obligatoire!' : ' '}
-                    error = {userAccount.city === "" ? true : false}
+                    value={account.country || ''}
+                    helperText={account.city === "" ? 'Champ obligatoire!' : ' '}
+                    error = {account.city === "" ? true : false}
                     />
                 </Grid>
                 <Button
@@ -151,7 +151,7 @@ const UserAccount = (props) => {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
-                    onClick={saveUserAccount}
+                    onClick={saveAccount}
                 >
                     Mettre à jour
                 </Button>
