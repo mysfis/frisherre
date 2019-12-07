@@ -106,15 +106,15 @@ const UserAccount = (props) => {
                 <Grid item xs={4} sm={2}>
                     <TextField
                     required
-                    id="zip"
-                    name="zip"
+                    id="zip_code"
+                    name="zip_code"
                     label="Zip"
                     fullWidth
                     autoComplete="billing postal-code"
-                    onChange={handleChange('zip')}
-                    value={account.zip || ''}
-                    helperText={account.zip === "" ? 'Champ obligatoire!' : ' '}
-                    error = {account.zip === "" ? true : false}
+                    onChange={handleChange('zip_code')}
+                    value={account.zip_code || ''}
+                    helperText={account.zip_code === "" ? 'Champ obligatoire!' : ' '}
+                    error = {account.zip_code === "" ? true : false}
                     />
                 </Grid>
                 <Grid item xs={8} sm={6}>

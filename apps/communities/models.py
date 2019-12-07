@@ -37,8 +37,8 @@ class Community(models.Model):
         verbose_name_plural = "communities"
 
 class Membership(models.Model):
-    INVITED, JOINED, LEFT = 1, 2, 3
-    STATUS_CHOICES = ((INVITED, 'Invité'), (JOINED, 'Membre'), (LEFT, 'Ancien'))
+    LEFT, INVITED, JOINED, ADMIN = 0, 1, 2, 3
+    STATUS_CHOICES = ((INVITED, 'Invité'), (JOINED, 'Membre'), (LEFT, 'Ancien'), (ADMIN, 'Administrateur'))
 
     community = models.ForeignKey(Community, related_name='memberships',
             on_delete=models.SET_NULL, null=True)
