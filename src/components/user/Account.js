@@ -39,21 +39,24 @@ const useStyles = makeStyles(theme => ({
 
 const UserAccount = (props) => {
     const classes = useStyles();
-    const { authData } = useAuth()
-
-    const newUser = {"url":"","email":"","first_name":"","last_name":"","user_account":{"title":"","birth_date":"","address_line1":"","address_line2":"","country":"","city":"","zip":"","photo":null}}
+    const { authData  } = useAuth()
     
-    const [user, setUser] = React.useState(authData.user? authData.user : newUser)
-    const [account, setAccount] = React.useState(user.account)
+    const [account, setAccount] = React.useState(authData.user.account)
 
-    const getUser = React.useCallback(() => {
-        if (authData.user) {
-            setUser(authData.user)
-            setAccount(authData.user.account)
+    const getAccount = React.useCallback(() => {
+        axios.defaults.headers= {
+            "Content-Type": "application/json",
+            Authorization: "Token " + authData.token,
         }
+        axios
+            .get('/api/v1/users/me/')
+            .then(res=> {
+                setAccount(res.data.account)
+            })
+            .catch(err => console.log(err));
     }, [authData.user])
 
-    React.useEffect(() => getUser(), [getUser]);
+    React.useEffect(() => getAccount(), [getAccount]);
 
 
     const handleChange = name => event => {
@@ -62,7 +65,6 @@ const UserAccount = (props) => {
 
     const saveAccount = () => {
         if (authData.token !== null) {
-            setUser({ ...user, "account": account });
             axios.defaults.headers= {
                 "Content-Type": "application/json",
                 Authorization: "Token " + authData.token,
@@ -76,7 +78,7 @@ const UserAccount = (props) => {
     return (
         <Paper className={classes.paper}>
             <Typography variant="h6" gutterBottom>
-                {user.first_name} {user.last_name}
+                {account.name}
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
@@ -94,8 +96,8 @@ const UserAccount = (props) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
-                    id="address2"
-                    name="address2"
+                    id="address_line2"
+                    name="address_line2"
                     label="Complément d'adresse"
                     fullWidth
                     autoComplete="billing address-line2"
