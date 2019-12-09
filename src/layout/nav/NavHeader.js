@@ -1,61 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import axios from 'axios'
-import { connect } from 'react-redux';
-
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
-function NavHeader ({ collapsed, token }) {
+import { useAuth } from 'context/auth';
+import ProfileAvatar from 'components/profile/ProfileAvatar'
 
-  const [user, setUser] = React.useState({})
-  const getMyAccount = React.useCallback(() => {
-    if (token !== null) {
-      axios.defaults.headers= {
-        "Content-Type": "application/json",
-        Authorization: "Token " + token,
-      }
-      axios
-          .get("/api/myuserinfo/")
-          .then(res => setUser(res.data[0]))
-          .catch(err => console.log(err));
-    }
-  }, [token])
-  React.useEffect( () => { getMyAccount()}, [getMyAccount] );
 
-  return (
-  <>
-    <div style={{ padding: collapsed ? 8 : 16, transition: '0.3s' }}>
-      <Avatar
-        style={{
-          width: collapsed ? 48 : 60,
-          height: collapsed ? 48 : 60,
-          transition: '0.3s',
-        }}
-      />
-      <div style={{ paddingBottom: 16 }} />
-      <Typography variant={'h6'} noWrap>
-        {user.first_name}
-      </Typography>
-      <Typography color={'textSecondary'} noWrap gutterBottom>
-        Maisonnée {user.last_name}
-      </Typography>
-    </div>
-    <Divider />
-  </>
+function NavHeader ({ collapsed }) {
+    const { authData } = useAuth()
+
+    const [user, setUser] = React.useState(authData.user)
+    React.useEffect(() => { setUser(authData.user) }, [authData.user]); 
+    
+    const [profile, setProfile] = React.useState(authData.profile)
+    React.useEffect(() => { setProfile(authData.profile) }, [authData.profile]); 
+
+    return (
+    <React.Fragment>
+        <div style={{ padding: collapsed ? 8 : 16, transition: '0.3s' }}>
+            <ProfileAvatar 
+                profile={profile}
+                type='nav'
+                collapsed={collapsed}/>
+            <div style={{ paddingBottom: 16 }} />
+            {collapsed ?
+            <React.Fragment>
+                <Typography variant={'h6'} noWrap>
+                    {profile? profile.first_name: 'pending'}
+                </Typography>
+                <Typography color={'textSecondary'} noWrap gutterBottom>
+                    Maisonnée {user? user.last_name : 'pending'}
+                </Typography>
+                </React.Fragment>
+            :''}
+        </div>
+        <Divider />
+    </React.Fragment>
 );}
 
 NavHeader.propTypes = {
-  collapsed: PropTypes.bool.isRequired,
+    collapsed: PropTypes.bool.isRequired,
 };
 NavHeader.defaultProps = {};
 
-const mapStateToProps = state => {
-  return {
-    token: state.token,
-  }
-}
+export default NavHeader;
 
-export default connect(mapStateToProps)(NavHeader);

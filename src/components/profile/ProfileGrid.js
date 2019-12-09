@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 import axios from 'axios';
 
 import ProfileCard from 'components/profile/ProfileCard'
-import ProfileForm from 'components/profile/ProfileForm'
-import { Container, Typography, Grid, } from '@material-ui/core'
+import { Container, Typography, Grid } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade'
 
-const emptyHousehold = {
-    account: {
-        url: "", household_name: "",
-        address_line1: "", address_line2: "", country: "", city: "", zip: ""},
-    profiles: [{ url: "", first_name: "", last_name: "", birth_date: "",}]
-}
+import { useAuth } from 'context/auth';
+import groupByProfile from 'utils/groupByProfile'
+import CreateProfileDialog from './CreateDialog';
+
+const newProfile = { url: "", first_name: "", last_name: "", birth_date: "",
+    icon_name:'', icon_color:''}
 
 
 const border = '1px solid'
 const borderColor = '#DBDBDB' //'#ffffff'
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+        marginLeft: -theme.spacing(1),
+    },
     modal: {
         display: 'flex', alignItems: 'center',
         justifyContent: 'center',
@@ -37,7 +36,8 @@ const useStyles = makeStyles(theme => ({
     gridList: {
         // border: border,
         // borderColor: borderColor,
-        marginTop: 10
+        marginTop: 10,
+        // position:'relative',
     },
     gridItem: {
     },
@@ -115,162 +115,129 @@ const useStyles = makeStyles(theme => ({
     icon: {
         color: theme.palette.primary.main,
     },
+    fab: {
+        position: 'fixed',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+        width: 56,
+        height: 56,
+        alignItems: 'center',
+        justifyContent: 'middle',
+    },
     newIcon: {
-        color: theme.palette.primary.main,
-        margin: 10,
-        width: 50,
-        height: 50,
+        color: theme.palette.background.paper,
+        width: 48,
+        height: 48
     }
 }));
 
 const ProfileGrid = (props) => {
-  const classes = useStyles();
-  const [account, setAccount] = useState(props.profiles ? props.profiles.account : emptyHousehold.account)
-  const [loading, setLoading] = useState(props.loading == null ? true : props.loading)
-  const [profiles, setProfiles] = useState(props.profiles ? props.profiles.profiles : [])
+    const classes = useStyles();
+    const { authData } = useAuth()
 
-  const [profile, setProfile] = useState(profiles[0])
-  const [refresh, setRefresh] = useState(false)
-  const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(props.loading == null ? true : props.loading)
+    const [profiles, setProfiles] = useState(authData.profiles? authData.profiles : [])
+    const [profile, setProfile] = useState(profiles[0])
+    const [refresh, setRefresh] = useState(false)
+    const [open, setOpen] = useState(false);
 
-  const getHousehold = React.useCallback(() => {
-    if (props.token !== null) {
-        axios.defaults.headers= {
-            "Content-Type": "application/json",
-            Authorization: "Token " + props.token,
-        }
-        axios
-            .get("/api/currentuser/")
-            .then(res => {
-                const user_acount = res.data[0].user_account
-                setProfiles(user_acount.profiles)
-                delete user_acount.profiles
-                setAccount(user_acount)
-                setLoading(false)
-            })
-            .catch(err => console.log(err));
-        }
-  }, [props.token])
+    const getProfiles = React.useCallback(() => {
+        console.log('useCallback')
+        if (authData.token !== null) {
+            axios.defaults.headers= {
+                "Content-Type": "application/json",
+                Authorization: "Token " + authData.token,
+            }
+            axios
+                .get("/api/v1/registers/me/")
+                .then(res => {
+                    setProfiles(groupByProfile(res.data))
+                    setLoading(false)
+                })
+                .catch(err => console.log(err));
+            }
+    }, [authData.token, authData.user])
 
-  const handleClose = () => {setOpen(false);};
-  const handleRefresh = () => {setRefresh(!refresh);}
+    useEffect(() => getProfiles(), [getProfiles, refresh]);
 
-  const handleAdd = () => {
-    setOpen(true);
-    setProfile({
-      ...emptyHousehold.profiles[0],
-      account: account })
-  }
+    const handleClose = () => { setOpen(false);}
 
-  const handleEdit = (profile) => {
-    setOpen(true);
-    setProfile(profile)
-  }
+    const handleRefresh = () => {setRefresh(!refresh);}
 
-  const handleDelete = (profile) => {
-    if (props.token !== null) {
-      axios.defaults.headers= {
-        "Content-Type": "application/json",
-        Authorization: "Token " + props.token,
-      }
-      axios
-          .delete(profile.url)
-          .then(res => handleRefresh())
-          .catch(err => console.log(err));
+    const handleAdd = () => {
+        setOpen(true);
+        setProfile({
+            ...newProfile,
+            account: authData.user.account })
     }
-  }
 
-  useEffect(() => getHousehold(), [getHousehold, refresh]);
+    const handleEdit = (profile) => {
+        setOpen(true);
+        setProfile(profile)
+    }
 
-  const actions = props.actions ? props.actions : {handleAdd, handleDelete, handleEdit}
+    const handleDelete = (profile) => {
+        if (authData.token !== null) {
+            axios.defaults.headers= {
+                "Content-Type": "application/json",
+                Authorization: "Token " + authData.token,
+            }
+            axios
+                .delete(profile.url)
+                .then(res => handleRefresh())
+                .catch(err => console.log(err));
+            }
+    }
 
-  if (loading) {
-      return (
-        <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.timeline}>
+    const actions = props.actions ? props.actions : {handleAdd, handleDelete, handleEdit}
+
+    if (loading) {
+        return (
+            <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root}>
+                <Typography weight={'bold'} variant={'h4'} gutterBottom>
+                    <Link underline={'none'}>Chargement</Link>
+                </Typography>
+                <Typography variant={'overline'}>
+                    <b>Veuillez patienter</b>
+                </Typography>
+                <Grid container className={classes.gridList}>
+                    <ProfileCard  
+                        key={JSON.stringify("new profile")} 
+                        actions={actions}/>
+                </Grid>
+                <CreateProfileDialog profile={profile} 
+                    open={open} 
+                    handleClose={handleClose}
+                    handleRefresh={handleRefresh}/>
+            </Container>
+        )
+    }
+
+    return (
+        <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root}>
             <Typography weight={'bold'} variant={'h4'} gutterBottom>
-                <Link underline={'none'}>Chargement</Link>
+                <Link underline={'none'}>Profils du compte {authData.user.account.name}</Link>
             </Typography>
-            <Typography variant={'overline'}>
-                <b>Veuillez patienter</b>
-            </Typography>
+            {/* <Typography variant={'overline'}>
+                <b>{account.address_line1} {account.address_line2}</b>
+            </Typography> */}
             <Grid container className={classes.gridList}>
+                {profiles.map(profile => (
+                <ProfileCard  
+                    key={JSON.stringify(profile)} 
+                    profile={profile}
+                    actions={actions}/>
+                ))}
                 <ProfileCard  
                     key={JSON.stringify("new profile")} 
                     actions={actions}/>
             </Grid>
-            <br />
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                timeout: 500,
-                }}
-            >
-                <Fade in={open}>
-                <div className={classes.paper}>
-                    <ProfileForm
-                    profile={profile}
-                    handleRefresh={handleRefresh}
-                    handleClose={handleClose} />
-                </div>
-                </Fade>
-            </Modal>
-            <br />
-            <br />
+            <CreateProfileDialog profile={profile} 
+                    open={open} 
+                    handleClose={handleClose}
+                    handleRefresh={handleRefresh}/>
         </Container>
-      )
-  }
-
-  return (
-    <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.timeline}>
-        <Typography weight={'bold'} variant={'h4'} gutterBottom>
-            <Link underline={'none'}>{account.household_name}</Link>
-        </Typography>
-        <Typography variant={'overline'}>
-            <b>{account.address_line1} {account.address_line2}</b>
-        </Typography>
-        <Grid container className={classes.gridList}>
-            {profiles.map(profile => (
-            <ProfileCard  
-                key={JSON.stringify(profile)} 
-                profile={profile}
-                actions={actions}/>
-            ))}
-            <ProfileCard  
-                key={JSON.stringify("new profile")} 
-                actions={actions}/>
-        </Grid>
-        <br />
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className={classes.modal}
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-            timeout: 500,
-            }}
-        >
-            <Fade in={open}>
-            <div className={classes.paper}>
-                <ProfileForm
-                profile={profile}
-                handleRefresh={handleRefresh}
-                handleClose={handleClose} />
-            </div>
-            </Fade>
-        </Modal>
-        <br />
-        <br />
-    </Container>
-  )
+    )
 }
 
 ProfileGrid.propTypes = {
@@ -278,12 +245,4 @@ ProfileGrid.propTypes = {
 ProfileGrid.defaultProps = {
 };
 
-
-const mapStateToProps = (state) => {
-  return {
-    token: state.token,
-  }
-}
-
-export default connect(mapStateToProps)(ProfileGrid);
-// export default ProfileGrid;
+export default ProfileGrid;

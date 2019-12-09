@@ -6,7 +6,7 @@ import CommunityCard from 'components/community/CommunityCard'
 import CommunityGrid from 'components/community/CommunityGrid'
 
 export const community = {
-    url: 'http://localhost:8000/api/community/1/',
+    url: 'http://localhost:8000/api/v1/community/1/',
     name: 'Omnisport La Pom',
     location: 'La Pommeraye',
     description: "Ecole omnisport pour les enfants et les adultes qui veulent jouer avec",

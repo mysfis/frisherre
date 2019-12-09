@@ -1,29 +1,22 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Box, Grid, Divider, IconButton, Avatar } from '@material-ui/core'
+import { Box, Grid, Divider, IconButton } from '@material-ui/core'
 
 import { blue } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import InfoIcon from '@material-ui/icons/Info';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
+import ProfileAvatar from 'components/profile/ProfileAvatar'
 
 const border = '1px solid'
 const borderColor = '#DBDBDB' //'#ffffff'
 
 const useStyles = makeStyles(theme => ({
 
-    gridItem: {
-    },
-    card:{
-        flexGrow: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems:'center',
-        margin:theme.spacing(4)
-    },
     picture: {
         position:'absolute',
         height:100,
@@ -39,16 +32,22 @@ const useStyles = makeStyles(theme => ({
         justifyContent:'center',
         alignItems:'center'
     },
-    avatar:{
-        padding: 10,
-        width: 90,
-        height: 90,
+
+    gridItem: {
+    },
+    card:{
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems:'center',
+        margin:theme.spacing(4)
     },
     cardHolder: {
         borderTop: border,
         borderColor: borderColor,
         // display:'block',
-        height:186,
+        height:146,
         width:160,
         position:'relative',
         marginTop: 20,
@@ -59,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     },
     pictureHolder: {
         display: 'flex', 
-        height:50,
+        height:60,
     },
     header: {
         display: 'flex', 
@@ -68,10 +67,11 @@ const useStyles = makeStyles(theme => ({
         // alignItems:'flex-end'
     },
     content: {
-        display: 'flex', 
+        // display: 'flex', 
         height:70,
         // flexDirection: 'column',
         // alignItems:'flex-end'
+        textAlign:'center',
     },
     divider:{
         width:'100%'
@@ -115,9 +115,11 @@ const ProfileCard = ({profile, actions}) => {
                         </Box>
                         <Box className={classes.pictureHolder}></Box>
                         <Box className={classes.header}>
-                            Create new profile
+                            Nouveau Profil
                         </Box>
-                        
+                        <Box className={classes.content}>
+                            Cliquez sur l'icone "plus" pour ajouter un Profil
+                        </Box>
                     </Box>
                 </Box>
             </Grid>
@@ -131,29 +133,20 @@ const ProfileCard = ({profile, actions}) => {
                     boxShadow={3} 
                     className={classes.cardHolder}
                     style={{backgroundColor: blue[profile.is_main? 50:0]}}>
-                    <Box className={classes.picture}>
-                        {profile.url ?
-                        <Avatar 
-                            alt={profile.first_name} 
-                            src={`https://robohash.org/${profile.first_name}$\{profile.last_name}?set=set4`}
-                            className={classes.avatar} />
-                        :
-                        <IconButton aria-label="New profile" onClick={actions.handleAdd}>
-                            <AddCircleOutlineIcon className={classes.newIcon} />
-                        </IconButton>
-                        }
-                    </Box>
+                    <ProfileAvatar 
+                        type='card'
+                        profile={profile}/>
                     <Box className={classes.pictureHolder}></Box>
                     <Box className={classes.header}>
                         {profile.first_name} {profile.last_name}
                     </Box>
                     <Box className={classes.content}>
-                        age, groups
+                        TODO: afficher groupes
                     </Box>
                     <Divider className={classes.divider} />
                     <Box className={classes.actions}>
                         <IconButton aria-label="previous">
-                            <WhatsAppIcon  className={classes.icon}/>
+                            <InfoIcon  className={classes.icon}/>
                         </IconButton>
                         <IconButton aria-label="play/pause" 
                             onClick={()=> actions.handleEdit(profile)}>

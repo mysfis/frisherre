@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux';
 import axios from 'axios'
-
 
 import CommunityCard from 'components/community/CommunityCard'
 
 import { makeStyles } from '@material-ui/core/styles';
-
 import { Container, Typography, Grid } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
-
-const border = '1px solid'
-const borderColor = '#DBDBDB' //'#ffffff'
+import { useAuth } from 'context/auth';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,31 +24,68 @@ const useStyles = makeStyles(theme => ({
 const CommunityGrid = (props) => {
 
     const classes = useStyles();
+    const { authData } = useAuth()
+    
     const [loading, setLoading] = React.useState(props.loading ? true : false)
-    const [refresh, setRefresh] = useState(false)
+    const [refresh, setRefresh] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
 
     const [communities, setCommunities] = React.useState(props.communities ? props.communities : [])
-    const actions = props.actions ? props.actions : {}
+    const [community, setCommunity] = React.useState(communities[0])
 
     const getCommunities = React.useCallback(() => {
-        if (props.token !== null) {
+        if (authData.token !== null) {
             axios.defaults.headers= {
                 "Content-Type": "application/json",
-                Authorization: "Token " + props.token,
+                Authorization: "Token " + authData.token,
         }
         axios
-            .get("/api/community/")
+            .get("/api/v1/communities/")
             .then(res => {
                 console.log(res)
                 setCommunities(res.data)
                 setLoading(false)})
             .catch(err => console.log(err));
         }
-      }, [props.token])
+    }, [authData.token])
 
-    useEffect(() => getCommunities(), [getCommunities, refresh]);
+    React.useEffect(() => getCommunities(), [getCommunities]);
+
+    const handleClose = () => { setOpen(false);}
+
     const handleRefresh = () => {setRefresh(!refresh);}
 
+    const handleAdd = () => {
+        setOpen(true);
+        setCommunity({ 
+            name: '',
+            location: '',
+            description: "",
+            category:"",
+            icon:"",
+        })
+    }
+
+    const handleEdit = (community) => {
+        setOpen(true);
+        setCommunity(community)
+    }
+
+    const handleDelete = (community) => {
+        if (authData.token !== null) {
+            axios.defaults.headers= {
+                "Content-Type": "application/json",
+                Authorization: "Token " + authData.token,
+        }
+        axios
+            .delete(community.url)
+            .then(res => handleRefresh())
+            .catch(err => console.log(err));
+        }
+    }
+
+    const actions = props.actions ? props.actions : {handleAdd, handleDelete, handleEdit}
+    
 
     if (loading) {
         return (
@@ -66,32 +98,34 @@ const CommunityGrid = (props) => {
                 </Typography>
             </Container>)}
 
-    if (communities.length === 0) {
-    return (
-            <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root}>
-                <Typography weight={'bold'} variant={'h4'} gutterBottom className={classes.title}>
-                    <Link underline={'none'}>My Communities</Link>
-                </Typography>
-                <Typography  variant={'h6'} gutterBottom className={classes.title}>
-                    no communities currently...
-                </Typography>
-            </Container>)}
+    // if (communities.length === 0) {
+    // return (
+    //         <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root}>
+    //             <Typography weight={'bold'} variant={'h4'} gutterBottom className={classes.title}>
+    //                 <Link underline={'none'}>My Communities</Link>
+    //             </Typography>
+    //             <Typography  variant={'h6'} gutterBottom className={classes.title}>
+    //                 no communities currently...
+    //             </Typography>
+    //         </Container>)}
 
     return (
-    <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root}>
-        <Typography weight={'bold'} variant={'h4'} gutterBottom className={classes.title}>
-        <Link underline={'none'}>My Communities</Link>
-        </Typography>
-        <Grid container className={classes.gridList}>
-            {communities.map(community => (
+        <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root} >
+            <Typography weight={'bold'} variant={'h4'} gutterBottom className={classes.title}>
+            <Link underline={'none'}>My Communities</Link>
+            </Typography>
+            <Grid container className={classes.gridList}>
+                {communities.map(community => (
+                    <CommunityCard 
+                        community={community} 
+                        actions={actions}
+                        key={JSON.stringify(community)}/>
+                ))}
                 <CommunityCard 
-                    community={community} 
-                    actions={actions}
-                    key={JSON.stringify(community)}/>
-        ))}
-        </Grid>
+                        key={JSON.stringify("nouvelle communaute")}/>
+            </Grid>
 
-    </Container>
+        </Container>
     )
 }
 
@@ -114,11 +148,4 @@ CommunityGrid.propTypes = {
 CommunityGrid.defaultProps = {
 };
 
-const mapStateToProps = (state) => {
-  return {
-    token: state.token,
-  }
-}
-
-export default connect(mapStateToProps)(CommunityGrid);
-// export default CommunityGrid;
+export default CommunityGrid;

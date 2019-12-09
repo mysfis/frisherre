@@ -44,7 +44,7 @@ export const checkAuthTimeOut = (dispatch, expirationTime) => {
 export const authLogin = (dispatch, username, password) => {
     console.log('login');
     dispatch(authStart());
-    axios.post('/api/auth/login/', {
+    axios.post('/api/v1/auth/login/', {
         username: username,
         password: password,
     })
@@ -63,7 +63,7 @@ export const authLogin = (dispatch, username, password) => {
 export const authSignup = (dispatch, username, email, password1, password2) => {
     console.log('signup');
     dispatch(authStart())
-    axios.post('/api/auth/registration/', {
+    axios.post('/api/v1/auth/registration/', {
         username: username,
         email: email,
         password1: password1,

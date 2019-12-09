@@ -12,6 +12,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import { blue, red, green } from '@material-ui/core/colors';
 
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
+import ProfileIcon from 'components/icons/ProfileIcons'
 
 const border = '0px solid'
 const borderColor = '#ffffff'
@@ -152,7 +153,11 @@ const OutingCard = (props) => {
         }}>
           <Box className={classes.outingCard}>
             <Box className={classes.cardAvatar}>
-              <Avatar user={outing.participation} size={outing.mine? 'big':'medium'} />
+              <ProfileIcon 
+                name={outing.participation.icon} 
+                size={outing.mine? 'medium':'small'}
+                color={outing.participation.iconColor} />
+              {/* <Avatar user={outing.participation} size={outing.mine? 'big':'medium'} /> */}
             </Box>
             <Box className={classes.cardContent}>
               <Box className={classes.cardHeader}>

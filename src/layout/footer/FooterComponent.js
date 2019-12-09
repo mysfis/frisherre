@@ -7,27 +7,23 @@ import Copyright from 'components/copyright'
 
 const FooterComponent = () => (
   <div style={{ maxWidth: 700, margin: "auto", textAlign: "center" }}>
-      <Copyright />
+    <Copyright />
     <Divider style={{ margin: "24px auto", width: 60 }} />
     <Grid container justify={"center"} spacing={2}>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={4} sm={4} md={4}>
         <Typography align={"center"} gutterBottom color={"textSecondary"}>
           A propos
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
-        <Typography align={"center"} gutterBottom color={"textSecondary"}>
-          Blog
-        </Typography>
-      </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={4} sm={4} md={4}>
         <Typography align={"center"} gutterBottom color={"textSecondary"}>
           Conditions
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={4} sm={4} md={4}>
         <Typography align={"center"} gutterBottom color={"textSecondary"}>
-          Nous contacter
+        Contact
+          {/* <Link color="inherit" href="mailto:bruno.cochard@gmail.com?Subject=Keluno%20demande">Contact</Link> */}
         </Typography>
       </Grid>
     </Grid>

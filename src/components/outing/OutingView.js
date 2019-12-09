@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-// import { connect } from 'react-redux';
-// import axios from 'axios'
 import moment from 'moment'
 
-import groupByDay from 'utilities/groupByDay'
+import groupByDay from 'utils/groupByDay'
 import OutingCard from 'components/outing/OutingCard'
 import {outingMockData} from './OutingMockData'
 
 import { Container, Box, Typography } from '@material-ui/core'
 
-// const borderColor = '#DBDBDB'
 const border = '0px solid'
-const borderColor = '#ffffff'
+const borderColor = '#ffffff' // '#DBDBDB'
 
 const useStyles = makeStyles(theme => ({
   timeline: {
@@ -54,13 +51,13 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const OutingView = ({token, scheduleData})  => {
+const OutingView = ({scheduleData})  => {
   if(!scheduleData) {
     scheduleData = outingMockData
   }
   
   const sortedOutings = groupByDay(scheduleData);
-  const [ days, setDays] = useState(sortedOutings.days)
+  const [ days ] = useState(sortedOutings.days)
   const [ outingsByDay, setOutingsByDay] = useState(sortedOutings.outingsByDay)
 
   const theme = useTheme();
@@ -129,11 +126,4 @@ OutingView.propTypes = {
 OutingView.defaultProps = {
 };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     token: state.token,
-//   }
-// }
-
-// export default connect(mapStateToProps)(ScheduleView);
 export default OutingView;
