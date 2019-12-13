@@ -5,7 +5,6 @@ import MomentUtils from '@date-io/moment';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton'
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import Grid from '@material-ui/core/Grid';
@@ -13,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import EventIcon from '@material-ui/icons/Event';
 
 import { useAuth } from 'context/auth';
-import ProfileIcons from 'components/icons/ProfileIcons'
+import profileIcon from 'components/icons/ProfileIcon'
 import { Typography, useMediaQuery, useTheme, Dialog, DialogTitle, DialogActions, DialogContent } from '@material-ui/core';
 
 const iconNames = [
@@ -82,10 +81,7 @@ const CreateProfileDialog = (props) => {
             birth_date: moment(value).format('YYYY-MM-DD') })
     };
 
-    const iconChange = icon => {
-        setProfile({ ...profile,
-            icon_name: icon, })
-    }
+    const iconChange = icon => { setProfile({ ...profile, icon_name: icon, }) }
 
     const colorChange = color => {
         setProfile({ ...profile,
@@ -102,7 +98,7 @@ const CreateProfileDialog = (props) => {
             // 'content-type': 'multipart/form-data',
             Authorization: "Token " + authData.token, }
 
-        let form_data = new FormData();
+        // let form_data = new FormData();
         // Object.keys(profile).forEach(key => {
         //     if (profile[key]) {
         //         switch(key) {
@@ -196,7 +192,7 @@ const CreateProfileDialog = (props) => {
                 {iconNames.map(icon =>(
                 <Grid item xs={2} sm={1} key={icon} >
                     <IconButton onClick={() => {iconChange(icon)}} className={classes.avatarClass} >
-                        <ProfileIcons name={icon} 
+                        <profileIcon name={icon} 
                             className={classes.avatarClass}
                             highlight={profile.icon_name===icon}/>
                     </IconButton>
@@ -210,7 +206,7 @@ const CreateProfileDialog = (props) => {
                 {colorNames.map(color =>(
                 <Grid item xs={2} sm={2} key={color}>
                     <IconButton onClick={() => {colorChange(color)}} className={classes.avatarClass} >
-                    <ProfileIcons name={profile.icon_name}
+                    <profileIcon name={profile.icon_name}
                         className={classes.avatarClass} 
                         color={color}
                         highlight={profile.icon_color===color}/>

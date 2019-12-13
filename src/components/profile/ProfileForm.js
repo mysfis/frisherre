@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import EventIcon from '@material-ui/icons/Event';
 
 import { useAuth } from 'context/auth';
-import ProfileIcons from 'components/icons/ProfileIcons'
+import profileIcon from 'components/icons/ProfileIcon'
 import { Typography, useTheme } from '@material-ui/core';
 
 const iconNames = [
@@ -182,7 +182,7 @@ const ProfileForm = (props) => {
                 {iconNames.map(icon =>(
                 <Grid item xs={2} sm={1} key={icon} >
                     <IconButton onClick={() => {iconChange(icon)}} className={classes.avatarClass} >
-                        <ProfileIcons name={icon} 
+                        <profileIcon name={icon} 
                             className={classes.avatarClass}
                             highlight={profile.icon_name===icon}/>
                     </IconButton>
@@ -193,7 +193,7 @@ const ProfileForm = (props) => {
                 {colorNames.map(color =>(
                 <Grid item xs={2} sm={2} key={color}>
                     <IconButton onClick={() => {colorChange(color)}} className={classes.avatarClass} >
-                    <ProfileIcons name={profile.icon_name}
+                    <profileIcon name={profile.icon_name}
                         className={classes.avatarClass} 
                         color={color}
                         highlight={profile.icon_color===color}/>

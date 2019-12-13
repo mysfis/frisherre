@@ -6,7 +6,7 @@ import { Box, Grid, Divider, IconButton } from '@material-ui/core'
 import { blue } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+// import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import InfoIcon from '@material-ui/icons/Info';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 
 import CommunityCard from 'components/community/CommunityCard'
+import CommunityDialog from 'components/community/CommunityDialog'
+
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Typography, Grid } from '@material-ui/core'
@@ -30,8 +32,11 @@ const CommunityGrid = (props) => {
     const [refresh, setRefresh] = React.useState(false)
     const [open, setOpen] = React.useState(false);
 
+    const newCommunity = { name: '', location: '', description: "", typology: 2, icon_category:"teamsport", icon_name:"",}
+
     const [communities, setCommunities] = React.useState(props.communities ? props.communities : [])
-    const [community, setCommunity] = React.useState(communities[0])
+    const [community, setCommunity] = React.useState(newCommunity)
+
 
     const getCommunities = React.useCallback(() => {
         if (authData.token !== null) {
@@ -42,33 +47,24 @@ const CommunityGrid = (props) => {
         axios
             .get("/api/v1/communities/")
             .then(res => {
-                console.log(res)
                 setCommunities(res.data)
                 setLoading(false)})
             .catch(err => console.log(err));
         }
     }, [authData.token])
 
-    React.useEffect(() => getCommunities(), [getCommunities]);
-
+    React.useEffect(() => getCommunities(), [getCommunities, refresh]);
     const handleClose = () => { setOpen(false);}
-
     const handleRefresh = () => {setRefresh(!refresh);}
 
     const handleAdd = () => {
+        setCommunity(newCommunity)
         setOpen(true);
-        setCommunity({ 
-            name: '',
-            location: '',
-            description: "",
-            category:"",
-            icon:"",
-        })
     }
 
     const handleEdit = (community) => {
-        setOpen(true);
         setCommunity(community)
+        setOpen(true);
     }
 
     const handleDelete = (community) => {
@@ -117,13 +113,20 @@ const CommunityGrid = (props) => {
             <Grid container className={classes.gridList}>
                 {communities.map(community => (
                     <CommunityCard 
+                        key={JSON.stringify(community)}
                         community={community} 
-                        actions={actions}
-                        key={JSON.stringify(community)}/>
+                        actions={actions} />
                 ))}
                 <CommunityCard 
-                        key={JSON.stringify("nouvelle communaute")}/>
+                        key={JSON.stringify("new_communauty")}
+                        community={newCommunity}
+                        actions={actions} />
             </Grid>
+            <CommunityDialog
+                    community={community} 
+                    open={open} 
+                    close={handleClose}
+                    refresh={handleRefresh}/>
 
         </Container>
     )

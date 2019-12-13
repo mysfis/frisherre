@@ -156,7 +156,7 @@ const ProfileGrid = (props) => {
                 })
                 .catch(err => console.log(err));
             }
-    }, [authData.token, authData.user])
+    }, [authData.token])
 
     useEffect(() => getProfiles(), [getProfiles, refresh]);
 
@@ -229,6 +229,7 @@ const ProfileGrid = (props) => {
                     actions={actions}/>
                 ))}
                 <ProfileCard  
+                    profile={newProfile}
                     key={JSON.stringify("new profile")} 
                     actions={actions}/>
             </Grid>
