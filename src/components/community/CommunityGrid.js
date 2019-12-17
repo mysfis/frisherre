@@ -5,7 +5,6 @@ import axios from 'axios'
 import CommunityCard from 'components/community/CommunityCard'
 import CommunityDialog from 'components/community/CommunityDialog'
 
-
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Typography, Grid } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
@@ -36,7 +35,7 @@ const CommunityGrid = (props) => {
 
     const [communities, setCommunities] = React.useState(props.communities ? props.communities : [])
     const [community, setCommunity] = React.useState(newCommunity)
-
+    const [dialogMode, setDialogMode] = React.useState("view")
 
     const getCommunities = React.useCallback(() => {
         if (authData.token !== null) {
@@ -59,29 +58,29 @@ const CommunityGrid = (props) => {
 
     const handleAdd = () => {
         setCommunity(newCommunity)
+        setDialogMode("create")
+        setOpen(true);
+    }
+
+    const handleView = (community) => {
+        setCommunity(community)
+        setDialogMode("view")
         setOpen(true);
     }
 
     const handleEdit = (community) => {
         setCommunity(community)
+        setDialogMode("edit")
         setOpen(true);
     }
 
     const handleDelete = (community) => {
-        if (authData.token !== null) {
-            axios.defaults.headers= {
-                "Content-Type": "application/json",
-                Authorization: "Token " + authData.token,
-        }
-        axios
-            .delete(community.url)
-            .then(res => handleRefresh())
-            .catch(err => console.log(err));
-        }
+        setCommunity(community)
+        setDialogMode("delete")
+        setOpen(true);
     }
 
-    const actions = props.actions ? props.actions : {handleAdd, handleDelete, handleEdit}
-    
+    const actions = props.actions ? props.actions : {handleView, handleAdd, handleDelete, handleEdit}
 
     if (loading) {
         return (
@@ -123,11 +122,11 @@ const CommunityGrid = (props) => {
                         actions={actions} />
             </Grid>
             <CommunityDialog
-                    community={community} 
+                    community={community}
+                    mode={dialogMode}
                     open={open} 
                     close={handleClose}
                     refresh={handleRefresh}/>
-
         </Container>
     )
 }
@@ -139,14 +138,18 @@ CommunityGrid.propTypes = {
         name: PropTypes.string.isRequired,
         location: PropTypes.string,
         description: PropTypes.string.isRequired,
-    })), 
+    })),
     actions: PropTypes.shape({
         join: PropTypes.func,
         leave: PropTypes.func,
         contact: PropTypes.func,
         viewMembers: PropTypes.func,
         apply: PropTypes.func,
-    }), 
+        handleAdd: PropTypes.func,
+        handleDelete: PropTypes.func,
+        handleEdit: PropTypes.func,
+        
+    })
 };
 CommunityGrid.defaultProps = {
 };

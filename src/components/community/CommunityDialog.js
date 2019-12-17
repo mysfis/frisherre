@@ -9,7 +9,8 @@ import Button from '@material-ui/core/Button';
 
 import { useAuth } from 'context/auth';
 import CategoryIcon from 'components/icons/CategoryIcon'
-import { useMediaQuery, useTheme, Dialog, DialogTitle, DialogActions, DialogContent, NativeSelect, InputLabel, FormControl, FormHelperText } from '@material-ui/core';
+import { useMediaQuery, useTheme, NativeSelect, InputLabel, FormControl, FormHelperText } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -78,7 +79,7 @@ const CommunityDialog = (props) => {
         axios.defaults.headers= { 
             "Content-Type": "application/json",
             Authorization: "Token " + authData.token, }
-        
+
         if (community.url) {
             return axios
                 .put(community.url, community)
@@ -99,8 +100,52 @@ const CommunityDialog = (props) => {
         }
     }
 
+    const onDelete = () => {
+        if (authData.token !== null) {
+            axios.defaults.headers= {
+                "Content-Type": "application/json",
+                Authorization: "Token " + authData.token,
+            }
+            axios
+                .delete(community.url)
+                .then(res => {
+                    props.refresh()
+                    props.close()
+                })
+                .catch(err => console.log(err));
+        }
+    }
+
+    if (props.mode==="delete") {
+        return (
+            <Dialog
+                open={props.open}
+                onClose={props.close}
+                aria-labelledby="alert-delete"
+                aria-describedby="alert-delete-are-you-sure"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    Etes vous sur de vouloir supprimer {community.name}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Après avoir supprimé la communauté, les membres ne pourront plus créer des activités ou échanger
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={onDelete} color="primary" autoFocus>
+                        Accepter
+                    </Button>
+                    <Button onClick={props.close} color="primary">
+                        Annuler
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        )
+    }
+
     return (
-        <Dialog open={props.open} onClose={props.handleClose} 
+        <Dialog open={props.open} onClose={props.close} 
                 aria-labelledby="Nouveau Community" 
                 fullScreen = {onMobile}>
             <DialogTitle id="community-dialog" style={{backgroundColor: theme.palette.primary.main, color: theme.palette.common.white}}>
@@ -195,17 +240,26 @@ const CommunityDialog = (props) => {
                     ))}
                 </Grid>
                 </Grid>
-            </DialogContent>
-            <DialogActions>
-                <Button
+            </DialogContent> 
+            {props.mode==="view" ?
+                <DialogActions>
+                    <Button
+                        color="primary"
+                        onClick={props.close}
+                    >Fermer</Button>
+                </DialogActions>
+            :
+                <DialogActions>
+                    <Button
+                        color="primary"
+                        onClick={handleFormSubmit}
+                    >Sauver</Button>
+                    <Button
                         color="primary"
                         onClick={props.close}
                     >Annuler</Button>
-                <Button
-                    color="primary"
-                    onClick={handleFormSubmit}
-                >Sauver</Button>
-            </DialogActions>
+                </DialogActions>  
+            }
     {/* </Container> */}
     </Dialog>
     );

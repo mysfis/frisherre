@@ -77,11 +77,11 @@ function HeaderUserComponent({ classes, screen }) {
 
     const { authData, fetchProfiles, logout, selectProfile } = useAuth()
     
-    const [anchorEl, setAnchorEl] = React.useState(null)
     const [open, setOpen] = React.useState(!authData.profile)
 
     const [profiles, setProfiles] = React.useState(authData.profiles)
 
+    const [anchorEl, setAnchorEl] = React.useState(null)
     const handleClick = event => { setAnchorEl(event.currentTarget)}
     const handleClose = () => {setAnchorEl(null)}
 
