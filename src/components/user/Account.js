@@ -54,7 +54,7 @@ const UserAccount = (props) => {
                 setAccount(res.data.account)
             })
             .catch(err => console.log(err));
-    }, [authData.user])
+    }, [authData.token])
 
     React.useEffect(() => getAccount(), [getAccount]);
 

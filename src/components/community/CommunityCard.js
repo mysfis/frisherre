@@ -3,44 +3,39 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Truncate from 'react-truncate';
 
-import Icon from 'components/icons/ActivityIcons'
+import CategoryIcon from 'components/icons/CategoryIcon'
 
 import Grid from '@material-ui/core/Grid'
+import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton'
+import InfoIcon from '@material-ui/icons/Info'
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import InfoIcon from '@material-ui/icons/Info';
-import { blue } from '@material-ui/core/colors';
-
-// const border = '1px solid'
-// const borderColor = '#DBDBDB'
-const border = '0px solid'
-const borderColor = '#ffffff'
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Menu from '@material-ui/core/Menu';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const useStyles = makeStyles(theme => ({
     gridItem: {
         minWidth:0,
     },
     card:{
-        border: border,
-        borderColor: borderColor,
         flexGrow: 1,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
         margin:theme.spacing(1),
         marginBottom:theme.spacing(2),
-        // height:120,
         minWidth:300,
     },
     picture: {
-        border: border,
-        borderColor: borderColor,
         flexBasis: 100,
-        // flexGrow: 1,
-        // flexShrink: 0,
         justifyContent: 'center',
         display:'flex',
     },
@@ -48,37 +43,24 @@ const useStyles = makeStyles(theme => ({
         marginTop:theme.spacing(1),
         fontSize:100-theme.spacing(2),
         color:theme.palette.primary.main,
-        // backgroundColor:theme.palette.secondary.main,
-        // border: "2px dashed",
-        // borderColor: theme.palette.primary.main,
     },
     content: {    
         display:'flex',
         flexDirection: 'column',
-        border: border,
-        borderColor: borderColor,
         flexGrow: 1,
         minHeight:'100%',
         alignItems:'stretch',
-        // marginTop: theme.spacing(1),
         minWidth:0,
         justifyContent: 'flex-start',
     },
     header: {
         display:'flex',
-        // marginTop: theme.spacing(1),
-        border: border,
-        borderColor: borderColor,
-        // height:20,
-        // flexShrink: 0
         flexDirection: 'row',
         flex: '0 0 auto',
     },
     headerTitle: {
       flex: '1 1 auto',
       textAlign: 'left',
-    //   marginLeft: theme.spacing(1),
-    //   width: '80%',
     },
     headerActions: {
         flex: '0 0 auto',
@@ -87,22 +69,17 @@ const useStyles = makeStyles(theme => ({
         marginRight: -theme.spacing(1),
     },
     infoIcon: {
-        color: blue[200],
-        width: 36,
-        height: 36,
+        color:  theme.palette.primary.main,
+        width: 32,
+        height: 32,
     },
     main: {
-        border: border,
-        borderColor: borderColor,
         marginBottom: theme.spacing(1),
         flexGrow: 1,
         minWidth:0,
         flex: '1 1 auto',
     },
     footer: {
-        border: border,
-        borderColor: borderColor,
-        // height:36,
         flexShrink: 0,
         flex: '0 0 auto',
         display:'flex',
@@ -115,21 +92,36 @@ const useStyles = makeStyles(theme => ({
         marginLeft:theme.spacing(1),
         marginRight:theme.spacing(1),
         marginBottom: theme.spacing(1)/2,
-        // minWidth:80,
         flex: '1 1 auto',
     },
     }));
 
 export default function CommunityCard ({community, actions}) {
     const classes = useStyles();
+    const [anchorEl, setAnchorEl] = React.useState(null)
+    const handleClick = event => { setAnchorEl(event.currentTarget)}
+    const handleClose = () => {setAnchorEl(null)}
+    const view = community => {
+        actions.handleView(community)
+        handleClose()
+    }
+    const edit = community => {
+        actions.handleEdit(community)
+        handleClose()
+    }
+    const destroy = community => {
+        actions.handleDelete(community)
+        handleClose()
+    }
 
-    if (!community) {
+
+    if (!community.url) {
         return (
             <Grid item xs={12} md={6} className={classes.gridItem} zeroMinWidth >
             <Box className={classes.card} boxShadow={3}>
-                <Box className={classes.picture}>
+                <IconButton className={classes.picture} onClick={actions.handleAdd}>
                     <AddCircleOutlineIcon className={classes.icon} />
-                </Box>
+                </IconButton>
                 <Box className={classes.content}>
                     <Box className={classes.header}>
 
@@ -167,7 +159,7 @@ export default function CommunityCard ({community, actions}) {
         <Grid item xs={12} md={6} className={classes.gridItem} zeroMinWidth >
             <Box className={classes.card} boxShadow={3}>
                 <Box className={classes.picture}>
-                    <Icon name={community.icon} className={classes.icon} />
+                    <CategoryIcon category={community.icon_category} name={community.icon_name} className={classes.icon} />
                 </Box>
                 <Box className={classes.content}>
                     <Box className={classes.header}>
@@ -175,14 +167,34 @@ export default function CommunityCard ({community, actions}) {
                             <Typography weight={'bold'} variant={'h6'} >{community.name}</Typography>
                             <Typography variant={'body2'} gutterBottom color="textSecondary">{community.location}</Typography>
                         </Box>
-                        <IconButton className={classes.headerActions} >
-                            <InfoIcon className={classes.infoIcon}/>
+                        <IconButton className={classes.headerActions}  onClick={handleClick}>
+                            <MoreVertIcon className={classes.infoIcon}/>
                         </IconButton>
+                        <Menu id='profile-menu' 
+                            anchorEl={anchorEl}
+                            keepMounted
+                            
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose} >
+                            <ListItem button onClick={()=>view(community)} >
+                                <ListItemAvatar><InfoIcon className={classes.infoIcon} /></ListItemAvatar>
+                                <ListItemText primary="S'informer" />
+                            </ListItem>
+                            <ListItem button onClick={()=>edit(community)} >
+                                <ListItemAvatar><EditIcon className={classes.infoIcon} /></ListItemAvatar>
+                                <ListItemText primary="Modifier" />
+                            </ListItem>
+                            <ListItem button onClick={()=>destroy(community)} >
+                                <ListItemAvatar><DeleteIcon className={classes.infoIcon} /></ListItemAvatar>
+                                <ListItemText primary="Supprimer" />
+                            </ListItem>
+                        </Menu>
                     </Box>
                     <Box className={classes.main}>
                         <Typography variant={'body2'} noWrap>
                             {/* <Truncate lines={2} ellipsis={<span>... <a href='/link/to/article'>Read more</a></span>}> */}
-                            <Truncate lines={2} >
+                            <Truncate lines={2} 
+                                ellipsis={ <span>... <Link onClick={()=>view(community)}>voir</Link></span> }>
                                 {community.description}
                             </Truncate>
                         </Typography>
@@ -240,10 +252,10 @@ export default function CommunityCard ({community, actions}) {
 
 CommunityCard.propTypes = {
     community: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
+        url: PropTypes.string,
+        name: PropTypes.string,
         location: PropTypes.string,
-        description: PropTypes.string.isRequired,
+        description: PropTypes.string,
     }), 
     actions: PropTypes.shape({
         join: PropTypes.func,

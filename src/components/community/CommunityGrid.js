@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 
 import CommunityCard from 'components/community/CommunityCard'
+import CommunityDialog from 'components/community/CommunityDialog'
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Typography, Grid } from '@material-ui/core'
@@ -30,8 +31,11 @@ const CommunityGrid = (props) => {
     const [refresh, setRefresh] = React.useState(false)
     const [open, setOpen] = React.useState(false);
 
+    const newCommunity = { name: '', location: '', description: "", typology: 2, icon_category:"teamsport", icon_name:"",}
+
     const [communities, setCommunities] = React.useState(props.communities ? props.communities : [])
-    const [community, setCommunity] = React.useState(communities[0])
+    const [community, setCommunity] = React.useState(newCommunity)
+    const [dialogMode, setDialogMode] = React.useState("view")
 
     const getCommunities = React.useCallback(() => {
         if (authData.token !== null) {
@@ -42,50 +46,41 @@ const CommunityGrid = (props) => {
         axios
             .get("/api/v1/communities/")
             .then(res => {
-                console.log(res)
                 setCommunities(res.data)
                 setLoading(false)})
             .catch(err => console.log(err));
         }
     }, [authData.token])
 
-    React.useEffect(() => getCommunities(), [getCommunities]);
-
+    React.useEffect(() => getCommunities(), [getCommunities, refresh]);
     const handleClose = () => { setOpen(false);}
-
     const handleRefresh = () => {setRefresh(!refresh);}
 
     const handleAdd = () => {
+        setCommunity(newCommunity)
+        setDialogMode("create")
         setOpen(true);
-        setCommunity({ 
-            name: '',
-            location: '',
-            description: "",
-            category:"",
-            icon:"",
-        })
+    }
+
+    const handleView = (community) => {
+        setCommunity(community)
+        setDialogMode("view")
+        setOpen(true);
     }
 
     const handleEdit = (community) => {
-        setOpen(true);
         setCommunity(community)
+        setDialogMode("edit")
+        setOpen(true);
     }
 
     const handleDelete = (community) => {
-        if (authData.token !== null) {
-            axios.defaults.headers= {
-                "Content-Type": "application/json",
-                Authorization: "Token " + authData.token,
-        }
-        axios
-            .delete(community.url)
-            .then(res => handleRefresh())
-            .catch(err => console.log(err));
-        }
+        setCommunity(community)
+        setDialogMode("delete")
+        setOpen(true);
     }
 
-    const actions = props.actions ? props.actions : {handleAdd, handleDelete, handleEdit}
-    
+    const actions = props.actions ? props.actions : {handleView, handleAdd, handleDelete, handleEdit}
 
     if (loading) {
         return (
@@ -117,14 +112,21 @@ const CommunityGrid = (props) => {
             <Grid container className={classes.gridList}>
                 {communities.map(community => (
                     <CommunityCard 
+                        key={JSON.stringify(community)}
                         community={community} 
-                        actions={actions}
-                        key={JSON.stringify(community)}/>
+                        actions={actions} />
                 ))}
                 <CommunityCard 
-                        key={JSON.stringify("nouvelle communaute")}/>
+                        key={JSON.stringify("new_communauty")}
+                        community={newCommunity}
+                        actions={actions} />
             </Grid>
-
+            <CommunityDialog
+                    community={community}
+                    mode={dialogMode}
+                    open={open} 
+                    close={handleClose}
+                    refresh={handleRefresh}/>
         </Container>
     )
 }
@@ -136,14 +138,18 @@ CommunityGrid.propTypes = {
         name: PropTypes.string.isRequired,
         location: PropTypes.string,
         description: PropTypes.string.isRequired,
-    })), 
+    })),
     actions: PropTypes.shape({
         join: PropTypes.func,
         leave: PropTypes.func,
         contact: PropTypes.func,
         viewMembers: PropTypes.func,
         apply: PropTypes.func,
-    }), 
+        handleAdd: PropTypes.func,
+        handleDelete: PropTypes.func,
+        handleEdit: PropTypes.func,
+        
+    })
 };
 CommunityGrid.defaultProps = {
 };

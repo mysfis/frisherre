@@ -12,7 +12,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import { blue, red, green } from '@material-ui/core/colors';
 
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
-import ProfileIcon from 'components/icons/ProfileIcons'
+import ProfileIcon from 'components/icons/ProfileIcon'
 
 const border = '0px solid'
 const borderColor = '#ffffff'

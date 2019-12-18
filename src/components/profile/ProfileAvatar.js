@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PersonIcon from '@material-ui/icons/Person';
 
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import ProfileIcon from 'components/icons/ProfileIcons'
+import ProfileIcon from 'components/icons/ProfileIcon'
 
 
 const useStyles = makeStyles((theme, size) => ({
