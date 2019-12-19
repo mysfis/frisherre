@@ -18,17 +18,17 @@ const list = [
   {
     primaryText: "Mon planning",
     icon: "schedule",
-    to: "/schedule"
+    to: "/outings"
   },
   {
     primaryText: "Ma Maisonnée",
     icon: "people",
-    to: "/profile"
+    to: "/profiles"
   },
   {
     primaryText: "Communautés",
     icon: "work",
-    to: "/community"
+    to: "/communities"
   },
   {
     primaryText: "Terminé",

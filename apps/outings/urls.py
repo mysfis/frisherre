@@ -1,10 +1,10 @@
-from apps.outings.views import OutingViewSet, DetailedOutingViewSet, AttendanceViewSet
+from apps.outings.views import OutingViewSet, AttendanceViewSet
 from rest_framework.routers import DefaultRouter
 
 outingRouter = DefaultRouter()
-outingRouter.register(r'detailedouting', DetailedOutingViewSet, basename='outing')
-outingRouter.register(r'attendance', AttendanceViewSet, basename='attendance')
-outingRouter.register(r'outing', OutingViewSet, basename='outing')
+outingRouter.register(r'outings', OutingViewSet, basename='outing')
+outingRouter.register(r'attendances', AttendanceViewSet, basename='attendance')
+
 urlpatterns = outingRouter.urls
 
 

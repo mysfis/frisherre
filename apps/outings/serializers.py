@@ -12,18 +12,6 @@ class OutingSerializer(serializers.HyperlinkedModelSerializer):
                 'date', 'description',
                 'created_at', 'updated_at')
 
-class DetailedOutingSerializer(serializers.HyperlinkedModelSerializer):
-    organizer = ProfileSerializer(required=True)
-
-    class Meta:
-        model = Outing
-        fields = (
-                'url',
-                'title', 'location',
-                'date', 'description',
-                'organizer',
-                'created_at', 'updated_at')
-
 class AttendanceSerializer(serializers.HyperlinkedModelSerializer):
     outing = OutingSerializer(many=False)
     profile = ProfileSerializer(many=False)
@@ -32,7 +20,7 @@ class AttendanceSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
                 'url', 
                 'outing', 'profile',
-                'accepted_at', 'is_participant', 'is_driver', 'attendance_notes')
+                'accepted_at', 'status', 'role', 'is_driver', 'attendance_notes')
     
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')
@@ -42,3 +30,21 @@ class AttendanceSerializer(serializers.HyperlinkedModelSerializer):
         outing = Outing.objects.get(**outing_data)
 
         return Attendance.objects.create(profile=profile, outing=outing, **validated_data)
+
+class OutingAttendanceSerializer(serializers.HyperlinkedModelSerializer):
+    profile = ProfileSerializer(many=False)
+    class Meta:
+        model = Attendance
+        fields = (
+                'url', 'profile',
+                'accepted_at', 'status', 'role', 'is_driver', 'attendance_notes')
+
+class ScheduleSerializer(serializers.HyperlinkedModelSerializer):
+    attendances = OutingAttendanceSerializer(many=True)
+    class Meta:
+        model = Outing
+        fields = (
+                'url',
+                'title', 'location',
+                'date', 'description',
+                'attendances')

@@ -28,16 +28,17 @@ const outing1 = {
   const myAttendance1= {
     url: "http://localhost:8000/api/v1/attendance/1/", email:'myAttendance1@gmail.com',
     accepted_at: "2019-11-07T12:16:28.399487Z", attendance_notes: "draft",
+    status:1,
     icon: 'man21', iconColor: 'red',
   }
   
   const myAttendance2 = {
     ...myAttendance1, 
-    is_participant: true, is_driver: true, email:'myAttendance2@gmail.com', icon: 'woman05', iconColor: 'blue',}
+    status: 2, is_driver: true, email:'myAttendance2@gmail.com', icon: 'woman05', iconColor: 'blue',}
   
   const myAttendance3 = {
     ...myAttendance1, 
-    is_participant: false,email:'myAttendance3@gmail.com', icon: 'woman12', iconColor: 'green',}
+    status:3,email:'myAttendance3@gmail.com', icon: 'woman12', iconColor: 'green',}
   
   export const outingMockData = [
     {...outing1, participation: myAttendance1, attendees: [myAttendance1, myAttendance2, myAttendance3]}, 
