@@ -28,6 +28,6 @@ class CommunityViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
 class MembershipView(viewsets.ModelViewSet):
-    queryset = Membership.objects.all()
+    queryset = Membership.objects.all().select_related('community', 'profile')
     serializer_class = MembershipSerializer
     permission_classes = (IsLoggedInUserOrAdmin,)

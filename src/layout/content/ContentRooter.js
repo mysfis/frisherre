@@ -4,7 +4,7 @@ import { Router } from "@reach/router"
 
 import UserAccount from 'components/user/Account'
 import HomeScreen from 'components/Home'
-import Outing from 'components/outing/OutingView'
+import OutingGrid from 'components/outing/OutingGrid'
 import Household from 'components/household/View'
 import ProfileGrid from 'components/profile/ProfileGrid'
 import CommunityGrid from 'components/community/CommunityGrid';
@@ -33,11 +33,11 @@ const ContentRooter = ({ props, classes }) => (
   <div className={classes.content}>
     <Router primary={false}>
       <HomeScreen path="/" />
-      <Outing path="schedule" />
+      <OutingGrid path="outings" />
       <Household path="household" />
       <UserAccount path="myaccount" />
-      <ProfileGrid path="profile" />
-      <CommunityGrid path="community" />
+      <ProfileGrid path="profiles" />
+      <CommunityGrid path="communities" />
     </Router>
   </div>
 );
