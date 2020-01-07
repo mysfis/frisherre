@@ -173,7 +173,6 @@ export default function CommunityCard ({community, actions}) {
                         <Menu id='profile-menu' 
                             anchorEl={anchorEl}
                             keepMounted
-                            
                             open={Boolean(anchorEl)}
                             onClose={handleClose} >
                             <ListItem button onClick={()=>view(community)} >
@@ -200,8 +199,8 @@ export default function CommunityCard ({community, actions}) {
                         </Typography>
                     </Box>
                     
-                    {(() => { switch(community.state) {
-                        case 'INVITED':
+                    {(() => { switch(community.status) {
+                        case 2:
                             return (
                                 <Box className={classes.footer}>
                                     <Button 
@@ -215,17 +214,17 @@ export default function CommunityCard ({community, actions}) {
                                             Refuser
                                     </Button>
                                 </Box>)
-                        case 'JOINED': return (
+                        case 0: return (
                             <Box className={classes.footer}>
                                 <Button 
                                     variant="outlined" color="primary" className={classes.button}
                                     onClick={()=>actions.viewMembers(community.url)}>
-                                        Inviter
+                                        Gérer
                                 </Button>
                                 <Button 
                                     variant="outlined" color="secondary" className={classes.button}
                                     onClick={()=>actions.leave(community.url)}>
-                                        Gérer
+                                        Inviter
                                 </Button>
                             </Box>)
                         default: return (

@@ -77,7 +77,7 @@ function SignIn(props) {
         <Container component="main" maxWidth="xs">
             <div className={classes.paper}>
                 <Dialog
-                    open={alert!=null}
+                    open={Boolean(alert)}
                     onClose={()=>setAlert(null)}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description">

@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container, Typography, Grid } from '@material-ui/core'
 import Link from '@material-ui/core/Link';
 import { useAuth } from 'context/auth';
+import groupByCommunity from 'utils/groupByCommunity';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,13 +45,15 @@ const CommunityGrid = (props) => {
                 Authorization: "Token " + authData.token,
         }
         axios
-            .get("/api/v1/communities/")
+            .get(authData.profile.url+"memberships/")
             .then(res => {
-                setCommunities(res.data)
+                const flat_communities = groupByCommunity(res.data)
+                console.log(flat_communities)
+                setCommunities(flat_communities)
                 setLoading(false)})
             .catch(err => console.log(err));
         }
-    }, [authData.token])
+    }, [authData.token, authData.profile])
 
     React.useEffect(() => getCommunities(), [getCommunities, refresh]);
     const handleClose = () => { setOpen(false);}
