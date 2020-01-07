@@ -32,7 +32,8 @@ const initialAuthState = {
     user: getSessionCookies().user || null,
     token: getSessionCookies().token || null,
     profiles: getSessionCookies().profiles || null,
-    profile: getSessionCookies().profile || null
+    profile: getSessionCookies().profile || null,
+    error: null
 }
 
 const authReducer = (state, action) => {
@@ -46,14 +47,23 @@ const authReducer = (state, action) => {
                 isAuthenticated: false,
                 token: null,
                 user: null,
-                profiles: null
+                profiles: null,
+                error: null
             }
         case 'LOGIN_SUCCESS':
             return {
                 ...state,
                 loading: false,
                 isAuthenticated: true,
-                token: action.payload.token
+                token: action.payload.token,
+                error: null
+            }
+        case 'LOGIN_ERROR':
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: false,
+                error: action.payload.error
             }
         case 'LOGOUT':
             return {
@@ -62,7 +72,7 @@ const authReducer = (state, action) => {
                 user: null,
                 token: null,
                 profiles: null,
-                profile: null
+                profile: null,
             }
         case 'PROFILES_FETCH':
             return {
@@ -113,6 +123,10 @@ function AuthProvider (props) {
                 setSessionCookie({token})
                 return Promise.resolve})
             .catch(error => {
+                updateAuthData({
+                    type: "LOGIN_ERROR",
+                    payload: {error: error}
+                })
                 return Promise.reject(error)})
     }
     const register = () => {}
