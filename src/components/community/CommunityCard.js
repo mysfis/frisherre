@@ -96,6 +96,63 @@ const useStyles = makeStyles(theme => ({
     },
     }));
 
+
+
+function CommunityButton({community, actions, classes}) {
+    // MEMBER, ADMIN, INVITED, LEFT = 0, 1, 2, 3
+    switch(community.status) {
+        case 2: return ( //INVITED
+                <React.Fragment>
+                    <Button 
+                        variant="outlined" color="primary" className={classes.button}
+                        onClick={()=>actions.join(community.url)}>
+                            Rejoindre
+                    </Button>
+                    <Button 
+                        variant="outlined" color="secondary" className={classes.button}
+                        onClick={()=>actions.leave(community.url)}>
+                            Refuser
+                    </Button>
+                </React.Fragment>)
+        case 1: return ( //ADMIN
+            <React.Fragment>
+                <Button 
+                    variant="outlined" color="primary" className={classes.button}
+                    onClick={()=>actions.viewMembers(community.url)}>
+                        Gérer
+                </Button>
+                <Button 
+                    variant="outlined" color="secondary" className={classes.button}
+                    onClick={()=>actions.leave(community.url)}>
+                        Inviter
+                </Button>
+            </React.Fragment>)
+
+        case 0: return ( //MEMBER
+            <React.Fragment>
+                <Button 
+                    variant="outlined" color="primary" className={classes.button}
+                    onClick={()=>actions.viewMembers(community.url)}>
+                        Gérer
+                </Button>
+                <Button 
+                    variant="outlined" color="secondary" className={classes.button}
+                    onClick={()=>actions.contact(community.url)}>
+                        Contact
+                </Button>
+            </React.Fragment>)
+        default: return (
+            <React.Fragment>
+                <Button variant="outlined" color="primary" className={classes.button}>
+                    ...
+                </Button>
+                <Button variant="outlined" color="secondary" className={classes.button}>
+                    ...
+                </Button>
+            </React.Fragment>)
+        }
+}
+
 export default function CommunityCard ({community, actions}) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null)
@@ -142,12 +199,7 @@ export default function CommunityCard ({community, actions}) {
                         </Typography>
                     </Box>
                     <Box className={classes.footer}>
-                        <Button variant="outlined" color="primary" className={classes.button}>
-                            ...
-                        </Button>
-                        <Button variant="outlined" color="secondary" className={classes.button}>
-                            ...
-                        </Button>
+                        <CommunityButton community={community} actions={actions} classes={classes} />
                     </Box>
                 </Box>
             </Box>
@@ -198,51 +250,9 @@ export default function CommunityCard ({community, actions}) {
                             </Truncate>
                         </Typography>
                     </Box>
-                    
-                    {(() => { switch(community.status) {
-                        case 2:
-                            return (
-                                <Box className={classes.footer}>
-                                    <Button 
-                                        variant="outlined" color="primary" className={classes.button}
-                                        onClick={()=>actions.join(community.url)}>
-                                            Rejoindre
-                                    </Button>
-                                    <Button 
-                                        variant="outlined" color="secondary" className={classes.button}
-                                        onClick={()=>actions.leave(community.url)}>
-                                            Refuser
-                                    </Button>
-                                </Box>)
-                        case 0: return (
-                            <Box className={classes.footer}>
-                                <Button 
-                                    variant="outlined" color="primary" className={classes.button}
-                                    onClick={()=>actions.viewMembers(community.url)}>
-                                        Gérer
-                                </Button>
-                                <Button 
-                                    variant="outlined" color="secondary" className={classes.button}
-                                    onClick={()=>actions.leave(community.url)}>
-                                        Inviter
-                                </Button>
-                            </Box>)
-                        default: return (
-                            <Box className={classes.footer}>
-                                <Button 
-                                    variant="outlined" color="primary" className={classes.button}
-                                    onClick={()=>actions.apply(community.url)}>
-                                        Postuler
-                                </Button>
-                                <Button 
-                                    variant="outlined" color="secondary" className={classes.button}
-                                    onClick={()=>actions.contact(community.url)}>
-                                        Contacter
-                                </Button>
-                            </Box>)
-                        }
-                    })()}
-                    
+                    <Box className={classes.footer}>
+                        <CommunityButton community={community} actions={actions} classes={classes} />
+                    </Box>
                 </Box>
             </Box>
         </Grid>
