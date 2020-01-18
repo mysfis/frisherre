@@ -31,7 +31,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
         # Fetch attendancs that my family attend
         my_attendances = Attendance.objects.filter(
                 profile__in=profile_pk_list, 
-                outing__date__gte=timezone.now()-timezone.timedelta(days=1)
+                outing__date__gte=timezone.now()-timezone.timedelta(days=1),
                 ).select_related('outing', 'profile')
         # set outings PK of the attendances as list
         my_outing_pk_list = list(map(lambda item: item.outing.pk, my_attendances))
@@ -49,7 +49,8 @@ class ProfileViewSet(viewsets.ModelViewSet):
     def memberships(self, request, pk):
         # Fetch Membership that my family attend
         my_memberships = Membership.objects.filter(
-                profile=pk
+                profile=pk,
+                community__deleted_at=None,
                 ).select_related('community', 'profile')
         # serialize and return
         serializer = MembershipSerializer(my_memberships, many=True, context={ 'request': request })

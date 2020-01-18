@@ -96,17 +96,6 @@ const CommunityGrid = (props) => {
                 </Typography>
             </Container>)}
 
-    // if (communities.length === 0) {
-    // return (
-    //         <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root}>
-    //             <Typography weight={'bold'} variant={'h4'} gutterBottom className={classes.title}>
-    //                 <Link underline={'none'}>My Communities</Link>
-    //             </Typography>
-    //             <Typography  variant={'h6'} gutterBottom className={classes.title}>
-    //                 no communities currently...
-    //             </Typography>
-    //         </Container>)}
-
     return (
         <Container p={{ xs: 2, sm: 3, md: 4 }} className={classes.root} >
             <Typography weight={'bold'} variant={'h4'} gutterBottom className={classes.title}>

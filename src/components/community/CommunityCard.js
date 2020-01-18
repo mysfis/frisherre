@@ -119,12 +119,12 @@ function CommunityButton({community, actions, classes}) {
                 <Button 
                     variant="outlined" color="primary" className={classes.button}
                     onClick={()=>actions.viewMembers(community.url)}>
-                        Gérer
+                        Sorties
                 </Button>
                 <Button 
                     variant="outlined" color="secondary" className={classes.button}
                     onClick={()=>actions.leave(community.url)}>
-                        Inviter
+                        Admin
                 </Button>
             </React.Fragment>)
 
@@ -133,12 +133,12 @@ function CommunityButton({community, actions, classes}) {
                 <Button 
                     variant="outlined" color="primary" className={classes.button}
                     onClick={()=>actions.viewMembers(community.url)}>
-                        Gérer
+                        Sorties
                 </Button>
                 <Button 
                     variant="outlined" color="secondary" className={classes.button}
                     onClick={()=>actions.contact(community.url)}>
-                        Contact
+                        Membres
                 </Button>
             </React.Fragment>)
         default: return (
@@ -181,7 +181,6 @@ export default function CommunityCard ({community, actions}) {
                 </IconButton>
                 <Box className={classes.content}>
                     <Box className={classes.header}>
-
                     <Box className={classes.headerTitle} >
                         <Typography weight={'bold'} variant={'h6'} > Nouvelle communauté</Typography>
                         <Typography variant={'body2'} gutterBottom color="textSecondary">

@@ -14,7 +14,8 @@ from apps.communities.permissions import IsCommunityAdminOrAdmin
 
 
 class CommunityViewSet(viewsets.ModelViewSet):
-    queryset = Community.objects.with_total_numbers()
+    # queryset = Community.objects.with_total_numbers()
+    queryset = Community.objects.all()
     serializer_class = CommunitySerializer
 
     def get_permissions(self):

@@ -10,7 +10,7 @@ class CommunitySerializer(serializers.HyperlinkedModelSerializer):
         fields = (
                 'url',
                 'name', 'location',
-                'description', 'typology', 'total_members',
+                'description', 'typology', 'total_members', 'deleted_at',
                 'icon_category', 'icon_name')
 
 class MembershipSerializer(serializers.HyperlinkedModelSerializer):
