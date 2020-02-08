@@ -52,7 +52,7 @@ class DetailedUserSerializer(serializers.HyperlinkedModelSerializer):
             account.address_line2 = account_data.get('address_line2', account.address_line2)
             account.zip_code = account_data.get('zip_code', account.zip_code)
             account.city = account_data.get('city', account.city)
-            account.country = account_data.get('country', useraccount_account.country)
+            account.country = account_data.get('country', account.country)
             account.save()
 
         instance.first_name = validated_data.get('first_name', instance.first_name)
